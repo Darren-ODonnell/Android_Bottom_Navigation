@@ -15,9 +15,21 @@
         android:name="com.example.bottomnavigationproper.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/statsFragment"
-        android:name="com.example.bottomnavigationproper.StatsFragment"
-        android:label="fragment_stats"
-        tools:layout="@layout/fragment_stats" />
+    <navigation android:id="@+id/navigation"
+        app:startDestination="@id/statsFragment">
+        <fragment
+            android:id="@+id/statsFragment"
+            android:name="com.example.bottomnavigationproper.StatsFragment"
+            android:label="fragment_stats"
+            tools:layout="@layout/fragment_stats">
+            <action
+                android:id="@+id/action_statsFragment_to_statsDisplayFragment"
+                app:destination="@id/statsDisplayFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/statsDisplayFragment"
+            android:name="com.example.bottomnavigationproper.StatsDisplayFragment"
+            android:label="fragment_stats_display"
+            tools:layout="@layout/fragment_stats_display" />
+    </navigation>
 </navigation>
