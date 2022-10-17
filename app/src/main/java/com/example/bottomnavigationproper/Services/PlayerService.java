@@ -1,5 +1,7 @@
 package com.example.bottomnavigationproper.Services;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -23,8 +25,7 @@ public class PlayerService {
         apiInterface = APIClient.getClient().create(APIInterface.class);
     }
 
-    public void getPlayers(){
-        String token = TokenSingleton.getInstance().getTokenString();
+    public void getPlayers(String token){
         Call<List<Player>> call = apiInterface.getPlayers(token);
 
         call.enqueue(new Callback<List<Player>>() {

@@ -1,5 +1,10 @@
 package com.example.bottomnavigationproper.APIs;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import com.example.bottomnavigationproper.R;
+
 public class TokenSingleton {
 
     private static TokenSingleton tokenInstance;

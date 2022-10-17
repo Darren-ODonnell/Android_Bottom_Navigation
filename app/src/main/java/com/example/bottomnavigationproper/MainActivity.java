@@ -1,12 +1,16 @@
 package com.example.bottomnavigationproper;
 
+import static android.provider.Settings.System.getString;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.bottomnavigationproper.databinding.RegisterLoginScreenBinding;
@@ -22,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.navigate_to_login).setOnClickListener(v -> {
             startActivity(new Intent(this, LoginActivity.class));
         });
+
+
 
 //        findViewById(R.id.navigate_to_register).setOnClickListener(v -> {
 //            startActivity(new Intent(this, RegisterActivity.class));

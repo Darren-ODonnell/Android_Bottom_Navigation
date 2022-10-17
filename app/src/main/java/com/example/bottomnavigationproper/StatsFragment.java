@@ -1,5 +1,7 @@
 package com.example.bottomnavigationproper;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.example.bottomnavigationproper.Services.PlayerService;
 import com.example.bottomnavigationproper.databinding.FragmentStatsBinding;
 
 import java.util.ArrayList;
@@ -49,6 +52,14 @@ public class StatsFragment extends Fragment {
 
         return view;
     }
+
+    private void getPlayers(){
+        PlayerService service = new PlayerService();
+        SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.jwt_token), Context.MODE_PRIVATE);
+        String retrievedToken  = preferences.getString("TOKEN",null);
+        service.getPlayers(retrievedToken);
+    }
+
 
     private void initialiseSpinner(View view, int spinnerId, List<String> names) {
         Spinner spinner = (Spinner) view.findViewById(spinnerId);
