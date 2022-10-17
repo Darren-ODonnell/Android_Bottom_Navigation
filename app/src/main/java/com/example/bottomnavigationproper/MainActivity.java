@@ -4,46 +4,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.example.bottomnavigationproper.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.example.bottomnavigationproper.databinding.RegisterLoginScreenBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        replaceFragment(new HomeFragment());
+        setContentView(R.layout.register_login_screen);
 
-        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-
-            switch(item.getItemId()){
-                case R.id.homeFragment:
-                    replaceFragment(new HomeFragment());
-                    break;
-                case R.id.gameFragment:
-                    replaceFragment(new GameFragment());
-                    break;
-                case R.id.statsFragment:
-                    replaceFragment(new StatsFragment());
-                    break;
-            }
-            return true;
+        findViewById(R.id.navigate_to_login).setOnClickListener(v -> {
+            startActivity(new Intent(this, LoginActivity.class));
         });
+
+//        findViewById(R.id.navigate_to_register).setOnClickListener(v -> {
+//            startActivity(new Intent(this, RegisterActivity.class));
+//        });
+//        findViewById(R.id.login).setOnClickListener(v -> onLogin());
+
     }
 
-    private void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainerView2,fragment);
-        fragmentTransaction.commit();
-    }
+
 }
