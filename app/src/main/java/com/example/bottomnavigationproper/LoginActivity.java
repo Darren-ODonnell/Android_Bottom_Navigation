@@ -43,18 +43,20 @@ public class LoginActivity extends AppCompatActivity {
             String password = getTextFromEditText(R.id.password);
 
             Login loginObj = new Login(username, password);
-            service.login(loginObj);
-
-            storeToken();
+            boolean success = service.login(loginObj);
 
 
+
+            if(success) {
+                storeToken();
+                startActivity(new Intent(this, BottomNavActivity.class));
+            }
         });
 
 
         //Check token validation
 
         // if token valid (response from endpoint not null)
-        // startActivity(bottom_nav)
     }
 
     public void storeToken(){

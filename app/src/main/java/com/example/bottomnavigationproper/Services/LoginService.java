@@ -45,6 +45,7 @@ public class LoginService {
             @Override
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 call.cancel();
+                loginSuccess = false;
 //                Toast.makeText(getApplicationContext(), "error :(", Toast.LENGTH_SHORT).show();
             }
         });
