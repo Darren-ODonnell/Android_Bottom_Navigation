@@ -4,18 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Login;
-import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Services.LoginService;
-import com.example.bottomnavigationproper.Services.PlayerService;
-
-import java.util.List;
+import com.example.bottomnavigationproper.Services.PlayerRepository;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -38,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void loginFromInput(){
         LoginService service = new LoginService();
-        PlayerService playerService = new PlayerService();
+        PlayerRepository playerRepository = new PlayerRepository();
 
 
         findViewById(R.id.login).setOnClickListener(v -> {

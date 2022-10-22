@@ -7,7 +7,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,13 +15,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import com.example.bottomnavigationproper.Services.PlayerService;
+import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Services.PlayerRepository;
 import com.example.bottomnavigationproper.databinding.FragmentStatsBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import kotlin.collections.ArrayDeque;
 
 public class StatsFragment extends Fragment {
 
@@ -54,10 +52,10 @@ public class StatsFragment extends Fragment {
     }
 
     private void getPlayers(){
-        PlayerService service = new PlayerService();
+        PlayerRepository service = new PlayerRepository();
         SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.jwt_token), Context.MODE_PRIVATE);
         String retrievedToken  = preferences.getString("TOKEN",null);
-        service.getPlayers(retrievedToken);
+        List<Player> players = service.getPlayers(retrievedToken);
     }
 
 
