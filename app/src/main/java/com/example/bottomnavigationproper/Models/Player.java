@@ -1,24 +1,60 @@
 package com.example.bottomnavigationproper.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Player {
-    String id, firstname, lastname, firstnameI, lastnameI;
+    @SerializedName("id")
+    @Expose
+    Long id;
+    @SerializedName("firstname")
+    @Expose
+    String firstname;
+    @SerializedName("lastname")
+    @Expose
+    String lastname;
+    @SerializedName("firstnameI")
+    @Expose
+    String firstnameI;
+    @SerializedName("lastnameI")
+    @Expose
+    String lastnameI;
+    @SerializedName("yob")
+    @Expose
     int yob;
+    @SerializedName("address")
+    @Expose
     String address;
+    @SerializedName("email")
+    @Expose
     String email;
+    @SerializedName("phone")
+    @Expose
     String phone;
+    @SerializedName("phoneIce")
+    @Expose
     String phoneIce;
-    String registered;
+    @SerializedName("registered")
+    @Expose
+    boolean registered;
+    @SerializedName("grade")
+    @Expose
     String grade;
+    @SerializedName("availability")
+    @Expose
     String availability;
+    @SerializedName("panelMember")
+    @Expose
+    Byte panelMember;
 
     public Player() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -94,11 +130,11 @@ public class Player {
         this.phoneIce = phoneIce;
     }
 
-    public String getRegistered() {
+    public boolean isRegistered() {
         return registered;
     }
 
-    public void setRegistered(String registered) {
+    public void setRegistered(boolean registered) {
         this.registered = registered;
     }
 
@@ -118,10 +154,18 @@ public class Player {
         this.availability = availability;
     }
 
+    public Byte getPanelMember() {
+        return panelMember;
+    }
+
+    public void setPanelMember(Byte panelMember) {
+        this.panelMember = panelMember;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", firstnameI='" + firstnameI + '\'' +
@@ -131,9 +175,10 @@ public class Player {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", phoneIce='" + phoneIce + '\'' +
-                ", registered='" + registered + '\'' +
+                ", registered=" + registered +
                 ", grade='" + grade + '\'' +
                 ", availability='" + availability + '\'' +
+                ", panelMember=" + panelMember +
                 '}';
     }
 }

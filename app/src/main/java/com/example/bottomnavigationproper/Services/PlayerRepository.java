@@ -3,10 +3,14 @@ package com.example.bottomnavigationproper.Services;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
 import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Models.PlayerResponse;
+import com.example.bottomnavigationproper.ViewModels.PlayerViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,45 +21,35 @@ import retrofit2.Response;
 
 public class PlayerRepository {
 
-    PlayerRepository service;
     private APIInterface apiInterface;
-    private List<Player> players = new ArrayList<>();
+    private MutableLiveData<List<Player>> playerResponseLiveData;
 
 
     public PlayerRepository(){
+        playerResponseLiveData = new MutableLiveData<>();
+
         apiInterface = APIClient.getClient().create(APIInterface.class);
     }
 
-    public PlayerRepository getInstance(){
-        service = (service == null) ? new PlayerRepository(): service;
-        return service;
-    }
-
-    public List<Player> getPlayers(String token){
-        getPlayersFromDB(token);
-        return players;
-    }
-
-    private void getPlayersFromDB(String token){
-        Call<List<Player>> call = apiInterface.getPlayers(token);
-
-        call.enqueue(new Callback<List<Player>>() {
-            @Override
-            public void onResponse(@NonNull Call<List<Player>> call, @NonNull Response<List<Player>> response) {
-                if(response.isSuccessful()){
-                    players = response.body();
-                }else{
-//                    Toast.makeText(getApplicationContext(), "Login not correct :(", Toast.LENGTH_SHORT).show();
+    public void getPlayers(String token){
+        apiInterface.getPlayers(token)
+            .enqueue(new Callback<List<Player>>() {
+                @Override
+                public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
+                    if (response.body() != null) {
+                        playerResponseLiveData.postValue(response.body());
+                    }
                 }
 
-            }
+                @Override
+                public void onFailure(Call<List<Player>> call, Throwable t) {
+                    playerResponseLiveData.postValue(null);
 
-            @Override
-            public void onFailure(@NonNull Call<List<Player>> call, @NonNull Throwable t) {
-                call.cancel();
-//                Toast.makeText(getApplicationContext(), "error :(", Toast.LENGTH_SHORT).show();            }
-            }
-        });
-
+                }
+            });
+    }
+    public LiveData<List<Player>> getPlayersResponseLiveData() {
+        return playerResponseLiveData;
     }
 }
+

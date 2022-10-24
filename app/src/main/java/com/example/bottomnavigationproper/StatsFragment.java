@@ -15,8 +15,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
+import com.example.bottomnavigationproper.ViewModels.PlayerViewModel;
 import com.example.bottomnavigationproper.databinding.FragmentStatsBinding;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ import java.util.List;
 public class StatsFragment extends Fragment {
 
     FragmentStatsBinding binding;
+    PlayerRepository playerRepository = new PlayerRepository();
 
     public StatsFragment() {
         // Required empty public constructor
@@ -40,22 +43,26 @@ public class StatsFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                replaceFragment(new StatsDisplayFragment());
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainerView2, StatsDisplayFragment.class, null)
+                        .commit();
             }
         });
         List<String> names = new ArrayList<>();
         names.add("Darren");
         names.add("Liam");
-        initialiseSpinner(view, R.id.spinner, names);
+        initialiseSpinner(view, R.id.spinner, getPlayerNames());
 
         return view;
     }
 
-    private void getPlayers(){
+    private List<String> getPlayerNames(){
         PlayerRepository service = new PlayerRepository();
-        SharedPreferences preferences = getActivity().getSharedPreferences(getString(R.string.jwt_token), Context.MODE_PRIVATE);
-        String retrievedToken  = preferences.getString("TOKEN",null);
-        List<Player> players = service.getPlayers(retrievedToken);
+        List<String> names = new ArrayList<>();
+//        for(Player p: players) {
+//            names.add(p.getFirstname() + " " + p.getLastname());
+//        }
+        return names;
     }
 
 
@@ -77,5 +84,7 @@ public class StatsFragment extends Fragment {
         fragmentTransaction.replace(R.id.fragmentContainerView2,fragment);
         fragmentTransaction.commit();
     }
+
+
 
 }

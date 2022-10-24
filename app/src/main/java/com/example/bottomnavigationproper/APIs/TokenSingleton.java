@@ -15,6 +15,7 @@ public class TokenSingleton {
     }
 
     public static TokenSingleton getInstance(){
+
         tokenInstance = (tokenInstance == null) ? new TokenSingleton(): tokenInstance;
         return  tokenInstance;
     }
@@ -26,5 +27,4 @@ public class TokenSingleton {
     public String getTokenString(){
         return tokenStr;
     }
-
 }

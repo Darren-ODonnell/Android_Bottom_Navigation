@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
 //        findViewById(R.id.navigate_to_register).setOnClickListener(v -> {
 //            startActivity(new Intent(this, RegisterActivity.class));
 //        });
