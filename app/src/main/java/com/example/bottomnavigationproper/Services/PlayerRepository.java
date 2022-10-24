@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Models.PlayerResponse;
 import com.example.bottomnavigationproper.ViewModels.PlayerViewModel;
 
 import java.util.ArrayList;

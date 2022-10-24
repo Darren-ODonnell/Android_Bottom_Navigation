@@ -21,7 +21,6 @@ import android.widget.Button;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Models.PlayerResponse;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
 import com.example.bottomnavigationproper.ViewModels.PlayerViewModel;
 import com.example.bottomnavigationproper.utils.PlayerResultsAdapter;
