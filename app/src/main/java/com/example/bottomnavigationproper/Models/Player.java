@@ -164,21 +164,6 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", firstnameI='" + firstnameI + '\'' +
-                ", lastnameI='" + lastnameI + '\'' +
-                ", yob=" + yob +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", phoneIce='" + phoneIce + '\'' +
-                ", registered=" + registered +
-                ", grade='" + grade + '\'' +
-                ", availability='" + availability + '\'' +
-                ", panelMember=" + panelMember +
-                '}';
+        return firstname + " " + lastname;
     }
 }
