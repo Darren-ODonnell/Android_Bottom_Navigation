@@ -11,9 +11,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -33,6 +35,9 @@ public class StatsFragment extends Fragment {
 
     private PlayerViewModel viewModel;
     private Spinner spinner;
+
+    private Player playerSelected;
+
 
     public StatsFragment() {
         // Required empty public constructor
@@ -62,6 +67,14 @@ public class StatsFragment extends Fragment {
                 new ArrayAdapter<Player>(getContext(),  android.R.layout.simple_spinner_dropdown_item, players);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                playerSelected = (Player)parent.getItemAtPosition(pos);
+                Log.d("player", playerSelected.toString());
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     @Override
@@ -82,41 +95,16 @@ public class StatsFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Bundle args = new Bundle();
+                args.putSerializable("Player", playerSelected);
+                Fragment toFragment = new StatsDisplayFragment();
+                toFragment.setArguments(args);
 
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainerView2, StatsDisplayFragment.class, null)
+                        .replace(R.id.fragmentContainerView2, toFragment, null)
                         .commit();
             }
         });
-    }
-
-    private List<String> getPlayerNames(){
-        PlayerRepository service = new PlayerRepository();
-        List<String> names = new ArrayList<>();
-//        for(Player p: players) {
-//            names.add(p.getFirstname() + " " + p.getLastname());
-//        }
-        return names;
-    }
-
-
-    private void initialiseSpinner(View view, int spinnerId, List<String> names) {
-        Spinner spinner = (Spinner) view.findViewById(spinnerId);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, names);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
-    }
-
-    private void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainerView2,fragment);
-        fragmentTransaction.commit();
     }
 
 

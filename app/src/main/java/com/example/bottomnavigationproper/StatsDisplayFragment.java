@@ -33,12 +33,16 @@ public class StatsDisplayFragment extends Fragment {
 
     private PlayerViewModel viewModel;
     private PlayerResultsAdapter adapter;
+    private Player player;
 
     private Button searchButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        assert this.getArguments() != null;
+        player = (Player) this.getArguments().getSerializable("Player");
+
 
         adapter = new PlayerResultsAdapter();
 
@@ -59,6 +63,9 @@ public class StatsDisplayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stats_display, container, false);
 
+
+
+
         RecyclerView recyclerView = view.findViewById(R.id.fragment_playersearch_searchResultsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
@@ -66,6 +73,7 @@ public class StatsDisplayFragment extends Fragment {
         searchButton = view.findViewById(R.id.fragment_playersearch_search);
 
         searchButton.setOnClickListener(v -> {
+
             performSearch();
         });
 
