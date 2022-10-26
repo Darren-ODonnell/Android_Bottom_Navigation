@@ -48,6 +48,12 @@ public class StatsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        initPlayerViewModel();
+
+    }
+
+    private void initPlayerViewModel() {
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         viewModel.init();
         viewModel.getPlayerResponseLiveData().observe(this, new Observer<List<Player>>(){
@@ -55,7 +61,6 @@ public class StatsFragment extends Fragment {
             public void onChanged(List<Player> playerList) {
                 if (playerList != null) {
                     setList(playerList);
-//                    adapter.setResults(playerList);
                 }
             }
         });

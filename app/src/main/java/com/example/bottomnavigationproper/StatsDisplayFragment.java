@@ -63,9 +63,6 @@ public class StatsDisplayFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_stats_display, container, false);
 
-
-
-
         RecyclerView recyclerView = view.findViewById(R.id.fragment_playersearch_searchResultsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
@@ -73,7 +70,7 @@ public class StatsDisplayFragment extends Fragment {
         searchButton = view.findViewById(R.id.fragment_playersearch_search);
 
         searchButton.setOnClickListener(v -> {
-
+            searchButton.setText(player.toString());
             performSearch();
         });
 
