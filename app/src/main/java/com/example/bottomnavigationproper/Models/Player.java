@@ -6,46 +6,32 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class Player implements Serializable {
-    @SerializedName("id")
     @Expose
     Long id;
-    @SerializedName("firstname")
     @Expose
     String firstname;
-    @SerializedName("lastname")
     @Expose
     String lastname;
-    @SerializedName("firstnameI")
     @Expose
     String firstnameI;
-    @SerializedName("lastnameI")
     @Expose
     String lastnameI;
-    @SerializedName("yob")
     @Expose
     int yob;
-    @SerializedName("address")
     @Expose
     String address;
-    @SerializedName("email")
     @Expose
     String email;
-    @SerializedName("phone")
     @Expose
     String phone;
-    @SerializedName("phoneIce")
     @Expose
     String phoneIce;
-    @SerializedName("registered")
     @Expose
     boolean registered;
-    @SerializedName("grade")
     @Expose
     String grade;
-    @SerializedName("availability")
     @Expose
     String availability;
-    @SerializedName("panelMember")
     @Expose
     Byte panelMember;
 

@@ -19,6 +19,7 @@ public class APIClient {
     // android picks up localhost as a reference to the emulator itself rather than the Computer
     private static String url = "http://192.168.100.56:8080/";
 
+
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {
