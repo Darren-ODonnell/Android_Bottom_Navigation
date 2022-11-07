@@ -1,8 +1,10 @@
 package com.example.bottomnavigationproper.APIs;
 
+import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Login;
 import com.example.bottomnavigationproper.Models.Player;
 
+import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.User;
 
 import java.util.List;
@@ -20,6 +22,11 @@ public interface APIInterface {
 
     @GET("player/list")
     Call<List<Player>> getPlayers(@Header("Authorization") String accessToken);
-//    Call<ResponseBody> getPlayers();
+
+    @GET("fixture/list")
+    Call<List<Fixture>> getFixtures(@Header("Authorization") String accessToken);
+
+//    @GET("stats/list")
+    Call<List<Stat>> getStats(@Header("Authorization") String accessToken);
 
 }

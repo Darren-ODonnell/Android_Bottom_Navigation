@@ -1,39 +1,63 @@
 package com.example.bottomnavigationproper.Models;
 
-import java.sql.Date;
-import java.sql.Time;
+import com.google.gson.annotations.Expose;
 
-public class Fixture {
-    private Long competitionId;
-    private Long homeTeamId;
-    private Long awayTeamId;
-    private Date fixtureDate;
+import java.io.Serializable;
+import java.sql.Time;
+import java.util.Date;
+
+
+public class Fixture implements Serializable{
+    @Expose
+    private Long id;
+    @Expose
+    private Competition competition;
+    @Expose
+    private Club homeTeam;
+    @Expose
+    private Club awayTeam;
+    @Expose
+    private java.util.Date fixtureDate;
+    @Expose
     private Time fixtureTime;
+    @Expose
     private Integer season;
+    @Expose
     private Integer round;
 
-    public Long getCompetitionId() {
-        return competitionId;
+    public Fixture() {
     }
 
-    public void setCompetitionId(Long competitionId) {
-        this.competitionId = competitionId;
+    public Long getId() {
+        return id;
     }
 
-    public Long getHomeTeamId() {
-        return homeTeamId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setHomeTeamId(Long homeTeamId) {
-        this.homeTeamId = homeTeamId;
+    public Competition getCompetition() {
+        return competition;
     }
 
-    public Long getAwayTeamId() {
-        return awayTeamId;
+    public void setCompetition(Competition competition) {
+        this.competition = competition;
     }
 
-    public void setAwayTeamId(Long awayTeamId) {
-        this.awayTeamId = awayTeamId;
+    public Club getHomeTeam() {
+        return homeTeam;
+    }
+
+    public void setHomeTeam(Club homeTeam) {
+        this.homeTeam = homeTeam;
+    }
+
+    public Club getAwayTeam() {
+        return awayTeam;
+    }
+
+    public void setAwayTeam(Club awayTeam) {
+        this.awayTeam = awayTeam;
     }
 
     public Date getFixtureDate() {

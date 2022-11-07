@@ -20,10 +20,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
+import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
 import com.example.bottomnavigationproper.ViewModels.PlayerViewModel;
-import com.example.bottomnavigationproper.utils.PlayerResultsAdapter;
+//import com.example.bottomnavigationproper.utils.PlayerResultsAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
@@ -32,8 +33,9 @@ import java.util.Objects;
 public class StatsDisplayFragment extends Fragment {
 
     private PlayerViewModel viewModel;
-    private PlayerResultsAdapter adapter;
+//    private PlayerResultsAdapter adapter;
     private Player player;
+    private Fixture fixture;
 
     private Button searchButton;
 
@@ -42,9 +44,10 @@ public class StatsDisplayFragment extends Fragment {
         super.onCreate(savedInstanceState);
         assert this.getArguments() != null;
         player = (Player) this.getArguments().getSerializable("Player");
+        fixture = (Fixture) this.getArguments().getSerializable("Fixture");
 
 
-        adapter = new PlayerResultsAdapter();
+//        adapter = new PlayerResultsAdapter();
 
         viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
         viewModel.init();
@@ -52,7 +55,7 @@ public class StatsDisplayFragment extends Fragment {
             @Override
             public void onChanged(List<Player> playerList) {
                 if (playerList != null) {
-                    adapter.setResults(playerList);
+//                    adapter.setResults(playerList);
                 }
             }
         });
@@ -65,7 +68,7 @@ public class StatsDisplayFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.fragment_playersearch_searchResultsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+//        recyclerView.setAdapter(adapter);
 
         searchButton = view.findViewById(R.id.fragment_playersearch_search);
 

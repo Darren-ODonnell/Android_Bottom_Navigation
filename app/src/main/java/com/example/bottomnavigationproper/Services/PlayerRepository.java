@@ -34,14 +34,14 @@ public class PlayerRepository {
         apiInterface.getPlayers(token)
             .enqueue(new Callback<List<Player>>() {
                 @Override
-                public void onResponse(Call<List<Player>> call, Response<List<Player>> response) {
+                public void onResponse(@NonNull Call<List<Player>> call, Response<List<Player>> response) {
                     if (response.body() != null) {
                         playerResponseLiveData.postValue(response.body());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<List<Player>> call, Throwable t) {
+                public void onFailure(@NonNull Call<List<Player>> call, Throwable t) {
                     playerResponseLiveData.postValue(null);
 
                 }
