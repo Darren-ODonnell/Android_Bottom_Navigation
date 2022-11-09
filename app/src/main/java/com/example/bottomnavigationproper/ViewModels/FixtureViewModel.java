@@ -10,9 +10,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
-import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Services.FixtureRepository;
-import com.example.bottomnavigationproper.Services.PlayerRepository;
 
 import java.util.List;
 
@@ -32,7 +30,7 @@ public class FixtureViewModel extends AndroidViewModel {
     public void getFixtures() {
 //        SharedPreferences preferences = getApplication().getSharedPreferences("api_key", Context.MODE_PRIVATE);
 //        playerRepository.getPlayers(preferences.getString("token", ""));
-        fixtureRepository.getFixtures(TokenSingleton.getInstance().getTokenString());
+        fixtureRepository.getFixtures(TokenSingleton.getInstance().getBearerTokenString());
 
     }
 

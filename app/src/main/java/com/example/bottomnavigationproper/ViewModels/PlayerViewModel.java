@@ -3,8 +3,6 @@ package com.example.bottomnavigationproper.ViewModels;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,9 +12,7 @@ import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.prefs.PreferenceChangeEvent;
 
 public class PlayerViewModel extends AndroidViewModel {
     private PlayerRepository playerRepository;
@@ -34,7 +30,7 @@ public class PlayerViewModel extends AndroidViewModel {
     public void getPlayers() {
 //        SharedPreferences preferences = getApplication().getSharedPreferences("api_key", Context.MODE_PRIVATE);
 //        playerRepository.getPlayers(preferences.getString("token", ""));
-        playerRepository.getPlayers(TokenSingleton.getInstance().getTokenString());
+        playerRepository.getPlayers(TokenSingleton.getInstance().getBearerTokenString());
 
     }
 

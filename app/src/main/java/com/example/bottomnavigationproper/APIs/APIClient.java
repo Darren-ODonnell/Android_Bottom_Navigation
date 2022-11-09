@@ -44,7 +44,7 @@ public class APIClient {
         // Initialising the interceptor to handle the JWT Token for all requests
         Interceptor authInterceptor = chain -> {
             Request newRequest  = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer " + TokenSingleton.getInstance().getTokenString())
+                    .addHeader("Authorization", "Bearer " + TokenSingleton.getInstance().getBearerTokenString())
                     .build();
             return chain.proceed(newRequest);
         };

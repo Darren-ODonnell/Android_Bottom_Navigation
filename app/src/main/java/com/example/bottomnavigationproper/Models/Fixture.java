@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 
 
 public class Fixture implements Serializable{
@@ -17,9 +17,9 @@ public class Fixture implements Serializable{
     @Expose
     private Club awayTeam;
     @Expose
-    private java.util.Date fixtureDate;
+    private String fixtureDate;
     @Expose
-    private Time fixtureTime;
+    private String fixtureTime;
     @Expose
     private Integer season;
     @Expose
@@ -60,19 +60,19 @@ public class Fixture implements Serializable{
         this.awayTeam = awayTeam;
     }
 
-    public Date getFixtureDate() {
+    public String getFixtureDate() {
         return fixtureDate;
     }
 
-    public void setFixtureDate(Date fixtureDate) {
+    public void setFixtureDate(String fixtureDate) {
         this.fixtureDate = fixtureDate;
     }
 
-    public Time getFixtureTime() {
+    public String getFixtureTime() {
         return fixtureTime;
     }
 
-    public void setFixtureTime(Time fixtureTime) {
+    public void setFixtureTime(String fixtureTime) {
         this.fixtureTime = fixtureTime;
     }
 
@@ -94,6 +94,6 @@ public class Fixture implements Serializable{
 
     @Override
     public String toString() {
-        return this.fixtureDate.toString();
+        return this.fixtureDate;
     }
 }

@@ -1,16 +1,13 @@
 package com.example.bottomnavigationproper;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Login;
-import com.example.bottomnavigationproper.Services.LoginService;
+import com.example.bottomnavigationproper.Services.LoginRepository;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
 
 
@@ -33,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loginFromInput(){
-        LoginService service = new LoginService();
+        LoginRepository service = new LoginRepository();
         PlayerRepository playerRepository = new PlayerRepository();
 
 
@@ -42,25 +39,13 @@ public class LoginActivity extends AppCompatActivity {
             String password = getTextFromEditText(R.id.password);
 
             Login loginObj = new Login(username, password);
-            boolean success = service.login(loginObj);
+            service.login(loginObj);
 
-            storeToken();
-            if(TokenSingleton.getInstance().getTokenString() != null) {
-                startActivity(new Intent(this, BottomNavActivity.class));
-            }
+            startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
 
         });
 
 
-    }
-
-    public void storeToken(){
-        SharedPreferences settings = getApplication().getSharedPreferences("api_key",
-                Context.MODE_PRIVATE);
-
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString("token", TokenSingleton.getInstance().getTokenString());
-        editor.apply();
     }
 
     private String getTextFromEditText(int id){

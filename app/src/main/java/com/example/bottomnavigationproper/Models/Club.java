@@ -6,19 +6,19 @@ import java.io.Serializable;
 
 public class Club implements Serializable {
     @Expose
-    Long id;
+    private Long id;
     @Expose
-    String name;
+    private String name;
     @Expose
-    String contactName;
+    private String contactName;
     @Expose
-    String contactEmail;
+    private String contactEmail;
     @Expose
-    String contactPhone;
+    private String contactPhone;
     @Expose
-    String pitches;
+    private String pitches;
     @Expose
-    String colours;
+    private String colours;
 
     public Club() {
     }

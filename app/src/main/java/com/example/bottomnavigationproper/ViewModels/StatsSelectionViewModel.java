@@ -38,14 +38,14 @@ public class StatsSelectionViewModel extends AndroidViewModel {
     public void getFixtures() {
 //        SharedPreferences preferences = getApplication().getSharedPreferences("api_key", Context.MODE_PRIVATE);
 //        playerRepository.getPlayers(preferences.getString("token", ""));
-        fixtureRepository.getFixtures(TokenSingleton.getInstance().getTokenString());
+        fixtureRepository.getFixtures(TokenSingleton.getInstance().getBearerTokenString());
 
     }
 
     public void getPlayers() {
 //        SharedPreferences preferences = getApplication().getSharedPreferences("api_key", Context.MODE_PRIVATE);
 //        playerRepository.getPlayers(preferences.getString("token", ""));
-        playerRepository.getPlayers(TokenSingleton.getInstance().getTokenString());
+        playerRepository.getPlayers(TokenSingleton.getInstance().getBearerTokenString());
 
     }
 

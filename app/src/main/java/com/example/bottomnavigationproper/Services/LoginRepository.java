@@ -1,11 +1,7 @@
 package com.example.bottomnavigationproper.Services;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
-
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
@@ -17,19 +13,20 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class LoginService {
+public class LoginRepository {
 
-    APIInterface apiInterface;
-    private boolean loginSuccess;
+    private MutableLiveData<Boolean> validToken;
+    private MutableLiveData<String> tokenLiveData;
+    private APIInterface apiInterface;
 
-    public LoginService(){
+    public LoginRepository(){
         apiInterface = APIClient.getClient().create(APIInterface.class);
+        validToken = new MutableLiveData<>();
+        tokenLiveData = new MutableLiveData<>();
     }
 
 
-    public boolean login(Login login){
-        loginSuccess = false;
-
+    public void login(Login login){
         Call<User> call = apiInterface.login(login);
 
         call.enqueue(new Callback<User>() {
@@ -40,8 +37,9 @@ public class LoginService {
                     assert response.body() != null;
                     User user = response.body();
                     String token = user.getAccessToken();
-                    TokenSingleton.getInstance().setTokenString("Bearer " + token);
-                    loginSuccess = true;
+                    tokenLiveData.postValue(token);
+                    validToken.postValue(true);
+//                    TokenSingleton.getInstance().setTokenString(token);
                 }else{
 //                    Toast.makeText(getApplicationContext(), "Login not correct :(", Toast.LENGTH_SHORT).show();
                 }
@@ -50,12 +48,30 @@ public class LoginService {
             @Override
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 call.cancel();
-                loginSuccess = false;
 //                Toast.makeText(getApplicationContext(), "error :(", Toast.LENGTH_SHORT).show();
             }
         });
-        return loginSuccess;
 
+    }
+
+    public void validateJWT(String token){
+        Call<Boolean> call = apiInterface.checkToken(token);
+        call.enqueue(new Callback<Boolean>() {
+            @Override
+            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                validToken.postValue(true);
+                TokenSingleton.getInstance().setTokenString(token);
+            }
+
+            @Override
+            public void onFailure(Call<Boolean> call, Throwable t) {
+                validToken.postValue(false);
+            }
+        });
+    }
+
+    public MutableLiveData<Boolean> getTokenValidity(){
+        return validToken;
     }
 
 }
