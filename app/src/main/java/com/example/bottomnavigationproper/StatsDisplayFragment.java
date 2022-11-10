@@ -22,6 +22,7 @@ import android.widget.Button;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
 import com.example.bottomnavigationproper.ViewModels.PlayerViewModel;
 //import com.example.bottomnavigationproper.utils.PlayerResultsAdapter;
@@ -36,6 +37,7 @@ public class StatsDisplayFragment extends Fragment {
 //    private PlayerResultsAdapter adapter;
     private Player player;
     private Fixture fixture;
+    private StatName statName;
 
     private Button searchButton;
 
@@ -45,7 +47,7 @@ public class StatsDisplayFragment extends Fragment {
         assert this.getArguments() != null;
         player = (Player) this.getArguments().getSerializable("Player");
         fixture = (Fixture) this.getArguments().getSerializable("Fixture");
-
+        statName = (StatName) this.getArguments().getSerializable("StatName");
 
 //        adapter = new PlayerResultsAdapter();
 

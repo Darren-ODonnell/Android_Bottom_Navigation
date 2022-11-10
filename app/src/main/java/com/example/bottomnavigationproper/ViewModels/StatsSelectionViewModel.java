@@ -11,8 +11,11 @@ import androidx.lifecycle.LiveData;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.FixtureRepository;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
+import com.example.bottomnavigationproper.Services.StatRepository;
 
 import java.util.List;
 
@@ -22,6 +25,9 @@ public class StatsSelectionViewModel extends AndroidViewModel {
 
     private PlayerRepository playerRepository;
     private LiveData<List<Player>> playerResponseLiveData;
+
+    private StatRepository statRepository;
+    private LiveData<List<StatName>> statNameLiveData;
 
     public StatsSelectionViewModel(@NonNull Application application) {
         super(application);
@@ -33,27 +39,21 @@ public class StatsSelectionViewModel extends AndroidViewModel {
 
         playerRepository = new PlayerRepository();
         playerResponseLiveData = playerRepository.getPlayersResponseLiveData();
+
+        statRepository = new StatRepository();
+        statNameLiveData = statRepository.getStatNameLiveData();
     }
 
     public void getFixtures() {
-//        SharedPreferences preferences = getApplication().getSharedPreferences("api_key", Context.MODE_PRIVATE);
-//        playerRepository.getPlayers(preferences.getString("token", ""));
         fixtureRepository.getFixtures(TokenSingleton.getInstance().getBearerTokenString());
-
     }
 
     public void getPlayers() {
-//        SharedPreferences preferences = getApplication().getSharedPreferences("api_key", Context.MODE_PRIVATE);
-//        playerRepository.getPlayers(preferences.getString("token", ""));
         playerRepository.getPlayers(TokenSingleton.getInstance().getBearerTokenString());
-
     }
 
-    private String getToken() {
-        SharedPreferences settings = getApplication().getSharedPreferences("api_key",
-                Context.MODE_PRIVATE);
-        String token = settings.getString("token", null);
-        return token;
+    public void getStatNames(){
+        statRepository.getStatNames(TokenSingleton.getInstance().getBearerTokenString());
     }
 
     public LiveData<List<Fixture>> getFixturesResponseLiveData() {
@@ -62,4 +62,5 @@ public class StatsSelectionViewModel extends AndroidViewModel {
     public LiveData<List<Player>> getPlayerResponseLiveData() {
         return playerResponseLiveData;
     }
+    public LiveData<List<StatName>> getStatNameLiveData(){ return statNameLiveData;}
 }

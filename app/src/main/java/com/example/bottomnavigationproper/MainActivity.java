@@ -7,14 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Services.LoginRepository;
 
 public class MainActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "token_key";
-    public static final String API_KEY = "token";
+    public static final String API_KEY = "jwt_token";
     SharedPreferences settings;
 
     @Override
@@ -23,9 +22,40 @@ public class MainActivity extends AppCompatActivity {
 
         validateJWT();
 
+    }
+
+    public void validateJWT(){
+        String token = retrieveToken();
+
+        LoginRepository service = new LoginRepository();
+
+        if(token != null){
+            service.validateJWT(token);
+        }else{
+            buildRegisterLoginScreen();
+        }
+
+        service.getTokenValidity().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
+                    storeToken(getApplicationContext());
+                }
+            }
+        });
+
+    }
+
+    private String retrieveToken() {
+        Context context = getApplicationContext();
+
+        settings = context.getSharedPreferences(PREFS_NAME, 0);
+        return settings.getString(API_KEY, null);
+    }
+
+    public void buildRegisterLoginScreen(){
         setContentView(R.layout.register_login_screen);
-
-
 
         findViewById(R.id.navigate_to_login).setOnClickListener(v -> {
             startActivity(new Intent(this, com.example.bottomnavigationproper.LoginActivity.class));
@@ -35,44 +65,15 @@ public class MainActivity extends AppCompatActivity {
 //            startActivity(new Intent(this, RegisterActivity.class));
 //        });
 //        findViewById(R.id.login).setOnClickListener(v -> onLogin());
-
     }
 
-    public void validateJWT(){
-        Context context = getApplicationContext();
-
-        settings = context.getSharedPreferences(PREFS_NAME, 0);
-        String token = settings.getString("jwt_token", null);
-        LoginRepository service = new LoginRepository();
-
-        if(token != null){
-            service.validateJWT(token);
-        }
-
-        service.getTokenValidity().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if(aBoolean){
-                    startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
-                    storeToken(getApplicationContext());
-                }else{
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                }
-            }
-        });
-
-    }
     public void storeToken(Context context) {
         SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
-        editor.putString("jwt_token", TokenSingleton.getInstance().getTokenStr());
+        editor.putString(API_KEY, TokenSingleton.getInstance().getTokenStr());
         // Commit the edits!
         editor.commit();
     }
 
-    public void displayPref(boolean silent){
-        Toast.makeText(this, "Silent Mode " + silent ,
-                Toast.LENGTH_LONG).show();
-    }
 }

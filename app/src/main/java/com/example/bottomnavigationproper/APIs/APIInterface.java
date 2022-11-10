@@ -6,6 +6,7 @@ import com.example.bottomnavigationproper.Models.Login;
 import com.example.bottomnavigationproper.Models.Player;
 
 import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.User;
 
 import java.util.List;
@@ -39,6 +40,9 @@ public interface APIInterface {
 
     @GET("club/findByName")
     Call<Club> getClubByName(@Header("Authorization") String accessToken);
+
+    @GET("statname/list")
+    Call<List<StatName>> getStatNames(@Header("Authorization") String accessToken);
 
 
 

@@ -18,6 +18,8 @@ import android.widget.Spinner;
 
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.ViewModels.FixtureViewModel;
 import com.example.bottomnavigationproper.ViewModels.PlayerViewModel;
 import com.example.bottomnavigationproper.ViewModels.StatsSelectionViewModel;
@@ -34,6 +36,9 @@ public class StatsFragment extends Fragment {
 //    private FixtureViewModel fixtureViewModel;
     private Spinner spinnerFixture;
     private Fixture fixtureSelected;
+
+    private Spinner spinnerStatName;
+    private StatName statNameSelected;
 
 
     public StatsFragment() {
@@ -71,23 +76,19 @@ public class StatsFragment extends Fragment {
                 }
             }
         });
+
+        statsSelectionViewModel.getStatNameLiveData().observe(this, new Observer<List<StatName>>() {
+            @Override
+            public void onChanged(List<StatName> statNames) {
+                if(statNames != null){
+                    setStatNameList(statNames);
+                }
+            }
+        });
+        statsSelectionViewModel.getStatNames();
         statsSelectionViewModel.getFixtures();
         statsSelectionViewModel.getPlayers();
     }
-
-//    private void initPlayerViewModel() {
-//        playerViewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
-//        playerViewModel.init();
-//        playerViewModel.getPlayerResponseLiveData().observe(this, new Observer<List<Player>>(){
-//            @Override
-//            public void onChanged(List<Player> playerList) {
-//                if (playerList != null) {
-//                    setPlayerList(playerList);
-//                }
-//            }
-//        });
-//        playerViewModel.getPlayers();
-//    }
 
     public void setPlayerList(List<Player> players){
         ArrayAdapter<Player> adapter =
@@ -125,6 +126,21 @@ public class StatsFragment extends Fragment {
         });
     }
 
+    public void setStatNameList(List<StatName> statNames){
+        ArrayAdapter<StatName> adapter =
+                new ArrayAdapter<StatName>(getContext(),  android.R.layout.simple_spinner_dropdown_item, statNames);
+        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+        spinnerStatName.setAdapter(adapter);
+        spinnerStatName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                statNameSelected = (StatName)parent.getItemAtPosition(pos);
+                Log.d("fixtureStr", statNameSelected.toString());
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -132,6 +148,7 @@ public class StatsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_stats, container, false);
         spinnerFixture = view.findViewById(R.id.spinnerFixture);
         spinnerPlayer = view.findViewById(R.id.spinnerPlayer);
+        spinnerStatName = view.findViewById(R.id.spinnerStat);
         initButton(view);
 
         return view;
@@ -145,6 +162,7 @@ public class StatsFragment extends Fragment {
                 Bundle args = new Bundle();
                 args.putSerializable("Player", playerSelected);
                 args.putSerializable("Fixture", fixtureSelected);
+                args.putSerializable("StatName", statNameSelected);
                 Fragment toFragment = new StatsDisplayFragment();
                 toFragment.setArguments(args);
 
