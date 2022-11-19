@@ -1,39 +1,30 @@
 package com.example.bottomnavigationproper;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.utils.StatResultAdapter;
-import com.example.bottomnavigationproper.*;
-import com.example.bottomnavigationproper.Services.PlayerRepository;
 
 //import com.example.bottomnavigationproper.utils.PlayerResultsAdapter;
 import com.example.bottomnavigationproper.ViewModels.StatViewModel;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
-import java.util.Objects;
 
 public class StatsDisplayFragment extends Fragment {
 
@@ -102,14 +93,14 @@ public class StatsDisplayFragment extends Fragment {
     public void getStats(Player player, Fixture fixture, StatName statName,
                          boolean playerAll, boolean fixtureAll, boolean statAll){
 
-        if (playerAll && fixtureAll && statAll) viewModel.getAll();
+        if (playerAll && fixtureAll && statAll) viewModel.getAllPlayerStatFixture();
         else if (playerAll && fixtureAll) viewModel.getAllPlayerFixture(statName);
         else if (playerAll && statAll) viewModel.getAllPlayerStat(fixture);
         else if (statAll && fixtureAll) viewModel.getAllStatFixture(player);
         else if (playerAll) viewModel.getAllPlayer(fixture, statName);
         else if (fixtureAll) viewModel.getAllFixture(player,statName);
         else if (statAll) viewModel.getAllStats(player, fixture);
-        else viewModel.getStats(player, fixture, statName);
+        else viewModel.getStat(player, fixture, statName);
 
 
     }

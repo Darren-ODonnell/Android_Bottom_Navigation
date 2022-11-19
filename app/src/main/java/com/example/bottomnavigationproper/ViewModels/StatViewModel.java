@@ -41,7 +41,8 @@ public class StatViewModel extends AndroidViewModel {
         return statResponseLiveData;
     }
 
-    public void getAll() {
+
+    public void getAllPlayerStatFixture() {
     }
 
     public void getAllPlayerFixture(StatName statName) {
@@ -62,6 +63,8 @@ public class StatViewModel extends AndroidViewModel {
     public void getAllStats(Player player, Fixture fixture) {
     }
 
-    public void getStats(Player player, Fixture fixture, StatName statName) {
+    public void getStat(Player player, Fixture fixture, StatName statName) {
     }
+
+
 }

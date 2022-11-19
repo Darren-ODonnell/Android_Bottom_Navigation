@@ -32,9 +32,6 @@ public interface APIInterface {
     @GET("fixture/findByClub")
     Call<List<Fixture>> getFixtures(@Header("Authorization") String accessToken, @Query("name") String name);
 
-    @GET("stats_view/countByStatNameFixtureDate2")
-    Call<List<Stat>> getStats(@Header("Authorization") String accessToken);
-
     @GET("club/list")
     Call<List<Club>> getClubs(@Header("Authorization") String accessToken);
 
@@ -44,6 +41,36 @@ public interface APIInterface {
     @GET("statname/list")
     Call<List<StatName>> getStatNames(@Header("Authorization") String accessToken);
 
+    @GET("stats_view/countAllFixtureByPlayerStatName")
+    Call<List<Stat>> countAllFixtureByPlayerStatName(@Header("Authorization") String accessToken,
+    @Body String firstName,@Body String lastName,@Body String statName);
+
+    @GET("stats_view/countAllPlayerByFixtureStatName")
+    Call<List<Stat>> countAllPlayerByFixtureStatName(@Header("Authorization") String accessToken,
+    @Body String fixtureDate,@Body String statName);
+
+    @GET("stats_view/countAllPlayerFixtureByStatName")
+    Call<List<Stat>> countAllPlayerFixtureByStatName(@Header("Authorization") String accessToken,
+    @Body String statName);
+
+    @GET("stats_view/countAllPlayerStatFixture")
+    Call<List<Stat>> countAllPlayerStatFixture(@Header("Authorization") String accessToken);
+
+    @GET("stats_view/countAllPlayerStatNameByFixtureDate")
+    Call<List<Stat>> countAllPlayerStatNameByFixtureDate(@Header("Authorization") String accessToken,
+    @Body String fixtureDate);
+
+    @GET("stats_view/countAllStatNameFixtureByPlayer")
+    Call<List<Stat>> countAllStatNameFixtureByPlayer(@Header("Authorization") String accessToken,
+    @Body String firstName, @Body String lastName);
+
+    @GET("stats_view/countAllStatsByPlayerFixtureDate")
+    Call<List<Stat>> countAllStatsByPlayerFixtureDate(@Header("Authorization") String accessToken,
+    @Body String firstName, @Body String lastName, @Body String fixtureDate);
+
+    @GET("stats_view/countStat")
+    Call<List<Stat>> countStat(@Header("Authorization") String accessToken,
+    @Body String firstName, @Body String lastName, @Body String statName, @Body String fixtureDate);
 
 
 }
