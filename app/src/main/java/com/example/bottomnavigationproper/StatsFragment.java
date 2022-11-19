@@ -93,13 +93,10 @@ public class StatsFragment extends Fragment {
                 new ArrayAdapter<Player>(getContext(),  android.R.layout.simple_spinner_dropdown_item, players);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinnerPlayer.setAdapter(adapter);
-        for(Player f: players){
-            Log.d("fixtureStr", f.toString());
-        }
+
         spinnerPlayer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 playerSelected = (Player)parent.getItemAtPosition(pos);
-                Log.d("player", playerSelected.toString());
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -111,13 +108,10 @@ public class StatsFragment extends Fragment {
                 new ArrayAdapter<Fixture>(getContext(),  android.R.layout.simple_spinner_dropdown_item, fixtures);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinnerFixture.setAdapter(adapter);
-        for(Fixture f: fixtures){
-            Log.d("fixtureStr", f.toString());
-        }
+
         spinnerFixture.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 fixtureSelected = (Fixture)parent.getItemAtPosition(pos);
-                Log.d("fixtureStr", fixtureSelected.toString());
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -129,10 +123,10 @@ public class StatsFragment extends Fragment {
                 new ArrayAdapter<StatName>(getContext(),  android.R.layout.simple_spinner_dropdown_item, statNames);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinnerStatName.setAdapter(adapter);
+
         spinnerStatName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 statNameSelected = (StatName)parent.getItemAtPosition(pos);
-                Log.d("fixtureStr", statNameSelected.toString());
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
