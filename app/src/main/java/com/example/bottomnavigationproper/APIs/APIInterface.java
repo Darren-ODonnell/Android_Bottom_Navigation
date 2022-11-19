@@ -32,7 +32,7 @@ public interface APIInterface {
     @GET("fixture/findByClub")
     Call<List<Fixture>> getFixtures(@Header("Authorization") String accessToken, @Query("name") String name);
 
-    @GET("stats_view/countByStatNameFixtureDate")
+    @GET("stats_view/countByStatNameFixtureDate2")
     Call<List<Stat>> getStats(@Header("Authorization") String accessToken);
 
     @GET("club/list")

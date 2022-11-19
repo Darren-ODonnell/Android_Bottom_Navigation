@@ -89,4 +89,28 @@ public class StatsDisplayFragment extends Fragment {
     public void performSearch() {
         viewModel.getStats();
     }
+
+    public void retrieveStats(Player player, Fixture fixture, StatName statName){
+        boolean playerAll, fixtureAll, statAll;
+
+        playerAll = player.toString().equals("All Players");
+        fixtureAll = fixture.toString().equals("All Fixtures");
+        statAll = statName.toString().equals("All Stats");
+
+        getStats(player, fixture, statName, playerAll, fixtureAll, statAll);
+    }
+    public void getStats(Player player, Fixture fixture, StatName statName,
+                         boolean playerAll, boolean fixtureAll, boolean statAll){
+
+        if (playerAll && fixtureAll && statAll) viewModel.getAll();
+        else if (playerAll && fixtureAll) viewModel.getAllPlayerFixture(statName);
+        else if (playerAll && statAll) viewModel.getAllPlayerStat(fixture);
+        else if (statAll && fixtureAll) viewModel.getAllStatFixture(player);
+        else if (playerAll) viewModel.getAllPlayer(fixture, statName);
+        else if (fixtureAll) viewModel.getAllFixture(player,statName);
+        else if (statAll) viewModel.getAllStats(player, fixture);
+        else viewModel.getStats(player, fixture, statName);
+
+
+    }
 }

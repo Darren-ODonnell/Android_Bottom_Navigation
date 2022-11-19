@@ -9,8 +9,10 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
+import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
 import com.example.bottomnavigationproper.Services.StatRepository;
 
@@ -37,5 +39,29 @@ public class StatViewModel extends AndroidViewModel {
 
     public LiveData<List<Stat>> getStatResponseLiveData() {
         return statResponseLiveData;
+    }
+
+    public void getAll() {
+    }
+
+    public void getAllPlayerFixture(StatName statName) {
+    }
+
+    public void getAllPlayerStat(Fixture fixture) {
+    }
+
+    public void getAllStatFixture(Player player) {
+    }
+
+    public void getAllPlayer(Fixture fixture, StatName statName) {
+    }
+
+    public void getAllFixture(Player player, StatName statName) {
+    }
+
+    public void getAllStats(Player player, Fixture fixture) {
+    }
+
+    public void getStats(Player player, Fixture fixture, StatName statName) {
     }
 }
