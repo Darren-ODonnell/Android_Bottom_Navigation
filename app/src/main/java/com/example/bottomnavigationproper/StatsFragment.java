@@ -89,6 +89,10 @@ public class StatsFragment extends Fragment {
     }
 
     public void setPlayerList(List<Player> players){
+        Player all = new Player();
+        all.setFirstname("All");
+        all.setLastname("Players");
+        players.add(0, all);
         ArrayAdapter<Player> adapter =
                 new ArrayAdapter<Player>(getContext(),  android.R.layout.simple_spinner_dropdown_item, players);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
@@ -104,6 +108,9 @@ public class StatsFragment extends Fragment {
     }
 
     public void setFixtureList(List<Fixture> fixtures){
+        Fixture all = new Fixture();
+        all.setFixtureDate("All Fixtures");
+        fixtures.add(0, all);
         ArrayAdapter<Fixture> adapter =
                 new ArrayAdapter<Fixture>(getContext(),  android.R.layout.simple_spinner_dropdown_item, fixtures);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
@@ -119,6 +126,9 @@ public class StatsFragment extends Fragment {
     }
 
     public void setStatNameList(List<StatName> statNames){
+        StatName all = new StatName();
+        all.setName("All Stats");
+        statNames.add(0, all);
         ArrayAdapter<StatName> adapter =
                 new ArrayAdapter<StatName>(getContext(),  android.R.layout.simple_spinner_dropdown_item, statNames);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);

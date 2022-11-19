@@ -20,8 +20,9 @@ display count for Aisling
 display graph for Niamh
 
 TODO
-Create api calls for stats based on stat_name, player, date
-TODO
 Find way to have options in dropdown for all
 TODO
 Find way to have options in dropdown for seasons
+
+TODO
+Fix StatsScreen Layout
