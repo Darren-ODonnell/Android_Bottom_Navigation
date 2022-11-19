@@ -22,10 +22,14 @@ import android.widget.Button;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.Models.StatName;
+import com.example.bottomnavigationproper.utils.StatResultAdapter;
+import com.example.bottomnavigationproper.*;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
-import com.example.bottomnavigationproper.ViewModels.PlayerViewModel;
+
 //import com.example.bottomnavigationproper.utils.PlayerResultsAdapter;
+import com.example.bottomnavigationproper.ViewModels.StatViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
@@ -33,8 +37,8 @@ import java.util.Objects;
 
 public class StatsDisplayFragment extends Fragment {
 
-    private PlayerViewModel viewModel;
-//    private PlayerResultsAdapter adapter;
+    private StatViewModel viewModel;
+    private StatResultAdapter adapter;
     private Player player;
     private Fixture fixture;
     private StatName statName;
@@ -49,15 +53,15 @@ public class StatsDisplayFragment extends Fragment {
         fixture = (Fixture) this.getArguments().getSerializable("Fixture");
         statName = (StatName) this.getArguments().getSerializable("StatName");
 
-//        adapter = new PlayerResultsAdapter();
+        adapter = new StatResultAdapter();
 
-        viewModel = new ViewModelProvider(this).get(PlayerViewModel.class);
+        viewModel = new ViewModelProvider(this).get(StatViewModel.class);
         viewModel.init();
-        viewModel.getPlayerResponseLiveData().observe(this, new Observer<List<Player>>(){
+        viewModel.getStatResponseLiveData().observe(this, new Observer<List<Stat>>(){
             @Override
-            public void onChanged(List<Player> playerList) {
-                if (playerList != null) {
-//                    adapter.setResults(playerList);
+            public void onChanged(List<Stat> statList) {
+                if (statList != null) {
+                    adapter.setResults(statList);
                 }
             }
         });
@@ -70,7 +74,7 @@ public class StatsDisplayFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.fragment_playersearch_searchResultsRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
         searchButton = view.findViewById(R.id.fragment_playersearch_search);
 
@@ -83,6 +87,6 @@ public class StatsDisplayFragment extends Fragment {
     }
 
     public void performSearch() {
-        viewModel.getPlayers();
+        viewModel.getStats();
     }
 }

@@ -39,7 +39,7 @@ public class LoginRepository {
                     String token = user.getAccessToken();
                     tokenLiveData.postValue(token);
                     validToken.postValue(true);
-//                    TokenSingleton.getInstance().setTokenString(token);
+                    TokenSingleton.getInstance().setTokenString(token);
                 }else{
 //                    Toast.makeText(getApplicationContext(), "Login not correct :(", Toast.LENGTH_SHORT).show();
                 }
@@ -55,12 +55,16 @@ public class LoginRepository {
     }
 
     public void validateJWT(String token){
+        validToken.postValue(false);
         Call<Boolean> call = apiInterface.checkToken(token);
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                validToken.postValue(true);
-                TokenSingleton.getInstance().setTokenString(token);
+                if(response.body().booleanValue()){
+                    validToken.postValue(true);
+                    TokenSingleton.getInstance().setTokenString(token);
+                }
+
             }
 
             @Override
@@ -73,5 +77,4 @@ public class LoginRepository {
     public MutableLiveData<Boolean> getTokenValidity(){
         return validToken;
     }
-
 }

@@ -29,21 +29,26 @@ public class MainActivity extends AppCompatActivity {
 
         LoginRepository service = new LoginRepository();
 
+        service.getTokenValidity().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
+                    TokenSingleton.getInstance().setTokenString(token);
+                    storeToken(getApplicationContext());
+                }else{
+                    buildRegisterLoginScreen();
+                }
+            }
+        });
+
         if(token != null){
             service.validateJWT(token);
         }else{
             buildRegisterLoginScreen();
         }
 
-        service.getTokenValidity().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if(aBoolean){
-                    startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
-                    storeToken(getApplicationContext());
-                }
-            }
-        });
+
 
     }
 

@@ -23,7 +23,7 @@ public interface APIInterface {
     @POST("api/auth/login")
     Call<User> login(@Body Login login);
 
-    @POST("api/auth/checkToken")
+    @GET("api/auth/checkToken")
     Call<Boolean> checkToken(@Query("token") String token);
 
     @GET("player/list")
@@ -32,7 +32,7 @@ public interface APIInterface {
     @GET("fixture/findByClub")
     Call<List<Fixture>> getFixtures(@Header("Authorization") String accessToken, @Query("name") String name);
 
-//    @GET("stats/list")
+    @GET("stats_view/countByStatNameFixtureDate")
     Call<List<Stat>> getStats(@Header("Authorization") String accessToken);
 
     @GET("club/list")

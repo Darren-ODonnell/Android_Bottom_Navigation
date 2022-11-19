@@ -52,7 +52,6 @@ public class StatRepository {
                     @Override
                     public void onResponse(Call<List<StatName>> call, Response<List<StatName>> response) {
                         if(response.body() != null)
-
                             statNameLiveData.postValue(response.body());
                     }
 

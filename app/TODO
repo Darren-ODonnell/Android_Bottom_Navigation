@@ -1,12 +1,4 @@
-Create Stats
-POJO
-Stats ViewModel
-Repository
 
-Create TimePeriods
-POJO
-TimePeriods ViewModel
-Repository
 
 If selection = all -> no parm sent to api
 eg.
@@ -26,3 +18,10 @@ parse list by player
 Use MultiViewTypeAdapter to:
 display count for Aisling
 display graph for Niamh
+
+TODO
+Create api calls for stats based on stat_name, player, date
+TODO
+Find way to have options in dropdown for all
+TODO
+Find way to have options in dropdown for seasons

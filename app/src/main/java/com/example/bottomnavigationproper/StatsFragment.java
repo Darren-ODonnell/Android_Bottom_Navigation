@@ -20,8 +20,6 @@ import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.Models.StatName;
-import com.example.bottomnavigationproper.ViewModels.FixtureViewModel;
-import com.example.bottomnavigationproper.ViewModels.PlayerViewModel;
 import com.example.bottomnavigationproper.ViewModels.StatsSelectionViewModel;
 
 import java.util.List;
