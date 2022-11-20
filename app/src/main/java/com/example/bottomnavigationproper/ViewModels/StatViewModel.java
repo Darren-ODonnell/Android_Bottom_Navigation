@@ -3,6 +3,7 @@ package com.example.bottomnavigationproper.ViewModels;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.media.session.MediaSession;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -33,7 +34,7 @@ public class StatViewModel extends AndroidViewModel {
 
     public void getStats() {
 
-        statRepository.getStats(TokenSingleton.getInstance().getBearerTokenString());
+//        statRepository.getStats(TokenSingleton.getInstance().getBearerTokenString());
 
     }
 
@@ -58,6 +59,9 @@ public class StatViewModel extends AndroidViewModel {
     }
 
     public void getAllFixture(Player player, StatName statName) {
+        statRepository.getCountAllFixtureByPlayerStatName(
+                TokenSingleton.getInstance().getBearerTokenString(),player.getFirstname(),
+                player.getLastname(), statName.getName());
     }
 
     public void getAllStats(Player player, Fixture fixture) {

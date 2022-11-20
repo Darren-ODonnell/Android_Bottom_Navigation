@@ -56,6 +56,7 @@ public class StatsDisplayFragment extends Fragment {
                 }
             }
         });
+        retrieveStats(player,fixture,statName);
     }
 
     @Nullable

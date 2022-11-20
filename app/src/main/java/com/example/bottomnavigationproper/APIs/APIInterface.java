@@ -9,13 +9,20 @@ import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.User;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface APIInterface {
@@ -41,9 +48,11 @@ public interface APIInterface {
     @GET("statname/list")
     Call<List<StatName>> getStatNames(@Header("Authorization") String accessToken);
 
-    @GET("stats_view/countAllFixtureByPlayerStatName")
+    @FormUrlEncoded
+    @POST("stats_view/countAllFixtureByPlayerStatName")
     Call<List<Stat>> countAllFixtureByPlayerStatName(@Header("Authorization") String accessToken,
-    @Body String firstName,@Body String lastName,@Body String statName);
+                                                     @FieldMap Map<String, String> params);
+
 
     @GET("stats_view/countAllPlayerByFixtureStatName")
     Call<List<Stat>> countAllPlayerByFixtureStatName(@Header("Authorization") String accessToken,
