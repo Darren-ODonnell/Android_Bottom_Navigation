@@ -23,6 +23,7 @@ import com.example.bottomnavigationproper.ViewModels.StatViewModel;
 import com.example.bottomnavigationproper.utils.StatResultAdapter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,8 @@ import java.util.Objects;
 
 public class GridLayout extends Fragment {
 
-    private HashMap<String, Integer> colourMap;
+    private List<Stat> statList;
+    private List<String> locations;
 
 
     @Override
@@ -38,7 +40,12 @@ public class GridLayout extends Fragment {
         super.onCreate(savedInstanceState);
         assert this.getArguments() != null;
 
-        colourMap = (HashMap<String, Integer>) this.getArguments().getSerializable("colourMap");
+        statList = (List<Stat>) this.getArguments().getSerializable("statList");
+
+        locations = new ArrayList<>();
+        for(Stat s: statList){
+            locations.add(s.getLocation());
+        }
 
     }
 
@@ -46,7 +53,9 @@ public class GridLayout extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.grid_layout, container, false);
-        updateGridXmlWithColours(view, colourMap);
+
+        heatMap(view, locations);
+
         return view;
     }
 
@@ -78,6 +87,50 @@ public class GridLayout extends Fragment {
         setBackgroundColour(view, R.id.pitchGridE1, colourGrid.get("E1"));
         setBackgroundColour(view, R.id.pitchGridE2, colourGrid.get("E2"));
         setBackgroundColour(view, R.id.pitchGridE3, colourGrid.get("E3"));
+
+    }
+
+    public void heatMap(View view, List<String> locationList){
+        Map<String, Integer> grid = new HashMap<>();
+        grid.put("A1", 0);grid.put("A2", 0);grid.put("A3", 0);
+        grid.put("B1", 0);grid.put("B2", 0);grid.put("B3", 0);
+        grid.put("C1", 0);grid.put("C2", 0);grid.put("C3", 0);
+        grid.put("D1", 0);grid.put("D2", 0);grid.put("D3", 0);
+        grid.put("E1", 0);grid.put("E2", 0);grid.put("E3", 0);
+
+        // loop on data
+        for(String s: locationList){
+            grid.put(s, grid.get(s) + 1);
+        }
+
+
+        Map<String, Integer> colourGrid = new HashMap<>();
+
+        //Used to determine what value to set the darkest colour to
+        int highest = -1;
+
+        for(String key: grid.keySet()){
+            int count = grid.get(key);
+            if(count > highest){
+                highest = count;
+            }
+        }
+        for(String key: grid.keySet()){
+            int count = grid.get(key);
+            colourGrid.put(key, getColour(count, highest));
+        }
+
+        // Example key,value (A1, yellow) , (A2, red)
+        updateGridXmlWithColours(view, colourGrid);
+    }
+
+    private int getColour(int count, int highestVal) {
+        if(count > .8*(highestVal)) return R.color.red;
+        else if(count > .6*(highestVal)) return R.color.redOrange;
+        else if(count > .4*(highestVal)) return R.color.orange;
+        else if(count > .2*(highestVal)) return R.color.yellow;
+        else return R.color.lightBlue;
+
 
     }
 

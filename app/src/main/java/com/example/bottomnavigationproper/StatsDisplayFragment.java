@@ -63,10 +63,7 @@ public class StatsDisplayFragment extends Fragment {
             public void onChanged(List<Stat> statList) {
                 if (statList != null) {
                     adapter.setResults(statList);
-                    for(Stat s: statList){
-                        locations.add(s.getLocation());
-                    }
-                    heatMap(locations);
+                    navigateToHeatMap(statList);
                 }
             }
         });
@@ -123,56 +120,16 @@ public class StatsDisplayFragment extends Fragment {
     }
 
 
-    public void heatMap(List<String> locationList){
-        Map<String, Integer> grid = new HashMap<>();
-        grid.put("A1", 0);grid.put("A2", 0);grid.put("A3", 0);
-        grid.put("B1", 0);grid.put("B2", 0);grid.put("B3", 0);
-        grid.put("C1", 0);grid.put("C2", 0);grid.put("C3", 0);
-        grid.put("D1", 0);grid.put("D2", 0);grid.put("D3", 0);
-        grid.put("E1", 0);grid.put("E2", 0);grid.put("E3", 0);
-
-        // loop on data
-        for(String s: locationList){
-            grid.put(s, grid.get(s) + 1);
-        }
-
-
-        Map<String, Integer> colourGrid = new HashMap<>();
-
-        //Used to determine what value to set the darkest colour to
-        int highest = -1;
-
-        for(String key: grid.keySet()){
-            int count = grid.get(key);
-            if(count > highest){
-                highest = count;
-            }
-        }
-        for(String key: grid.keySet()){
-            int count = grid.get(key);
-            colourGrid.put(key, getColour(count, highest));
-        }
-
-        // Example key,value (A1, yellow) , (A2, red)
-        navigateToHeatMap(colourGrid);
-    }
 
 
 
-    private int getColour(int count, int highestVal) {
-        if(count > .8*(highestVal)) return R.color.red;
-        else if(count > .6*(highestVal)) return R.color.redOrange;
-        else if(count > .4*(highestVal)) return R.color.orange;
-        else if(count > .2*(highestVal)) return R.color.yellow;
-        else return R.color.lightBlue;
 
 
-    }
 
-    private void navigateToHeatMap(Map<String, Integer> colourGrid){
+    private void navigateToHeatMap(List<Stat> statList){
         getView().findViewById(R.id.navHeatMap).setOnClickListener(v -> {
                 Bundle args = new Bundle();
-                args.putSerializable("colourMap", (Serializable) colourGrid);
+                args.putSerializable("statList", (Serializable) statList);
                 Fragment toFragment = new GridLayout();
                 toFragment.setArguments(args);
 
