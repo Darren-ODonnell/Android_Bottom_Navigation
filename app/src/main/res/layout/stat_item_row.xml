@@ -38,11 +38,10 @@
 
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/imageView"
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/idBarChart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:layout_height="match_parent" />
 
         </LinearLayout>
     </LinearLayout>

@@ -42,4 +42,12 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         tools:layout_editor_absoluteX="130dp" />
 
+    <Button
+        android:id="@+id/navHeatMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Navigate to HeatMap"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        tools:layout_editor_absoluteX="6dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

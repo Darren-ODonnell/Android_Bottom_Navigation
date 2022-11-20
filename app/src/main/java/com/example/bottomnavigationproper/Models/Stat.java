@@ -20,6 +20,8 @@ public class Stat {
     @Expose
     private String awayTeam;
     @Expose
+    private String location;
+    @Expose
     private String fixtureDate;
     @Expose
     private String timeOccurred;
@@ -108,6 +110,14 @@ public class Stat {
         this.timeOccurred = timeOccurred;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     @Override
     public String toString() {
         return "Stat{" +
@@ -119,6 +129,7 @@ public class Stat {
                 ", lastName='" + lastName + '\'' +
                 ", homeTeam='" + homeTeam + '\'' +
                 ", awayTeam='" + awayTeam + '\'' +
+                ", location='" + location + '\'' +
                 ", fixtureDate='" + fixtureDate + '\'' +
                 ", timeOccurred='" + timeOccurred + '\'' +
                 '}';
