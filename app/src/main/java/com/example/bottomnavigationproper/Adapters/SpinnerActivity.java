@@ -1,4 +1,4 @@
-package com.example.bottomnavigationproper;
+package com.example.bottomnavigationproper.utils;
 
 import android.app.Activity;
 import android.util.Log;

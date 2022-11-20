@@ -19,6 +19,7 @@ public class APIClient {
     // android picks up localhost as a reference to the emulator itself rather than the Computer
     private static String url = "http://192.168.100.56:8080/";
 
+
     private static Retrofit retrofit = null;
 
     public static Retrofit getClient() {
@@ -28,8 +29,8 @@ public class APIClient {
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(url)
-                .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         return retrofit;
@@ -43,7 +44,7 @@ public class APIClient {
         // Initialising the interceptor to handle the JWT Token for all requests
         Interceptor authInterceptor = chain -> {
             Request newRequest  = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer " + TokenSingleton.getInstance().getTokenString())
+                    .addHeader("Authorization", "Bearer " + TokenSingleton.getInstance().getBearerTokenString())
                     .build();
             return chain.proceed(newRequest);
         };

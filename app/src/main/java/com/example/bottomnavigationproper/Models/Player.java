@@ -1,24 +1,48 @@
 package com.example.bottomnavigationproper.Models;
 
-public class Player {
-    String id, firstname, lastname, firstnameI, lastnameI;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class Player implements Serializable {
+    @Expose
+    Long id;
+    @Expose
+    String firstname;
+    @Expose
+    String lastname;
+    @Expose
+    String firstnameI;
+    @Expose
+    String lastnameI;
+    @Expose
     int yob;
+    @Expose
     String address;
+    @Expose
     String email;
+    @Expose
     String phone;
+    @Expose
     String phoneIce;
-    String registered;
+    @Expose
+    boolean registered;
+    @Expose
     String grade;
+    @Expose
     String availability;
+    @Expose
+    Byte panelMember;
 
     public Player() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -94,11 +118,11 @@ public class Player {
         this.phoneIce = phoneIce;
     }
 
-    public String getRegistered() {
+    public boolean isRegistered() {
         return registered;
     }
 
-    public void setRegistered(String registered) {
+    public void setRegistered(boolean registered) {
         this.registered = registered;
     }
 
@@ -118,22 +142,16 @@ public class Player {
         this.availability = availability;
     }
 
+    public Byte getPanelMember() {
+        return panelMember;
+    }
+
+    public void setPanelMember(Byte panelMember) {
+        this.panelMember = panelMember;
+    }
+
     @Override
     public String toString() {
-        return "Player{" +
-                "id='" + id + '\'' +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", firstnameI='" + firstnameI + '\'' +
-                ", lastnameI='" + lastnameI + '\'' +
-                ", yob=" + yob +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", phoneIce='" + phoneIce + '\'' +
-                ", registered='" + registered + '\'' +
-                ", grade='" + grade + '\'' +
-                ", availability='" + availability + '\'' +
-                '}';
+        return firstname + " " + lastname;
     }
 }

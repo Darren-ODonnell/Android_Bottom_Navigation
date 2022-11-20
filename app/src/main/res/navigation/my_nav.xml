@@ -30,6 +30,14 @@
             android:id="@+id/statsDisplayFragment"
             android:name="com.example.bottomnavigationproper.StatsDisplayFragment"
             android:label="fragment_stats_display"
-            tools:layout="@layout/fragment_stats_display" />
+            tools:layout="@layout/fragment_stats_display" >
+            <action
+                android:id="@+id/action_statsDisplayFragment_to_gridLayout"
+                app:destination="@id/gridLayout" />
+        </fragment>
+        <fragment
+            android:id="@+id/gridLayout"
+            android:name="com.example.bottomnavigationproper.GridLayout"
+            android:label="GridLayout" />
     </navigation>
 </navigation>

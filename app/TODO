@@ -1,7 +1,28 @@
-Push Code
 
-Create REST interfaces and POJOs
-Push REST classes working
 
-StatsFragment - Spinner takes in data from REST endpoint
-Push Spinner loading data from enpoint
+If selection = all -> no parm sent to api
+eg.
+players = all
+stats = all
+time = fixture_date
+
+send fixture_date (as string) to endpoint
+
+TODO
+return blocks per season (count of blocks per game)
+
+parse list by player
+-> ListAisling: [1]
+-> listNiamh: [1,4,3]
+
+Use MultiViewTypeAdapter to:
+display count for Aisling
+display graph for Niamh
+
+TODO
+Find way to have options in dropdown for all
+TODO
+Find way to have options in dropdown for seasons
+
+TODO
+Fix StatsScreen Layout
