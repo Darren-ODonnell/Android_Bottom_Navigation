@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
@@ -84,6 +85,7 @@ public class StatsDisplayFragment extends Fragment {
 
         searchButton.setOnClickListener(v -> {
             searchButton.setText(player.toString());
+
             performSearch();
         });
 
@@ -118,13 +120,6 @@ public class StatsDisplayFragment extends Fragment {
 
 
     }
-
-
-
-
-
-
-
 
     private void navigateToHeatMap(List<Stat> statList){
         getView().findViewById(R.id.navHeatMap).setOnClickListener(v -> {
