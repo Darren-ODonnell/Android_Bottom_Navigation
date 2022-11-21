@@ -25,6 +25,8 @@ public class Stat {
     private String fixtureDate;
     @Expose
     private String timeOccurred;
+    @Expose
+    private String count;
 
     public Stat(){
 
@@ -118,6 +120,14 @@ public class Stat {
         this.location = location;
     }
 
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
     @Override
     public String toString() {
         return "Stat{" +
@@ -132,6 +142,7 @@ public class Stat {
                 ", location='" + location + '\'' +
                 ", fixtureDate='" + fixtureDate + '\'' +
                 ", timeOccurred='" + timeOccurred + '\'' +
+                ", count='" + count + '\'' +
                 '}';
     }
 }

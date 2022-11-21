@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.bottomnavigationproper.Adapters.MultiViewTypeAdapter;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.Stat;
@@ -38,7 +39,7 @@ import java.util.Map;
 public class StatsDisplayFragment extends Fragment {
 
     private StatViewModel viewModel;
-    private StatResultAdapter adapter;
+    private MultiViewTypeAdapter adapter;
     private Player player;
     private Fixture fixture;
     private StatName statName;
@@ -54,7 +55,7 @@ public class StatsDisplayFragment extends Fragment {
         fixture = (Fixture) this.getArguments().getSerializable("Fixture");
         statName = (StatName) this.getArguments().getSerializable("StatName");
 
-        adapter = new StatResultAdapter();
+        adapter = new MultiViewTypeAdapter();
 
         locations = new ArrayList<>();
 
@@ -65,6 +66,7 @@ public class StatsDisplayFragment extends Fragment {
             public void onChanged(List<Stat> statList) {
                 if (statList != null) {
                     adapter.setResults(statList);
+                    adapter.notifyDataSetChanged();
                     navigateToHeatMap(statList);
                 }
 
