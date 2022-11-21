@@ -121,6 +121,8 @@ public class StatsDisplayFragment extends Fragment {
 
     }
 
+
+
     private void navigateToHeatMap(List<Stat> statList){
         getView().findViewById(R.id.navHeatMap).setOnClickListener(v -> {
                 Bundle args = new Bundle();

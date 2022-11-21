@@ -53,33 +53,37 @@ public interface APIInterface {
     Call<List<Stat>> countAllFixtureByPlayerStatName(@Header("Authorization") String accessToken,
                                                      @FieldMap Map<String, String> params);
 
-
-    @GET("stats_view/countAllPlayerByFixtureStatName")
+    @FormUrlEncoded
+    @POST("stats_view/countAllPlayerByFixtureStatName")
     Call<List<Stat>> countAllPlayerByFixtureStatName(@Header("Authorization") String accessToken,
-    @Body String fixtureDate,@Body String statName);
-
-    @GET("stats_view/countAllPlayerFixtureByStatName")
+                                                     @FieldMap Map<String, String> params);
+    @FormUrlEncoded
+    @POST("stats_view/countAllPlayerFixtureByStatName")
     Call<List<Stat>> countAllPlayerFixtureByStatName(@Header("Authorization") String accessToken,
-    @Body String statName);
+                                                     @FieldMap Map<String, String> params);
 
     @GET("stats_view/countAllPlayerStatFixture")
     Call<List<Stat>> countAllPlayerStatFixture(@Header("Authorization") String accessToken);
 
-    @GET("stats_view/countAllPlayerStatNameByFixtureDate")
+    @FormUrlEncoded
+    @POST("stats_view/countAllPlayerStatNameByFixtureDate")
     Call<List<Stat>> countAllPlayerStatNameByFixtureDate(@Header("Authorization") String accessToken,
-    @Body String fixtureDate);
+                                                         @FieldMap Map<String, String> params);
 
-    @GET("stats_view/countAllStatNameFixtureByPlayer")
+    @FormUrlEncoded
+    @POST("stats_view/countAllStatNameFixtureByPlayer")
     Call<List<Stat>> countAllStatNameFixtureByPlayer(@Header("Authorization") String accessToken,
-    @Body String firstName, @Body String lastName);
+                                                     @FieldMap Map<String, String> params);
 
-    @GET("stats_view/countAllStatsByPlayerFixtureDate")
+    @FormUrlEncoded
+    @POST("stats_view/countAllStatsByPlayerFixtureDate")
     Call<List<Stat>> countAllStatsByPlayerFixtureDate(@Header("Authorization") String accessToken,
-    @Body String firstName, @Body String lastName, @Body String fixtureDate);
+                                                      @FieldMap Map<String, String> params);
 
-    @GET("stats_view/countStat")
+    @FormUrlEncoded
+    @POST("stats_view/countStat")
     Call<List<Stat>> countStat(@Header("Authorization") String accessToken,
-    @Body String firstName, @Body String lastName, @Body String statName, @Body String fixtureDate);
+                               @FieldMap Map<String, String> params);
 
 
 }
