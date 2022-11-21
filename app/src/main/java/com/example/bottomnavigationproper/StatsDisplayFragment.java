@@ -67,20 +67,24 @@ public class StatsDisplayFragment extends Fragment {
                     adapter.setResults(statList);
                     navigateToHeatMap(statList);
                 }
+
             }
         });
         viewModel.getSingleFixtureLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 adapter.setSingleFixture(aBoolean);
+
             }
         });
-        viewModel.getSingleFixtureLiveData().observe(this, new Observer<Boolean>() {
+        viewModel.getSingleStatLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 adapter.setSingleStat(aBoolean);
+
             }
         });
+
 
         retrieveStats(player, fixture, statName);
     }
