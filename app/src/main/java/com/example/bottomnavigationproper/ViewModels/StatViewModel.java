@@ -18,6 +18,8 @@ import java.util.List;
 public class StatViewModel extends AndroidViewModel {
     private StatRepository statRepository;
     private LiveData<List<Stat>> statResponseLiveData;
+    private LiveData<Boolean> singleStatLiveData;
+    private LiveData<Boolean> singleFixtureLiveData;
 
     public StatViewModel(@NonNull Application application) {
         super(application);
@@ -26,6 +28,9 @@ public class StatViewModel extends AndroidViewModel {
     public void init(){
         statRepository = new StatRepository();
         statResponseLiveData = statRepository.getStatsResponseLiveData();
+        singleStatLiveData = statRepository.getSingleStatLiveData();
+        singleStatLiveData = statRepository.getSingleFixtureLiveData();
+
     }
 
     public void getStats() {
@@ -33,6 +38,16 @@ public class StatViewModel extends AndroidViewModel {
 //        statRepository.getStats(TokenSingleton.getInstance().getBearerTokenString());
 
     }
+
+    public LiveData<Boolean> getSingleFixtureLiveData() {
+        return singleFixtureLiveData;
+    }
+
+
+    public LiveData<Boolean> getSingleStatLiveData() {
+        return singleStatLiveData;
+    }
+
 
     public LiveData<List<Stat>> getStatResponseLiveData() {
         return statResponseLiveData;
