@@ -26,11 +26,15 @@ public class StatRepository {
     private APIInterface apiInterface;
     private MutableLiveData<List<Stat>> statResponseLiveData;
     private MutableLiveData<List<StatName>> statNameLiveData;
+    private MutableLiveData<Boolean> singleFixtureLiveData;
+    private MutableLiveData<Boolean> singleStatLiveData;
 
 
     public StatRepository(){
         statResponseLiveData = new MutableLiveData<>();
         statNameLiveData = new MutableLiveData<>();
+        singleFixtureLiveData = new MutableLiveData<>();
+        singleStatLiveData = new MutableLiveData<>();
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
     }
@@ -62,6 +66,9 @@ public class StatRepository {
                     public void onResponse(Call<List<StatName>> call, Response<List<StatName>> response) {
                         if(response.body() != null)
                             statNameLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(false);
+                            singleFixtureLiveData.postValue(false);
+
                     }
 
                     @Override
@@ -77,6 +84,14 @@ public class StatRepository {
 
     public LiveData<List<StatName>> getStatNameLiveData() {return statNameLiveData;}
 
+    public LiveData<Boolean> getSingleStatLiveData() {
+        return singleStatLiveData;
+    }
+
+    public LiveData<Boolean> getSingleFixtureLiveData() {
+        return singleFixtureLiveData;
+    }
+
     public void getCountAllFixture(String token, String firstname, String lastname, String statName){
         Map<String, String> params = new HashMap<>();
         params.put("firstname", firstname);
@@ -89,6 +104,9 @@ public class StatRepository {
                     public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(true);
+                            singleFixtureLiveData.postValue(false);
+
                         }
                     }
 
@@ -111,6 +129,8 @@ public class StatRepository {
                     public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(true);
+                            singleFixtureLiveData.postValue(true);
                         }
                     }
 
@@ -131,6 +151,9 @@ public class StatRepository {
                     public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(true);
+                            singleFixtureLiveData.postValue(false);
+
                         }
                     }
 
@@ -149,6 +172,9 @@ public class StatRepository {
                     public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(false);
+                            singleFixtureLiveData.postValue(false);
+
                         }
                     }
 
@@ -169,6 +195,8 @@ public class StatRepository {
                     public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
+                            singleFixtureLiveData.postValue(true);
+                            singleStatLiveData.postValue(false);
                         }
                     }
 
@@ -191,6 +219,9 @@ public class StatRepository {
                     public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(false);
+                            singleFixtureLiveData.postValue(false);
+
                         }
                     }
 
@@ -215,6 +246,9 @@ public class StatRepository {
                     public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
+                            singleFixtureLiveData.postValue(true);
+                            singleStatLiveData.postValue(false);
+
                         }
                     }
 
@@ -239,6 +273,8 @@ public class StatRepository {
                     public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(true);
+                            singleFixtureLiveData.postValue(true);
                         }
                     }
 
@@ -249,5 +285,7 @@ public class StatRepository {
                     }
                 });
     }
+
+
 }
 

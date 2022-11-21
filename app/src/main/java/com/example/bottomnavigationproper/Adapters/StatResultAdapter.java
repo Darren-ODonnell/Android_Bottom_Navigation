@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.R;
+import com.github.mikephil.charting.charts.BarChart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import java.util.List;
 
 public class StatResultAdapter extends RecyclerView.Adapter<StatResultAdapter.StatResultsHolder> {
     private List<Stat> results = new ArrayList<>();
+    private Boolean singleStat;
+    private Boolean singleFixture;
 
     @NonNull
     @Override
@@ -46,6 +49,14 @@ public class StatResultAdapter extends RecyclerView.Adapter<StatResultAdapter.St
         notifyDataSetChanged();
     }
 
+    public void setSingleStat(Boolean selection){
+        this.singleStat = selection;
+    }
+
+    public void setSingleFixture(Boolean selection){
+        this.singleFixture = selection;
+    }
+
     class StatResultsHolder extends RecyclerView.ViewHolder {
         private TextView statNameTV, playerNameTV;
 
@@ -56,5 +67,8 @@ public class StatResultAdapter extends RecyclerView.Adapter<StatResultAdapter.St
             statNameTV = itemView.findViewById(R.id.statNameTV);
             playerNameTV = itemView.findViewById(R.id.playerNameTV);
            }
+
     }
+
+
 }

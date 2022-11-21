@@ -27,6 +27,7 @@ import com.example.bottomnavigationproper.utils.StatResultAdapter;
 
 //import com.example.bottomnavigationproper.utils.PlayerResultsAdapter;
 import com.example.bottomnavigationproper.ViewModels.StatViewModel;
+import com.github.mikephil.charting.charts.BarChart;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -66,6 +67,18 @@ public class StatsDisplayFragment extends Fragment {
                     adapter.setResults(statList);
                     navigateToHeatMap(statList);
                 }
+            }
+        });
+        viewModel.getSingleFixtureLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                adapter.setSingleFixture(aBoolean);
+            }
+        });
+        viewModel.getSingleFixtureLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                adapter.setSingleStat(aBoolean);
             }
         });
 
@@ -135,4 +148,6 @@ public class StatsDisplayFragment extends Fragment {
                         .commit();
         });
     }
+
+
 }
