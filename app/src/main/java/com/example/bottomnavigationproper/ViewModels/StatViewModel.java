@@ -1,9 +1,6 @@
 package com.example.bottomnavigationproper.ViewModels;
 
 import android.app.Application;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.media.session.MediaSession;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,7 +11,6 @@ import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.Models.StatName;
-import com.example.bottomnavigationproper.Services.PlayerRepository;
 import com.example.bottomnavigationproper.Services.StatRepository;
 
 import java.util.List;
@@ -44,30 +40,44 @@ public class StatViewModel extends AndroidViewModel {
 
 
     public void getAllPlayerStatFixture() {
+        statRepository.getCountAllPlayerStatFixture(
+                TokenSingleton.getInstance().getBearerTokenString());
     }
 
     public void getAllPlayerFixture(StatName statName) {
+        statRepository.getCountAllPlayerFixture(
+                TokenSingleton.getInstance().getBearerTokenString(), statName.getName());
     }
 
     public void getAllPlayerStat(Fixture fixture) {
+        statRepository.getCountAllPlayerStat(
+                TokenSingleton.getInstance().getBearerTokenString(), fixture.getFixtureDate());
     }
 
     public void getAllStatFixture(Player player) {
+        statRepository.getCountAllStatFixture(
+                TokenSingleton.getInstance().getBearerTokenString(), player.getFirstname(), player.getLastname());
     }
 
     public void getAllPlayer(Fixture fixture, StatName statName) {
+        statRepository.getCountAllPlayer(
+                TokenSingleton.getInstance().getBearerTokenString(), fixture.getFixtureDate(), statName.getName());
     }
 
     public void getAllFixture(Player player, StatName statName) {
-        statRepository.getCountAllFixtureByPlayerStatName(
+        statRepository.getCountAllFixture(
                 TokenSingleton.getInstance().getBearerTokenString(),player.getFirstname(),
                 player.getLastname(), statName.getName());
     }
 
     public void getAllStats(Player player, Fixture fixture) {
+        statRepository.getCountAllStats(
+                TokenSingleton.getInstance().getBearerTokenString(), player.getFirstname(), player.getLastname(), fixture.getFixtureDate());
     }
 
     public void getStat(Player player, Fixture fixture, StatName statName) {
+        statRepository.getCountStat(
+                TokenSingleton.getInstance().getBearerTokenString(), player.getFirstname(), player.getLastname(), fixture.getFixtureDate(), statName.getName());
     }
 
 

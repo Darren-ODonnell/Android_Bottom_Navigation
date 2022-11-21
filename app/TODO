@@ -26,3 +26,9 @@ Find way to have options in dropdown for seasons
 
 TODO
 Fix StatsScreen Layout
+
+20/11/2022 TODO
+StatsRepository for other stats returned.
+if locaiton based stat -> gridLayout -> else statsDisplay
+change navToGridLayout from stats display to an if statement above.
+stat display for graph
