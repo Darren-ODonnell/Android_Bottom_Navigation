@@ -29,7 +29,7 @@ public class StatViewModel extends AndroidViewModel {
         statRepository = new StatRepository();
         statResponseLiveData = statRepository.getStatsResponseLiveData();
         singleStatLiveData = statRepository.getSingleStatLiveData();
-        singleStatLiveData = statRepository.getSingleFixtureLiveData();
+        singleFixtureLiveData = statRepository.getSingleFixtureLiveData();
 
     }
 

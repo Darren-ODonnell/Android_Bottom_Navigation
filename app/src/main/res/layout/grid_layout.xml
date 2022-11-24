@@ -4,160 +4,202 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="637dp"
+    android:paddingTop="16dp"
     tools:context=".StatsFragment">
 
-    <androidx.gridlayout.widget.GridLayout
+    <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/explanation2"
+            android:layout_width="142dp"
+            android:layout_height="wrap_content"
+            android:text="The Percentage: The success rate of selected stat within a section"
+            app:layout_column="1"
+            app:layout_columnWeight="3"
+            app:layout_row="4"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/explanation1"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:text="Colour: Quantity of Stat Occurence in grid location. Blue = Low, Red = High"
+            app:layout_column="0"
+            app:layout_columnWeight="3"
+            app:layout_row="4"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/explanation3"
+            android:layout_width="135dp"
+            android:layout_height="wrap_content"
+            android:text="Grid Locations: From the perspective of the home Keeper at the bottom"
+            app:layout_column="2"
+            app:layout_columnWeight="3"
+            app:layout_row="4"
+            app:layout_rowWeight="5" />
+    </LinearLayout>
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="411dp"
+        android:layout_height="461dp"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
 
         <TextView
             android:id="@+id/pitchGridA1"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="0"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="0" />
+            app:layout_row="0"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridA2"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="1"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="0" />
+            app:layout_row="0"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridA3"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="2"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="0" />
+            app:layout_row="0"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridB1"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="0"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="1" />
+            app:layout_row="1"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridB2"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="1"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="1" />
+            app:layout_row="1"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridB3"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="2"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="1" />
+            app:layout_row="1"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridC1"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="0"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="2" />
+            app:layout_row="2"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridC2"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="1"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="2" />
+            app:layout_row="2"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridC3"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="2"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="2" />
+            app:layout_row="2"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridD1"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="0"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="3" />
+            app:layout_row="3"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridD2"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="1"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="3" />
+            app:layout_row="3"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridD3"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="2"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="3" />
+            app:layout_row="3"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridE1"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="0"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="4" />
+            app:layout_row="4"
+            app:layout_rowWeight="5" />
+
         <TextView
             android:id="@+id/pitchGridE2"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="1"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="4" />
+            app:layout_row="4"
+            app:layout_rowWeight="5" />
 
         <TextView
             android:id="@+id/pitchGridE3"
-            android:layout_width="126dp"
-            android:layout_height="116dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:text="TextView"
             app:layout_column="2"
             app:layout_columnWeight="3"
-            app:layout_rowWeight="5"
-            app:layout_row="4" />
+            app:layout_row="4"
+            app:layout_rowWeight="5" />
     </androidx.gridlayout.widget.GridLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

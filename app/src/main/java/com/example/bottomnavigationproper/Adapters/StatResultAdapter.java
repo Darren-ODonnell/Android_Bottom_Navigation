@@ -8,10 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bottomnavigationproper.Models.Fixture;
+import com.example.bottomnavigationproper.ChartType;
 import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.R;
-import com.github.mikephil.charting.charts.BarChart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +20,18 @@ public class StatResultAdapter extends RecyclerView.Adapter<StatResultAdapter.St
     private List<Stat> results = new ArrayList<>();
     private Boolean singleStat;
     private Boolean singleFixture;
+    private ChartType chartType;
 
     @NonNull
     @Override
     public StatResultsHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.stat_item_row, parent, false);
 
         return new StatResultsHolder(itemView);
+
+
     }
 
     @Override
@@ -66,9 +69,9 @@ public class StatResultAdapter extends RecyclerView.Adapter<StatResultAdapter.St
 
             statNameTV = itemView.findViewById(R.id.statNameTV);
             playerNameTV = itemView.findViewById(R.id.playerNameTV);
-           }
-
+        }
     }
+
 
 
 }

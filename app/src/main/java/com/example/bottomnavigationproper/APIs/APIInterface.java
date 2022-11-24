@@ -62,8 +62,8 @@ public interface APIInterface {
     Call<List<Stat>> countAllPlayerFixtureByStatName(@Header("Authorization") String accessToken,
                                                      @FieldMap Map<String, String> params);
 
-    @GET("stats_view/countAllPlayerStatFixture")
-    Call<List<Stat>> countAllPlayerStatFixture(@Header("Authorization") String accessToken);
+    @GET("stats_view/countAllPlayerStat")
+    Call<List<Stat>> countAllPlayerStat(@Header("Authorization") String accessToken);
 
     @FormUrlEncoded
     @POST("stats_view/countAllPlayerStatNameByFixtureDate")

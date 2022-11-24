@@ -5,9 +5,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
-import com.example.bottomnavigationproper.APIs.TokenSingleton;
-import com.example.bottomnavigationproper.Models.Fixture;
-import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.Models.StatName;
 
@@ -15,8 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -166,7 +161,7 @@ public class StatRepository {
     }
 
     public void getCountAllPlayerStatFixture(String token) {
-        apiInterface.countAllPlayerStatFixture(token)
+        apiInterface.countAllPlayerStat(token)
                 .enqueue(new Callback<List<Stat>>() {
                     @Override
                     public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
