@@ -175,7 +175,4 @@ public class StatsFragment extends Fragment {
         });
     }
 
-
-
-
 }
