@@ -29,6 +29,10 @@ public class StatsSelectionViewModel extends AndroidViewModel {
     private StatRepository statRepository;
     private LiveData<List<StatName>> statNameLiveData;
 
+    private LiveData<List<Stat>> statResponseLiveData;
+    private LiveData<Boolean> singleStatLiveData;
+    private LiveData<Boolean> singleFixtureLiveData;
+
     public StatsSelectionViewModel(@NonNull Application application) {
         super(application);
     }
@@ -42,6 +46,10 @@ public class StatsSelectionViewModel extends AndroidViewModel {
 
         statRepository = new StatRepository();
         statNameLiveData = statRepository.getStatNameLiveData();
+
+        statResponseLiveData = statRepository.getStatsResponseLiveData();
+        singleStatLiveData = statRepository.getSingleStatLiveData();
+        singleFixtureLiveData = statRepository.getSingleFixtureLiveData();
     }
 
     public void getFixtures() {
@@ -63,4 +71,61 @@ public class StatsSelectionViewModel extends AndroidViewModel {
         return playerResponseLiveData;
     }
     public LiveData<List<StatName>> getStatNameLiveData(){ return statNameLiveData;}
+
+
+    public LiveData<Boolean> getSingleFixtureLiveData() {
+        return singleFixtureLiveData;
+    }
+
+
+    public LiveData<Boolean> getSingleStatLiveData() {
+        return singleStatLiveData;
+    }
+
+
+    public LiveData<List<Stat>> getStatResponseLiveData() {
+        return statResponseLiveData;
+    }
+
+
+    public void getAllPlayerStatFixture() {
+        statRepository.getCountAllPlayerStatFixture(
+                TokenSingleton.getInstance().getBearerTokenString());
+    }
+
+    public void getAllPlayerFixture(StatName statName) {
+        statRepository.getCountAllPlayerFixture(
+                TokenSingleton.getInstance().getBearerTokenString(), statName.getName());
+    }
+
+    public void getAllPlayerStat(Fixture fixture) {
+        statRepository.getCountAllPlayerStat(
+                TokenSingleton.getInstance().getBearerTokenString(), fixture.getFixtureDate());
+    }
+
+    public void getAllStatFixture(Player player) {
+        statRepository.getCountAllStatFixture(
+                TokenSingleton.getInstance().getBearerTokenString(), player.getFirstname(), player.getLastname());
+    }
+
+    public void getAllPlayer(Fixture fixture, StatName statName) {
+        statRepository.getCountAllPlayer(
+                TokenSingleton.getInstance().getBearerTokenString(), fixture.getFixtureDate(), statName.getName());
+    }
+
+    public void getAllFixture(Player player, StatName statName) {
+        statRepository.getCountAllFixture(
+                TokenSingleton.getInstance().getBearerTokenString(),player.getFirstname(),
+                player.getLastname(), statName.getName());
+    }
+
+    public void getAllStats(Player player, Fixture fixture) {
+        statRepository.getCountAllStats(
+                TokenSingleton.getInstance().getBearerTokenString(), player.getFirstname(), player.getLastname(), fixture.getFixtureDate());
+    }
+
+    public void getStat(Player player, Fixture fixture, StatName statName) {
+        statRepository.getCountStat(
+                TokenSingleton.getInstance().getBearerTokenString(), player.getFirstname(), player.getLastname(), fixture.getFixtureDate(), statName.getName());
+    }
 }
