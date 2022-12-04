@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.ViewModels.StatsSelectionViewModel;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class StatsFragment extends Fragment {
@@ -30,7 +30,7 @@ public class StatsFragment extends Fragment {
     private Spinner spinnerPlayer;
     private Player playerSelected;
 
-    private StatsSelectionViewModel statsSelectionViewModel;
+    private StatsSelectionViewModel viewModel;
 //    private FixtureViewModel fixtureViewModel;
     private Spinner spinnerFixture;
     private Fixture fixtureSelected;
@@ -56,9 +56,9 @@ public class StatsFragment extends Fragment {
     }
 
     private void initStatsSelectionViewModel(){
-        statsSelectionViewModel = new ViewModelProvider(this).get(StatsSelectionViewModel.class);
-        statsSelectionViewModel.init();
-        statsSelectionViewModel.getFixturesResponseLiveData().observe(this, new Observer<List<Fixture>>(){
+        viewModel = new ViewModelProvider(this).get(StatsSelectionViewModel.class);
+        viewModel.init();
+        viewModel.getFixturesResponseLiveData().observe(this, new Observer<List<Fixture>>(){
             @Override
             public void onChanged(List<Fixture> fixtureList) {
                 if (fixtureList != null) {
@@ -66,7 +66,7 @@ public class StatsFragment extends Fragment {
                 }
             }
         });
-        statsSelectionViewModel.getPlayerResponseLiveData().observe(this, new Observer<List<Player>>() {
+        viewModel.getPlayerResponseLiveData().observe(this, new Observer<List<Player>>() {
             @Override
             public void onChanged(List<Player> players) {
                 if(players != null){
@@ -75,7 +75,7 @@ public class StatsFragment extends Fragment {
             }
         });
 
-        statsSelectionViewModel.getStatNameLiveData().observe(this, new Observer<List<StatName>>() {
+        viewModel.getStatNameLiveData().observe(this, new Observer<List<StatName>>() {
             @Override
             public void onChanged(List<StatName> statNames) {
                 if(statNames != null){
@@ -83,9 +83,19 @@ public class StatsFragment extends Fragment {
                 }
             }
         });
-        statsSelectionViewModel.getStatNames();
-        statsSelectionViewModel.getFixtures();
-        statsSelectionViewModel.getPlayers();
+        viewModel.getStatNames();
+        viewModel.getFixtures();
+        viewModel.getPlayers();
+
+        viewModel.getStatResponseLiveData().observe(this, new Observer<List<Stat>>() {
+            @Override
+            public void onChanged(List<Stat> statList) {
+                if (statList != null) {
+                    navigateToHeatMap(statList);
+                }
+
+            }
+        });
     }
 
     public void setPlayerList(List<Player> players){
@@ -157,6 +167,10 @@ public class StatsFragment extends Fragment {
     }
 
     private void initButton(View view) {
+        Button heatButton = view.findViewById(R.id.heatmapDisplayButton);
+        heatButton.setOnClickListener(v -> {
+            retrieveStats(playerSelected, fixtureSelected, statNameSelected);
+        });
         Button button = view.findViewById(R.id.statsDisplayButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,6 +187,42 @@ public class StatsFragment extends Fragment {
                         .commit();
             }
         });
+    }
+
+    public void retrieveStats(Player player, Fixture fixture, StatName statName) {
+        boolean playerAll, fixtureAll, statAll;
+
+        playerAll = player.toString().equals("All Players");
+        fixtureAll = fixture.toString().equals("All Fixtures");
+        statAll = statName.toString().equals("All Stats");
+
+        getStats(player, fixture, statName, playerAll, fixtureAll, statAll);
+    }
+
+    public void getStats(Player player, Fixture fixture, StatName statName,
+                         boolean playerAll, boolean fixtureAll, boolean statAll) {
+
+        if (playerAll && fixtureAll && statAll) viewModel.getAllPlayerStatFixture();
+        else if (playerAll && fixtureAll) viewModel.getAllPlayerFixture(statName);
+        else if (playerAll && statAll) viewModel.getAllPlayerStat(fixture);
+        else if (statAll && fixtureAll) viewModel.getAllStatFixture(player);
+        else if (playerAll) viewModel.getAllPlayer(fixture, statName);
+        else if (fixtureAll) viewModel.getAllFixture(player, statName);
+        else if (statAll) viewModel.getAllStats(player, fixture);
+        else viewModel.getStat(player, fixture, statName);
+
+
+    }
+
+    private void navigateToHeatMap(List<Stat> statList){
+            Bundle args = new Bundle();
+            args.putSerializable("statList", (Serializable) statList);
+            Fragment toFragment = new GridLayout();
+            toFragment.setArguments(args);
+
+            getActivity().getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainerView2, toFragment, null)
+                    .commit();
     }
 
 }
