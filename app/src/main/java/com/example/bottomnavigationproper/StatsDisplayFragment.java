@@ -59,6 +59,11 @@ public class StatsDisplayFragment extends Fragment {
 
         locations = new ArrayList<>();
 
+        initViewModel();
+
+    }
+
+    private void initViewModel() {
         viewModel = new ViewModelProvider(this).get(StatViewModel.class);
         viewModel.init();
         viewModel.getStatResponseLiveData().observe(this, new Observer<List<Stat>>() {
