@@ -32,3 +32,6 @@ StatsRepository for other stats returned.
 if locaiton based stat -> gridLayout -> else statsDisplay
 change navToGridLayout from stats display to an if statement above.
 stat display for graph
+
+todo ->
+Modify HeatMap to have a ( i ) button which opens up a fragment for explaining the % and colours

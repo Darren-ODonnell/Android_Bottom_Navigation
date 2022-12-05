@@ -45,8 +45,6 @@ public class StatsDisplayFragment extends Fragment {
     private StatName statName;
     private List<String> locations;
 
-    private Button searchButton;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +70,6 @@ public class StatsDisplayFragment extends Fragment {
                 if (statList != null) {
                     adapter.setResults(statList);
                     adapter.notifyDataSetChanged();
-                    navigateToHeatMap(statList);
                 }
 
             }
@@ -105,14 +102,6 @@ public class StatsDisplayFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
-        searchButton = view.findViewById(R.id.fragment_playersearch_search);
-
-        searchButton.setOnClickListener(v -> {
-            searchButton.setText(player.toString());
-
-            performSearch();
-        });
-
         return view;
     }
 
@@ -144,21 +133,5 @@ public class StatsDisplayFragment extends Fragment {
 
 
     }
-
-
-
-    private void navigateToHeatMap(List<Stat> statList){
-        getView().findViewById(R.id.navHeatMap).setOnClickListener(v -> {
-                Bundle args = new Bundle();
-                args.putSerializable("statList", (Serializable) statList);
-                Fragment toFragment = new GridLayout();
-                toFragment.setArguments(args);
-
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainerView2, toFragment, null)
-                        .commit();
-        });
-    }
-
 
 }
