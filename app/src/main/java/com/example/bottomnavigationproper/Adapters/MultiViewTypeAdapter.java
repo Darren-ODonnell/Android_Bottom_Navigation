@@ -5,19 +5,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bottomnavigationproper.ChartType;
 import com.example.bottomnavigationproper.Models.Stat;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.example.bottomnavigationproper.R;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 
 
 import java.util.ArrayList;
@@ -63,13 +63,15 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
 
     public static class BarChartViewHolder extends RecyclerView.ViewHolder {
 
-        TextView statName;
+        TextView playerName;
+        TextView fixture;
         BarChart barChart;
 
         public BarChartViewHolder(View itemView) {
             super(itemView);
 
-            this.statName = (TextView) itemView.findViewById(R.id.bar_player);
+            this.playerName = (TextView) itemView.findViewById(R.id.bar_player);
+            this.fixture = (TextView) itemView.findViewById(R.id.bar_fixture);
             this.barChart = (BarChart) itemView.findViewById(R.id.bar_graph);
         }
     }
@@ -159,7 +161,9 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
 //            if(singleFixture && singleStat){
 //                ((BarChartViewHolder) holder).statName.setText(stat.getStatName());
             String fullName = statsForPlayer.get(0).getFirstName() + " " + statsForPlayer.get(0).getLastName();
-                ((BarChartViewHolder) holder).statName.setText(fullName);
+            String fixtureDate = statsForPlayer.get(0).getFixtureDate();
+                ((BarChartViewHolder) holder).playerName.setText(fullName);
+                ((BarChartViewHolder) holder).fixture.setText(fixtureDate);
                 createBarChart(holder, statsForPlayer);
 
 
@@ -190,19 +194,40 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
         }
 
         BarDataSet barDataSet = new BarDataSet(entries, "Bar Chart");
+        barDataSet.setColor(R.color.purple_200);
+        barDataSet.setDrawValues(false);
 
         BarData data = new BarData(barDataSet);
 
-        // TODO : Column Labels don't line up properly
-        ValueFormatter xAxisFormatter = new IndexAxisValueFormatter(xValues);
+
         XAxis xAxis = barChart.getXAxis();
+        Description desc = new Description();
+        desc.setText("");
+        barChart.setDescription(desc);
 
-        xAxis.setLabelCount(xValues.size(), true);
-        xAxis.setValueFormatter(xAxisFormatter);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(xValues));
+        xAxis.setLabelRotationAngle(-60);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
+        xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setLabelCount(xValues.size());
 
         barChart.setData(data);
         barChart.invalidate();
+
+        Legend legend = barChart.getLegend();
+        //setting the shape of the legend form to line, default square shape
+        legend.setForm(Legend.LegendForm.LINE);
+        //setting the text size of the legend
+        legend.setTextSize(11f);
+        //setting the alignment of legend toward the chart
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        //setting the stacking direction of legend
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        //setting the location of legend outside the chart, default false if not set
+        legend.setDrawInside(false);
 
     }
 

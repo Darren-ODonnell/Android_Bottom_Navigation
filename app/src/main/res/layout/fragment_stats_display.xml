@@ -20,34 +20,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/fragment_playersearch_search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Search" />
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_playersearch_searchResultsRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="429dp"
             android:backgroundTint="@color/purple_200" />
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:layout_editor_absoluteX="130dp" />
-
-    <Button
-        android:id="@+id/navHeatMap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Navigate to HeatMap"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:layout_editor_absoluteX="6dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
