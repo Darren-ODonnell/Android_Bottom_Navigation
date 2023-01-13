@@ -282,5 +282,8 @@ public class StatRepository {
     }
 
 
+    public void persistStat(Stat stat) {
+        //TODO create put/post request for persisting stat
+    }
 }
 

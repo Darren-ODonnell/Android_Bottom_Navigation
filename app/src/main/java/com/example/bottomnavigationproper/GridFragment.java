@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class GridLayout extends Fragment {
+public class GridFragment extends Fragment {
 
     private List<Stat> statList;
     private HashMap<String, Integer> locations;
