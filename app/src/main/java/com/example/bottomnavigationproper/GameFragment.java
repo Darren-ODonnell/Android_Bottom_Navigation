@@ -1,20 +1,38 @@
 package com.example.bottomnavigationproper;
 
+import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.gridlayout.widget.GridLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,7 +48,11 @@ import com.example.bottomnavigationproper.ViewModels.StatsSelectionViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 public class GameFragment extends Fragment {
@@ -43,7 +65,7 @@ public class GameFragment extends Fragment {
 
     //    private FixtureViewModel fixtureViewModel;
     private Spinner spinnerSuccess;
-    private boolean successSelected;
+    private Boolean successSelected;
 
     private Spinner spinnerStatName;
     private StatName statNameSelected;
@@ -52,8 +74,10 @@ public class GameFragment extends Fragment {
 
     View view;
 
-    List<StatName> statNames;
-    List<Player> players;
+    View mView;
+    List<StatName> statNames = new ArrayList<>();
+    List<Player> players = new ArrayList<>();
+    List<String> successList = new ArrayList<>();
 
 
 
@@ -82,29 +106,30 @@ public class GameFragment extends Fragment {
 //        spinnerPlayer = view.findViewById(R.id.gameSpinnerPlayer);
 //        spinnerStatName = view.findViewById(R.id.gameSpinnerStat);
 //        initSpinners();
-        showFixtureSelection();
-        initGridLayoutButtons(view);
+//        showFixtureSelection();
         initStatsSelectionViewModel();
+        //TODO showFixtureSelection()
+        initGridLayoutButtons(view);
 
         return view;
     }
 
-    private void showFixtureSelection() {
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-        View mView = getLayoutInflater().inflate(R.layout.fixture_selection_fragment, null);
-        mBuilder.setTitle("Select Fixture");
-        Spinner fixtureSpinner = (Spinner) mView.findViewById(R.id.spinnerFixtureSelection);
-        setFixtureList(fixtureSpinner);
-        Spinner statSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerStat);
-        setStatNameList(statSpinner);
-        Spinner playerSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerPlayer);
-        setPlayerList(playerSpinner);
-
-        mBuilder.setView(mView);
-        AlertDialog dialog = mBuilder.create();
-        dialog.show();
-
-    }
+//    private void showFixtureSelection() { TODO finish this method
+//        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+//        View mView = getLayoutInflater().inflate(R.layout.fixture_selection_fragment, null);
+//        mBuilder.setTitle("Select Fixture");
+//        Spinner fixtureSpinner = (Spinner) mView.findViewById(R.id.spinnerFixtureSelection);
+//        setFixtureList(fixtureSpinner);
+//        Spinner statSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerStat);
+//        setStatNameList(statSpinner);
+//        Spinner playerSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerPlayer);
+//        setPlayerList(playerSpinner);
+//
+//        mBuilder.setView(mView);
+//        AlertDialog dialog = mBuilder.create();
+//        dialog.show();
+//
+//    }
 
     private void initGridLayoutButtons(View view) {
         GridLayout grid = (GridLayout) view.findViewById(R.id.pitchGridLocations);
@@ -116,37 +141,52 @@ public class GameFragment extends Fragment {
             gridSection.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View view){
                     // your click code here
-                    Toast.makeText(getContext(), Integer.toString(finalI), Toast.LENGTH_SHORT).show();
-                    List<String> gridLocations = new ArrayList<>(Arrays.asList("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3"));
+                    mView = getLayoutInflater().inflate(R.layout.fragment_game_input, null);
+                    initVoiceRecognition();
 
-                    Stat stat = new Stat();
-                    stat.setLocation(gridLocations.get(finalI));
-
-                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-                    View mView = getLayoutInflater().inflate(R.layout.fragment_game_input, null);
-                    mBuilder.setTitle("Input Stat");
-                    Spinner successSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerSuccess);
-                    setSuccessList(successSpinner);
-                    Spinner statSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerStat);
-                    setStatNameList(statSpinner);
-                    Spinner playerSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerPlayer);
-                    setPlayerList(playerSpinner);
-
-                    mBuilder.setView(mView);
-                    AlertDialog dialog = mBuilder.create();
-                    dialog.show();
+                    createInputDialog(mView);
 
                     mView.findViewById(R.id.inputStatButton).setOnClickListener(v -> {
-                        stat.setFirstName(playerSelected.getFirstname());
-                        stat.setLastName(playerSelected.getLastname());
-                        stat.setStatName(statNameSelected.getName());
-                        stat.setSuccess(successSelected);
-                        stat.setFixtureDate(currentFixture.getFixtureDate());
+                        createStat(finalI);
+                        speechRecognizer.destroy();
+                        //TODO Persist stat
                     });
 
                 }
             });
         }
+    }
+
+    private Stat createStat(int gridIndex) {
+        List<String> gridLocations = new ArrayList<>(Arrays.asList("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3"));
+
+        Stat stat = new Stat();
+        stat.setLocation(gridLocations.get(gridIndex));
+        stat.setFirstName(playerSelected.getFirstname());
+        stat.setLastName(playerSelected.getLastname());
+        stat.setStatName(statNameSelected.getName());
+        stat.setSuccess(successSelected);
+        stat.setFixtureDate(currentFixture.getFixtureDate());
+        return stat;
+
+    }
+
+    private void createInputDialog( View mView) {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+        mBuilder.setTitle("Input Stat");
+
+
+        Spinner successSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerSuccess);
+        setSuccessList(successSpinner);
+        Spinner statSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerStat);
+        setStatNameList(statSpinner);
+        Spinner playerSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerPlayer);
+        setPlayerList(playerSpinner);
+
+        mBuilder.setView(mView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+
     }
 
     private void initStatsSelectionViewModel(){
@@ -206,17 +246,19 @@ public class GameFragment extends Fragment {
     }
 
     public void setSuccessList(Spinner spinner){
-        List<Boolean> options = new ArrayList<>();
-        options.add(0, Boolean.TRUE);
-        options.add(0, Boolean.FALSE);
-        ArrayAdapter<Boolean> adapter =
-                new ArrayAdapter<Boolean>(getContext(),  android.R.layout.simple_spinner_dropdown_item, options);
+//        List<Boolean> options = new ArrayList<>();
+//        options.add(0, Boolean.TRUE);
+//        options.add(0, Boolean.FALSE);
+        successList = Dictionaries.getInstance().getSuccess();
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(getContext(),  android.R.layout.simple_spinner_dropdown_item, successList);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                successSelected = (Boolean)parent.getItemAtPosition(pos);
+                String selected = (String)parent.getItemAtPosition(pos);
+                successSelected = Dictionaries.getInstance().getSuccessBoolean(selected);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -238,6 +280,219 @@ public class GameFragment extends Fragment {
             }
         });
     }
+
+    private EditText editText;
+    public static final Integer RecordAudioRequestCode = 1;
+    private SpeechRecognizer speechRecognizer;
+    private ImageView micButton;
+
+
+    public void initVoiceRecognition(){
+        if(ContextCompat.checkSelfPermission(requireActivity(),Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED){
+            checkPermission();
+        }
+
+
+        micButton = mView.findViewById(R.id.button);
+        editText = mView.findViewById(R.id.text);
+        speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getActivity());
+
+        final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        speechRecognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+
+        speechRecognizer.setRecognitionListener(new RecognitionListener() {
+            @Override
+            public void onReadyForSpeech(Bundle bundle) {
+
+            }
+
+            @Override
+            public void onBeginningOfSpeech() {
+                editText.setText("");
+                editText.setHint("Listening...");
+            }
+
+            @Override
+            public void onRmsChanged(float v) {
+
+            }
+
+            @Override
+            public void onBufferReceived(byte[] bytes) {
+
+            }
+
+            @Override
+            public void onEndOfSpeech() {
+
+            }
+
+            @Override
+            public void onError(int i) {
+
+            }
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onResults(Bundle bundle) {
+                Dictionaries dict = Dictionaries.getInstance();
+                micButton.setImageResource(R.drawable.ic_mic_black_off);
+                ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+                String dataStr = data.get(0);
+                Log.d("speechResult", dataStr);
+//                int num = validateInput(dataStr);
+//                Log.d("speechResult", Integer.toString(num));
+
+                String[] words = dataStr.split(" ");
+
+                HashMap<String, String> numMap = dict.getNumMap();
+
+                String playerNum = dict.getAllNums()
+                        .get(
+                            validateInput(words[0], dict.getAllNums())
+                );
+
+                String player = numMap.get(playerNum);
+
+//                String player = dict.getNumMap()
+//                        .get(
+//                                Integer.toString(
+//                                        validateInput()
+//                                )
+//                        );
+                String stat = dict.getStatNames()
+                        .get(
+                                validateInput(words[1], dict.getStatNames())
+                        );
+                String success = dict.getSuccess()
+                        .get(
+                                validateInput(words[2], dict.getSuccess())
+                        );
+
+                Spinner playerSpinner = mView.findViewById(R.id.gameSpinnerPlayer);
+                playerSpinner.setSelection(Integer.parseInt(player));
+
+                Spinner statSpinner = mView.findViewById(R.id.gameSpinnerStat);
+
+                List<String> statNameStrings = new ArrayList<>();
+                for(StatName statName: statNames){
+                    statNameStrings.add(statName.toString());
+                }
+
+                statSpinner.setSelection(statNameStrings.indexOf(stat));
+
+                Spinner successSpinner = mView.findViewById(R.id.gameSpinnerSuccess);
+                successSpinner.setSelection(successList.indexOf(success));
+
+
+
+                // getSoundexMatch returns the highest difference value
+
+                // getWord returns the most accurate match
+
+//                if(soundex == 0){
+//                    getSoundexMatch(words[0] + words[1]);
+//                }else{
+//                    getWord(statNames, words[0]);
+//                }
+//                if(num != -1){
+//                    onSpeechInput(num);
+//                }
+            }
+
+            @Override
+            public void onPartialResults(Bundle bundle) {
+
+            }
+
+            @Override
+            public void onEvent(int i, Bundle bundle) {
+
+            }
+        });
+
+        micButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    speechRecognizer.stopListening();
+                }
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
+                    micButton.setImageResource(R.drawable.ic_mic_black_on);
+                    speechRecognizer.startListening(speechRecognizerIntent);
+                }
+                return false;
+            }
+        });
+
+
+    }
+
+//    @RequiresApi(api = Build.VERSION_CODES.N)
+//    private void getWords(){
+//        Dictionaries dict = Dictionaries.getInstance();
+//        int successIndex = validateInput(successSelected, dict.getSuccess());
+//        int playerIndex = validateInput(playerSelected, dict.getPlayerNumbers());
+//        int statIndex = validateInput(statSelected, dict.getStatNames());
+//
+//        String success = dict.getSuccess().get(successIndex);
+//        String player = dict.getPlayerNumbers().get(playerIndex);
+//
+//        //TODO Get player as index from teamsheet or playerlist
+//        String stat = dict.getStatNames().get(statIndex);
+//        createStatFromInput(playerIndex, statIndex, successIndex);
+//    }
+//
+//    private void createStatFromInput(int playerIndex, int statIndex, int successIndex) {
+//
+//    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private int validateInput(String dataStr, List<String> dataset) {
+        Soundexer soundexer = new Soundexer();
+
+        HashMap<Integer, List<String>> response = soundexer.getWordRatings(dataStr, dataset);
+        int max = Collections.max(response.keySet());
+        List<String> words = response.get(max);
+        String word = words.get(0);
+        Log.d("speechResult", word);
+
+        int position = dataset.indexOf(word);
+        return position;
+    }
+
+    private void checkPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ActivityCompat.requestPermissions(requireActivity(),new String[]{Manifest.permission.RECORD_AUDIO},RecordAudioRequestCode);
+        }
+    }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        if (requestCode == RecordAudioRequestCode && grantResults.length > 0 ){
+//            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+//                Toast.makeText(this,"Permission Granted",Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//    private ActivityResultLauncher<String[]> activityResultLauncher;
+//    public GameFragment() {
+//        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
+//            @Override
+//            public void onActivityResult(Map<String, Boolean> result) {
+//                Log.e("activityResultLauncher", ""+result.toString());
+//                Boolean areAllGranted = true;
+//                for(Boolean b : result.values()) {
+//                    areAllGranted = areAllGranted && b;
+//                }
+//
+//                if(areAllGranted) {
+//                    capturePhoto();
+//                }
+//            }
+//        });
+//    }
 
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container,
