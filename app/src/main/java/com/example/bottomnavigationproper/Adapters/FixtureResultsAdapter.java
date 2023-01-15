@@ -1,6 +1,5 @@
 package com.example.bottomnavigationproper.utils;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bottomnavigationproper.Models.Fixture;
-import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.R;
 
 import java.util.ArrayList;

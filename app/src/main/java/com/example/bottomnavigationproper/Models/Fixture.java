@@ -1,11 +1,12 @@
 package com.example.bottomnavigationproper.Models;
 
+import com.example.bottomnavigationproper.Models.Club;
+import com.example.bottomnavigationproper.Models.Competition;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.sql.Date;
-
+import java.sql.Time;
 
 public class Fixture implements Serializable{
     @Expose

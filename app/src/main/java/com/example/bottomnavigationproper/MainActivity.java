@@ -47,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
         }else{
             buildRegisterLoginScreen();
         }
-
-
-
     }
 
     private String retrieveToken() {

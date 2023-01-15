@@ -217,7 +217,7 @@ public class StatsFragment extends Fragment {
     private void navigateToHeatMap(List<Stat> statList){
             Bundle args = new Bundle();
             args.putSerializable("statList", (Serializable) statList);
-            Fragment toFragment = new GridLayout();
+            Fragment toFragment = new GridFragment();
             toFragment.setArguments(args);
 
             getActivity().getSupportFragmentManager().beginTransaction()
