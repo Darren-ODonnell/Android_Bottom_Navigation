@@ -8,10 +8,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
+import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +51,26 @@ public class PlayerRepository {
     }
     public LiveData<List<Player>> getPlayersResponseLiveData() {
         return playerResponseLiveData;
+    }
+
+    public void getPlayersForFixture(Fixture fixture, String token) {
+        Map<String, String> params = new HashMap<>();
+        params.put("id", Long.toString(fixture.getId()));
+        apiInterface.getPlayersForFixture(token, params)
+                .enqueue(new Callback<List<Player>>() {
+                    @Override
+                    public void onResponse(@NonNull Call<List<Player>> call, Response<List<Player>> response) {
+                        if (response.body() != null) {
+                            playerResponseLiveData.postValue(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<List<Player>> call, Throwable t) {
+                        playerResponseLiveData.postValue(null);
+
+                    }
+                });
     }
 }
 
