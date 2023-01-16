@@ -85,5 +85,8 @@ public interface APIInterface {
     Call<List<Stat>> countStat(@Header("Authorization") String accessToken,
                                @FieldMap Map<String, String> params);
 
-
+    @FormUrlEncoded
+    @POST("teamsheet/findPlayersByFixtureId")
+    Call<List<Player>> getPlayersForFixture(@Header("Authorization") String accessToken,
+                                            @FieldMap Map<String, String> params);
 }

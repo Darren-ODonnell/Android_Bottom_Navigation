@@ -150,6 +150,10 @@ public class Player implements Serializable {
         this.panelMember = panelMember;
     }
 
+    public String getAbbrevName(){
+        return firstname.charAt(0) + ". " + lastname;
+    }
+
     @Override
     public String toString() {
         return firstname + " " + lastname;

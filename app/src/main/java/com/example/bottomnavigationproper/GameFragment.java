@@ -33,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,6 +46,8 @@ import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.StatRepository;
 import com.example.bottomnavigationproper.ViewModels.GameViewModel;
 import com.example.bottomnavigationproper.ViewModels.StatsSelectionViewModel;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -70,6 +73,8 @@ public class GameFragment extends Fragment {
     private Spinner spinnerStatName;
     private StatName statNameSelected;
 
+    private Spinner fixtureSpinner;
+
     private Fixture currentFixture;
 
     View view;
@@ -78,6 +83,7 @@ public class GameFragment extends Fragment {
     List<StatName> statNames = new ArrayList<>();
     List<Player> players = new ArrayList<>();
     List<String> successList = new ArrayList<>();
+    List<Fixture> fixtures = new ArrayList<>();
 
 
 
@@ -98,7 +104,7 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_game, container, false);
+        view = inflater.inflate(R.layout.fragment_game, container, false);
 
 
 
@@ -106,37 +112,60 @@ public class GameFragment extends Fragment {
 //        spinnerPlayer = view.findViewById(R.id.gameSpinnerPlayer);
 //        spinnerStatName = view.findViewById(R.id.gameSpinnerStat);
 //        initSpinners();
-//        showFixtureSelection();
         initStatsSelectionViewModel();
+
+
+
+
         //TODO showFixtureSelection()
-        initGridLayoutButtons(view);
+
 
         return view;
     }
 
-//    private void showFixtureSelection() { TODO finish this method
-//        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-//        View mView = getLayoutInflater().inflate(R.layout.fixture_selection_fragment, null);
-//        mBuilder.setTitle("Select Fixture");
-//        Spinner fixtureSpinner = (Spinner) mView.findViewById(R.id.spinnerFixtureSelection);
-//        setFixtureList(fixtureSpinner);
-//        Spinner statSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerStat);
-//        setStatNameList(statSpinner);
-//        Spinner playerSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerPlayer);
-//        setPlayerList(playerSpinner);
-//
-//        mBuilder.setView(mView);
-//        AlertDialog dialog = mBuilder.create();
-//        dialog.show();
-//
-//    }
+    private void showFixtureSelection() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+        View fView = getLayoutInflater().inflate(R.layout.fixture_selection_fragment, null);
+        mBuilder.setTitle("Select Fixture");
+        fixtureSpinner = (Spinner) fView.findViewById(R.id.spinnerFixtureSelection);
+        setFixtureList();
 
-    private void initGridLayoutButtons(View view) {
+        mBuilder.setView(fView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+
+        fView.findViewById(R.id.fixtureSelectionButton).setOnClickListener(v -> {
+            currentFixture = (Fixture)fixtureSpinner.getSelectedItem();
+            initPlayers();
+            dialog.dismiss();
+        });
+
+    }
+
+    private void initGridLayoutButtons(List<Player> players) {
         GridLayout grid = (GridLayout) view.findViewById(R.id.pitchGridLocations);
         int childCount = grid.getChildCount();
+        int playerNo = 0;
 
-        for (int i= 0; i < childCount; i++){
-            TextView gridSection = (TextView) grid.getChildAt(i);
+        for (int i=0; i < childCount; i++){
+
+            LinearLayout gridSection;
+
+            if(i == 8) {
+
+
+                gridSection = (LinearLayout) grid.getChildAt(childCount -1 -i);
+                clearContents(gridSection);
+
+                ++i;
+            }
+
+            gridSection = (LinearLayout) grid.getChildAt(childCount-1-i);
+
+            populateContents(gridSection, playerNo);
+
+            playerNo++;
+
             int finalI = i;
             gridSection.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View view){
@@ -144,17 +173,42 @@ public class GameFragment extends Fragment {
                     mView = getLayoutInflater().inflate(R.layout.fragment_game_input, null);
                     initVoiceRecognition();
 
-                    createInputDialog(mView);
+                    AlertDialog dialog = createInputDialog(mView);
 
                     mView.findViewById(R.id.inputStatButton).setOnClickListener(v -> {
                         createStat(finalI);
                         speechRecognizer.destroy();
                         //TODO Persist stat
+                        dialog.dismiss();
+
                     });
 
                 }
             });
         }
+    }
+
+    private void populateContents(LinearLayout gridSection, int playerNo) {
+        TextView nameTV = (TextView) gridSection.getChildAt(1);
+        LinearLayout playerNoLay = (LinearLayout) gridSection.getChildAt(2);
+        TextView numTV = (TextView) playerNoLay.getChildAt(1);
+
+        Player player = players.get(playerNo);
+
+        String name = player.getAbbrevName();
+        nameTV.setText(name);
+        String num = Integer.toString(players.indexOf(player)+1);
+        numTV.setText(num);
+    }
+
+    private void clearContents(LinearLayout gridSection) {
+        TextView nameTV = (TextView) gridSection.getChildAt(1);
+        LinearLayout playerNoLay = (LinearLayout) gridSection.getChildAt(2);
+        TextView numTV = (TextView) playerNoLay.getChildAt(1);
+        TextView numStrTV = (TextView) playerNoLay.getChildAt(0);
+        numStrTV.setText("");
+        nameTV.setText("");
+        numTV.setText("");
     }
 
     private Stat createStat(int gridIndex) {
@@ -171,7 +225,7 @@ public class GameFragment extends Fragment {
 
     }
 
-    private void createInputDialog( View mView) {
+    private AlertDialog createInputDialog( View mView) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
         mBuilder.setTitle("Input Stat");
 
@@ -186,32 +240,26 @@ public class GameFragment extends Fragment {
         mBuilder.setView(mView);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
+        return dialog;
 
     }
 
     private void initStatsSelectionViewModel(){
         viewModel = new ViewModelProvider(this).get(GameViewModel.class);
         viewModel.init();
-        viewModel.getFixturesResponseLiveData().observe(this, new Observer<List<Fixture>>(){
+        viewModel.getFixturesResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<Fixture>>(){
             @Override
             public void onChanged(List<Fixture> fixtureList) {
                 if (fixtureList != null) {
                     //TODO Get current fixture for populating Home Away team sections, return single fixture
-                    setFixtureList(fixtureList);
-                }
-            }
-        });
-        viewModel.getPlayerResponseLiveData().observe(this, new Observer<List<Player>>() {
-            @Override
-            public void onChanged(List<Player> playerList) {
-                if(playerList != null){
-                    //TODO setPlayerList contents to list of starting 15 (dependent on current fixture
-                    players = playerList;
+                    fixtures = fixtureList;
+                    showFixtureSelection();
                 }
             }
         });
 
-        viewModel.getStatNameLiveData().observe(this, new Observer<List<StatName>>() {
+
+        viewModel.getStatNameLiveData().observe(getViewLifecycleOwner(), new Observer<List<StatName>>() {
             @Override
             public void onChanged(List<StatName> statNameList) {
                 if(statNameList != null){
@@ -221,13 +269,41 @@ public class GameFragment extends Fragment {
         });
         viewModel.getStatNames();
         viewModel.getFixtures();
-        viewModel.getPlayers();
+
 
 
     }
 
-    private void setFixtureList(List<Fixture> fixtureList) {
-        //TODO Get current fixture
+    public void initPlayers(){
+        viewModel.getPlayerResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<Player>>() {
+            @Override
+            public void onChanged(List<Player> playerList) {
+                if(playerList != null){
+                    //TODO setPlayerList contents to list of starting 15 (dependent on current fixture
+                    players = playerList;
+                    initGridLayoutButtons(players);
+                }
+            }
+        });
+
+        viewModel.getPlayers(currentFixture);
+
+    }
+
+    private void setFixtureList() {
+        ArrayAdapter<Fixture> adapter =
+                new ArrayAdapter<Fixture>(getContext(),  android.R.layout.simple_spinner_dropdown_item, fixtures);
+        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+        fixtureSpinner.setAdapter(adapter);
+
+        fixtureSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                currentFixture = (Fixture)parent.getItemAtPosition(pos);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
     }
 
     public void setPlayerList(Spinner spinner){

@@ -51,14 +51,16 @@ public class GameViewModel extends AndroidViewModel {
 
         statRepository = new StatRepository();
         statNameLiveData = statRepository.getStatNameLiveData();
+
+
     }
 
     public void getFixtures() {
         fixtureRepository.getFixtures(TokenSingleton.getInstance().getBearerTokenString());
     }
 
-    public void getPlayers() {
-        playerRepository.getPlayers(TokenSingleton.getInstance().getBearerTokenString());
+    public void getPlayers(Fixture fixture) {
+        playerRepository.getPlayersForFixture(fixture, TokenSingleton.getInstance().getBearerTokenString());
     }
 
     public void getStatNames(){
