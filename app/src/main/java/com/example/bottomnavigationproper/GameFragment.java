@@ -423,13 +423,23 @@ public class GameFragment extends Fragment {
                 String[] words = dataStr.split(" ");
 
                 HashMap<String, String> numMap = dict.getNumMap();
+                String playerNum;
+                try{
+                    playerNum = Integer.toString(Integer.parseInt(words[0]));
+                }catch (NumberFormatException e){
 
-                String playerNum = dict.getAllNums()
-                        .get(
-                            validateInput(words[0], dict.getAllNums())
-                );
+
+                    playerNum = dict.getAllNums()
+                            .get(
+                                    validateInput(words[0], dict.getAllNums())
+                            );
+
+                }
 
                 String player = numMap.get(playerNum);
+
+                // User speech refers to player number, this subtracts 1 from input to give index of player in list
+                player = Integer.toString(Integer.parseInt(player) -1);
 
 //                String player = dict.getNumMap()
 //                        .get(
