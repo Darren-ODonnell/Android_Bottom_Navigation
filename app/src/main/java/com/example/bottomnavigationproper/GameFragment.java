@@ -33,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,6 +46,8 @@ import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.StatRepository;
 import com.example.bottomnavigationproper.ViewModels.GameViewModel;
 import com.example.bottomnavigationproper.ViewModels.StatsSelectionViewModel;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -101,7 +104,7 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_game, container, false);
+        view = inflater.inflate(R.layout.fragment_game, container, false);
 
 
 
@@ -109,8 +112,8 @@ public class GameFragment extends Fragment {
 //        spinnerPlayer = view.findViewById(R.id.gameSpinnerPlayer);
 //        spinnerStatName = view.findViewById(R.id.gameSpinnerStat);
 //        initSpinners();
-         initStatsSelectionViewModel();
-        initGridLayoutButtons(view);
+        initStatsSelectionViewModel();
+
 
 
 
@@ -126,22 +129,43 @@ public class GameFragment extends Fragment {
         mBuilder.setTitle("Select Fixture");
         fixtureSpinner = (Spinner) fView.findViewById(R.id.spinnerFixtureSelection);
         setFixtureList();
-        fView.findViewById(R.id.fixtureSelectionButton).setOnClickListener(v -> {
-            currentFixture = (Fixture)fixtureSpinner.getSelectedItem();
-            initPlayers();
-        });
+
         mBuilder.setView(fView);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
 
+        fView.findViewById(R.id.fixtureSelectionButton).setOnClickListener(v -> {
+            currentFixture = (Fixture)fixtureSpinner.getSelectedItem();
+            initPlayers();
+            dialog.dismiss();
+        });
+
     }
 
-    private void initGridLayoutButtons(View view) {
+    private void initGridLayoutButtons(List<Player> players) {
         GridLayout grid = (GridLayout) view.findViewById(R.id.pitchGridLocations);
         int childCount = grid.getChildCount();
+        int playerNo = 0;
 
-        for (int i= 0; i < childCount; i++){
-            TextView gridSection = (TextView) grid.getChildAt(i);
+        for (int i=0; i < childCount; i++){
+
+            LinearLayout gridSection;
+
+            if(i == 8) {
+
+
+                gridSection = (LinearLayout) grid.getChildAt(childCount -1 -i);
+                clearContents(gridSection);
+
+                ++i;
+            }
+
+            gridSection = (LinearLayout) grid.getChildAt(childCount-1-i);
+
+            populateContents(gridSection, playerNo);
+
+            playerNo++;
+
             int finalI = i;
             gridSection.setOnClickListener(new View.OnClickListener(){
                 public void onClick(View view){
@@ -149,17 +173,42 @@ public class GameFragment extends Fragment {
                     mView = getLayoutInflater().inflate(R.layout.fragment_game_input, null);
                     initVoiceRecognition();
 
-                    createInputDialog(mView);
+                    AlertDialog dialog = createInputDialog(mView);
 
                     mView.findViewById(R.id.inputStatButton).setOnClickListener(v -> {
                         createStat(finalI);
                         speechRecognizer.destroy();
                         //TODO Persist stat
+                        dialog.dismiss();
+
                     });
 
                 }
             });
         }
+    }
+
+    private void populateContents(LinearLayout gridSection, int playerNo) {
+        TextView nameTV = (TextView) gridSection.getChildAt(1);
+        LinearLayout playerNoLay = (LinearLayout) gridSection.getChildAt(2);
+        TextView numTV = (TextView) playerNoLay.getChildAt(1);
+
+        Player player = players.get(playerNo);
+
+        String name = player.getAbbrevName();
+        nameTV.setText(name);
+        String num = Integer.toString(players.indexOf(player)+1);
+        numTV.setText(num);
+    }
+
+    private void clearContents(LinearLayout gridSection) {
+        TextView nameTV = (TextView) gridSection.getChildAt(1);
+        LinearLayout playerNoLay = (LinearLayout) gridSection.getChildAt(2);
+        TextView numTV = (TextView) playerNoLay.getChildAt(1);
+        TextView numStrTV = (TextView) playerNoLay.getChildAt(0);
+        numStrTV.setText("");
+        nameTV.setText("");
+        numTV.setText("");
     }
 
     private Stat createStat(int gridIndex) {
@@ -176,7 +225,7 @@ public class GameFragment extends Fragment {
 
     }
 
-    private void createInputDialog( View mView) {
+    private AlertDialog createInputDialog( View mView) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
         mBuilder.setTitle("Input Stat");
 
@@ -191,6 +240,7 @@ public class GameFragment extends Fragment {
         mBuilder.setView(mView);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
+        return dialog;
 
     }
 
@@ -231,6 +281,7 @@ public class GameFragment extends Fragment {
                 if(playerList != null){
                     //TODO setPlayerList contents to list of starting 15 (dependent on current fixture
                     players = playerList;
+                    initGridLayoutButtons(players);
                 }
             }
         });
