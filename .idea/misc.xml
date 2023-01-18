@@ -8,9 +8,17 @@
         <entry key="..\:/Users/Darren/AndroidStudioProjects/BottomNavigationProper/app/src/main/res/layout/fragment_home.xml" value="0.17074275362318841" />
         <entry key="..\:/Users/Darren/AndroidStudioProjects/BottomNavigationProper/app/src/main/res/layout/fragment_stats.xml" value="0.17916666666666667" />
         <entry key="..\:/Users/Darren/AndroidStudioProjects/BottomNavigationProper/app/src/main/res/menu/bottom_menu.xml" value="0.1" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_barchart.xml" value="0.1" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_gaelic_football_pitch_diagram.xml" value="0.22" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_home.xml" value="0.1" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_jersey.xml" value="0.2995" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_jersey_adobe_express.xml" value="0.2995" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_mic_black_off.xml" value="0.1" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_mic_black_on.xml" value="0.1" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_pitch_template.xml" value="0.1" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/inset_image.xml" value="0.2995" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/round_button.xml" value="0.1" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/activity_register.xml" value="0.22" />
@@ -18,7 +26,7 @@
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/bottom_nav.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/fixture_date_row.xml" value="0.2552083333333333" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/fixture_selection_fragment.xml" value="0.1465811965811966" />
-        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/fragment_game.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/fragment_game.xml" value="0.359375" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/fragment_game_input.xml" value="0.20516304347826086" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/fragment_stats.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/fragment_stats_display.xml" value="0.35052083333333334" />
@@ -27,6 +35,8 @@
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/register_login_screen.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/row_uses.xml" value="0.2552083333333333" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/stat_item_row.xml" value="0.1762917933130699" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
   </component>

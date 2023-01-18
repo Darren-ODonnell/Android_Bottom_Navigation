@@ -144,23 +144,24 @@ public class GameFragment extends Fragment {
 
     private void initGridLayoutButtons(List<Player> players) {
         GridLayout grid = (GridLayout) view.findViewById(R.id.pitchGridLocations);
+//        grid.setBackgroundResource(R.drawable.ic_gaelic_football_pitch_diagram);
+
         int childCount = grid.getChildCount();
         int playerNo = 0;
 
         for (int i=0; i < childCount; i++){
 
-            LinearLayout gridSection;
+            RelativeLayout gridSection;
 
             if(i == 8) {
 
 
-                gridSection = (LinearLayout) grid.getChildAt(childCount -1 -i);
-                clearContents(gridSection);
+                gridSection = (RelativeLayout) grid.getChildAt(childCount -1 -i);
 
                 ++i;
             }
 
-            gridSection = (LinearLayout) grid.getChildAt(childCount-1-i);
+            gridSection = (RelativeLayout) grid.getChildAt(childCount-1-i);
 
             populateContents(gridSection, playerNo);
 
@@ -188,10 +189,9 @@ public class GameFragment extends Fragment {
         }
     }
 
-    private void populateContents(LinearLayout gridSection, int playerNo) {
-        TextView nameTV = (TextView) gridSection.getChildAt(1);
-        LinearLayout playerNoLay = (LinearLayout) gridSection.getChildAt(2);
-        TextView numTV = (TextView) playerNoLay.getChildAt(1);
+    private void populateContents(RelativeLayout gridSection, int playerNo) {
+        TextView numTV = (TextView) gridSection.getChildAt(1);
+        TextView nameTV = (TextView) gridSection.getChildAt(2);
 
         Player player = players.get(playerNo);
 
@@ -199,16 +199,6 @@ public class GameFragment extends Fragment {
         nameTV.setText(name);
         String num = Integer.toString(players.indexOf(player)+1);
         numTV.setText(num);
-    }
-
-    private void clearContents(LinearLayout gridSection) {
-        TextView nameTV = (TextView) gridSection.getChildAt(1);
-        LinearLayout playerNoLay = (LinearLayout) gridSection.getChildAt(2);
-        TextView numTV = (TextView) playerNoLay.getChildAt(1);
-        TextView numStrTV = (TextView) playerNoLay.getChildAt(0);
-        numStrTV.setText("");
-        nameTV.setText("");
-        numTV.setText("");
     }
 
     private Stat createStat(int gridIndex) {
