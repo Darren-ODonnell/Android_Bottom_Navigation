@@ -20,6 +20,7 @@ import androidx.gridlayout.widget.GridLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.os.SystemClock;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -31,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -77,6 +79,10 @@ public class GameFragment extends Fragment {
 
     private Fixture currentFixture;
 
+    private PausableChronometer chronometer;
+    private boolean matchStarted = false;
+    private boolean matchInPlay = false;
+
     View view;
 
     View mView;
@@ -116,7 +122,6 @@ public class GameFragment extends Fragment {
 
 
 
-
         //TODO showFixtureSelection()
 
 
@@ -133,13 +138,67 @@ public class GameFragment extends Fragment {
         mBuilder.setView(fView);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
+        chronometer = (PausableChronometer)requireView().findViewById(R.id.chronometer);
 
         fView.findViewById(R.id.fixtureSelectionButton).setOnClickListener(v -> {
             currentFixture = (Fixture)fixtureSpinner.getSelectedItem();
+
+
+            TextView home = requireView().findViewById(R.id.homeTeamTV);
+            TextView away = requireView().findViewById(R.id.awayTeamTV);
+
+            home.setText(currentFixture.getHomeTeam().getName());
+            away.setText(currentFixture.getAwayTeam().getName());
+
+            Button startStop = requireView().findViewById(R.id.startStop);
+
+            startStop.setOnClickListener(view -> {
+                if(!matchStarted){
+
+                    chronometer.setBase(SystemClock.elapsedRealtime());
+                    chronometer.start();
+                    matchStarted = true;
+                    matchInPlay = true;
+                }else{
+                    chronometer.stop();
+//                    showStats();
+                }
+
+            });
+
+            Button playPause = requireView().findViewById(R.id.playPlause);
+            playPause.setOnClickListener(view -> {
+                if(matchInPlay) {
+                    chronometer.stop();
+//                    showStats();
+                }else
+                    chronometer.start();
+                matchInPlay = !matchInPlay;
+            });
+
+
             initPlayers();
             dialog.dismiss();
         });
 
+    }
+
+    private void showStats() {
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+        View fView = getLayoutInflater().inflate(R.layout.fixture_selection_fragment, null);
+        mBuilder.setTitle("Select Fixture");
+        fixtureSpinner = (Spinner) fView.findViewById(R.id.spinnerFixtureSelection);
+        setFixtureList();
+
+        mBuilder.setView(fView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+        chronometer = (PausableChronometer)requireView().findViewById(R.id.chronometer);
+
+        fView.findViewById(R.id.fixtureSelectionButton).setOnClickListener(v -> {
+
+            dialog.dismiss();
+        });
     }
 
     private void initGridLayoutButtons(List<Player> players) {
