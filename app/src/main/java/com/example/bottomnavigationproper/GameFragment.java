@@ -39,13 +39,14 @@ import android.widget.TextView;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Models.StatView;
+import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.StatRepository;
 import com.example.bottomnavigationproper.ViewModels.GameViewModel;
 import com.example.bottomnavigationproper.Adapters.InGameStatsAdapter;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,7 +84,7 @@ public class GameFragment extends Fragment {
     View view;
 
     View mView;
-    List<StatView> stats = new ArrayList<>();
+    List<Stat> stats = new ArrayList<>();
     List<StatName> statNames = new ArrayList<>();
     List<Player> players = new ArrayList<>();
     List<String> successList = new ArrayList<>();
@@ -200,7 +201,7 @@ public class GameFragment extends Fragment {
     }
 
     private void createStatsDisplayDialog(){
-        HashMap<String, List<StatView>> groupedStats = getGroupedStats(stats);
+        HashMap<String, List<Stat>> groupedStats = getGroupedStats(stats);
 
         List<String> statNames = getUniqueStats(stats);
         List<String> percents = getPercents(groupedStats);
@@ -253,10 +254,10 @@ public class GameFragment extends Fragment {
         return totalSeconds / 60;
     }
 
-    private List<String> getUniqueStats(List<StatView> stats) {
+    private List<String> getUniqueStats(List<Stat> stats) {
         List<String> uniq = new ArrayList<>();
 
-        for(StatView stat: stats){
+        for(Stat stat: stats){
             if(!uniq.contains(stat.getStatName()))
                 uniq.add(stat.getStatName());
 
@@ -264,12 +265,12 @@ public class GameFragment extends Fragment {
         return uniq;
     }
 
-    private List<String> getPercents(HashMap<String, List<StatView>> groupedStats) {
+    private List<String> getPercents(HashMap<String, List<Stat>> groupedStats) {
         List<String> percents = new ArrayList<>();
 
         for(String s: groupedStats.keySet()){
 
-            List<StatView> stats = groupedStats.get(s);
+            List<Stat> stats = groupedStats.get(s);
             double success = 0;
             double total = 0;
             for(int i = 0; i < stats.size(); i++){
@@ -288,13 +289,13 @@ public class GameFragment extends Fragment {
         return percents;
     }
 
-    private HashMap<String, List<StatView>> getGroupedStats(List<StatView> stats) {
-        HashMap<String, List<StatView>> groupedStats = new HashMap<>();
+    private HashMap<String, List<Stat>> getGroupedStats(List<Stat> stats) {
+        HashMap<String, List<Stat>> groupedStats = new HashMap<>();
 
         for(int i = 0; i < stats.size(); i++) {
-            StatView stat = stats.get(i);
+            Stat stat = stats.get(i);
             String statName = stat.getStatName();
-            List<StatView> statList;
+            List<Stat> statList;
             if (groupedStats.containsKey(statName)) {
                 statList = groupedStats.get(statName);
             } else {
@@ -511,9 +512,9 @@ public class GameFragment extends Fragment {
             }
         });
 
-        viewModel.getStatsLiveData().observe(getViewLifecycleOwner(), new Observer<List<StatView>>() {
+        viewModel.getStatsLiveData().observe(getViewLifecycleOwner(), new Observer<List<Stat>>() {
             @Override
-            public void onChanged(List<StatView> statList) {
+            public void onChanged(List<Stat> statList) {
                 if(statList != null){
                     stats = statList;
                     adapter.notifyDataSetChanged();

@@ -1,6 +1,8 @@
 package com.example.bottomnavigationproper.ViewModels;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -9,7 +11,7 @@ import androidx.lifecycle.LiveData;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Models.StatView;
+import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.FixtureRepository;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
@@ -27,7 +29,7 @@ public class StatsSelectionViewModel extends AndroidViewModel {
     private StatRepository statRepository;
     private LiveData<List<StatName>> statNameLiveData;
 
-    private LiveData<List<StatView>> statResponseLiveData;
+    private LiveData<List<Stat>> statResponseLiveData;
     private LiveData<Boolean> singleStatLiveData;
     private LiveData<Boolean> singleFixtureLiveData;
 
@@ -81,7 +83,7 @@ public class StatsSelectionViewModel extends AndroidViewModel {
     }
 
 
-    public LiveData<List<StatView>> getStatResponseLiveData() {
+    public LiveData<List<Stat>> getStatResponseLiveData() {
         return statResponseLiveData;
     }
 

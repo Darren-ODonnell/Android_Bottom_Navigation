@@ -17,7 +17,7 @@ import android.widget.Spinner;
 
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Models.StatView;
+import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.ViewModels.StatsSelectionViewModel;
 
@@ -87,9 +87,9 @@ public class StatsFragment extends Fragment {
         viewModel.getFixtures();
         viewModel.getPlayers();
 
-        viewModel.getStatResponseLiveData().observe(this, new Observer<List<StatView>>() {
+        viewModel.getStatResponseLiveData().observe(this, new Observer<List<Stat>>() {
             @Override
-            public void onChanged(List<StatView> statList) {
+            public void onChanged(List<Stat> statList) {
                 if (statList != null) {
                     navigateToHeatMap(statList);
                 }
@@ -214,7 +214,7 @@ public class StatsFragment extends Fragment {
 
     }
 
-    private void navigateToHeatMap(List<StatView> statList){
+    private void navigateToHeatMap(List<Stat> statList){
             Bundle args = new Bundle();
             args.putSerializable("statList", (Serializable) statList);
             Fragment toFragment = new GridFragment();
