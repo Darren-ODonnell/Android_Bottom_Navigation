@@ -10,6 +10,7 @@
         <entry key="..\:/Users/Darren/AndroidStudioProjects/BottomNavigationProper/app/src/main/res/menu/bottom_menu.xml" value="0.1" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_barchart.xml" value="0.1" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_cropped_gaelic_football_pitch_diagram_1673957331125.xml" value="0.15" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_gaelic_football_pitch_diagram.xml" value="0.22" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_home.xml" value="0.1" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/drawable/ic_jersey.xml" value="0.2995" />
@@ -30,7 +31,9 @@
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/fragment_game_input.xml" value="0.20516304347826086" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/fragment_stats.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/fragment_stats_display.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/game_stat_display_dialog.xml" value="0.23645833333333333" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/grid_layout.xml" value="0.33" />
+        <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/in_game_stats_row.xml" value="0.33" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/player_item.xml" value="0.25" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/register_login_screen.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/Darren/Desktop/College Final Year/AndroidFinalYearProject/app/src/main/res/layout/row_uses.xml" value="0.2552083333333333" />

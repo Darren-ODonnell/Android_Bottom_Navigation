@@ -6,6 +6,7 @@ import com.example.bottomnavigationproper.Models.Login;
 import com.example.bottomnavigationproper.Models.Player;
 
 import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.User;
 
@@ -22,6 +23,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
 
@@ -89,4 +91,13 @@ public interface APIInterface {
     @POST("teamsheet/findPlayersByFixtureId")
     Call<List<Player>> getPlayersForFixture(@Header("Authorization") String accessToken,
                                             @FieldMap Map<String, String> params);
+
+
+    @FormUrlEncoded
+    @POST("stats_view/countAllPlayerStatNameByFixtureDateGroupSuccess")
+    Call<List<Stat>> countAllPlayerStatNameByFixtureDateGroupSuccess(@Header("Authorization") String accessToken,
+                                                         @FieldMap Map<String, String> params);
+
+    @PUT("stats/add")
+    Call<List<Stat>> addStat(@Header("Authorization") String token, @Body StatModel statModel );
 }

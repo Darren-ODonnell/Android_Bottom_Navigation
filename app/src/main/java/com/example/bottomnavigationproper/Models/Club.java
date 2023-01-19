@@ -19,6 +19,9 @@ public class Club implements Serializable {
     private String pitches;
     @Expose
     private String colours;
+    @Expose
+    private String abbrev;
+
 
     public Club() {
     }
@@ -77,5 +80,13 @@ public class Club implements Serializable {
 
     public void setColours(String colours) {
         this.colours = colours;
+    }
+
+    public String getAbbrev() {
+        return abbrev;
+    }
+
+    public void setAbbrev(String abbrev) {
+        this.abbrev = abbrev;
     }
 }

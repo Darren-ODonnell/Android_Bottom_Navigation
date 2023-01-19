@@ -30,6 +30,8 @@ public class GameViewModel extends AndroidViewModel {
     private StatRepository statRepository;
     private LiveData<List<StatName>> statNameLiveData;
 
+    private LiveData<List<Stat>> statsLiveData;
+
 
     /**
      * TODO
@@ -52,6 +54,9 @@ public class GameViewModel extends AndroidViewModel {
         statRepository = new StatRepository();
         statNameLiveData = statRepository.getStatNameLiveData();
 
+        statsLiveData = statRepository.getStatsResponseLiveData();
+
+
 
     }
 
@@ -67,6 +72,10 @@ public class GameViewModel extends AndroidViewModel {
         statRepository.getStatNames(TokenSingleton.getInstance().getBearerTokenString());
     }
 
+    public void getStats(Fixture fixture){
+        statRepository.countAllPlayerStatNameByFixtureDateGroupSuccess(TokenSingleton.getInstance().getBearerTokenString(), fixture.getFixtureDate());
+    }
+
     public LiveData<List<Fixture>> getFixturesResponseLiveData() {
         return fixtureResponseLiveData;
     }
@@ -74,6 +83,8 @@ public class GameViewModel extends AndroidViewModel {
         return playerResponseLiveData;
     }
     public LiveData<List<StatName>> getStatNameLiveData(){ return statNameLiveData;}
+    public LiveData<List<Stat>> getStatsLiveData(){ return statsLiveData;}
+
 
 
 }

@@ -212,7 +212,7 @@ public class GridFragment extends Fragment {
         else if(count > .2*(highestVal))
             return getResources().getColor(R.color.yellow);
         else
-            return getResources().getColor(R.color.lightBlue);
+            return getResources().getColor(R.color.lightYellow);
 
     }
 

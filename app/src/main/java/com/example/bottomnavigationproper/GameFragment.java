@@ -7,10 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
@@ -19,6 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.gridlayout.widget.GridLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.SystemClock;
 import android.speech.RecognitionListener;
@@ -31,34 +29,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.StatRepository;
 import com.example.bottomnavigationproper.ViewModels.GameViewModel;
-import com.example.bottomnavigationproper.ViewModels.StatsSelectionViewModel;
+import com.example.bottomnavigationproper.Adapters.InGameStatsAdapter;
 
-import org.w3c.dom.Text;
-
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
 
 public class GameFragment extends Fragment {
 
@@ -82,14 +77,20 @@ public class GameFragment extends Fragment {
     private PausableChronometer chronometer;
     private boolean matchStarted = false;
     private boolean matchInPlay = false;
+    private Integer half = 1;
+
+    int homeGoals, homePoints, awayGoals, awayPoints;
 
     View view;
 
     View mView;
+    List<Stat> stats = new ArrayList<>();
     List<StatName> statNames = new ArrayList<>();
     List<Player> players = new ArrayList<>();
     List<String> successList = new ArrayList<>();
     List<Fixture> fixtures = new ArrayList<>();
+
+    InGameStatsAdapter adapter = new InGameStatsAdapter();
 
 
 
@@ -138,68 +139,176 @@ public class GameFragment extends Fragment {
         mBuilder.setView(fView);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
-        chronometer = (PausableChronometer)requireView().findViewById(R.id.chronometer);
+
 
         fView.findViewById(R.id.fixtureSelectionButton).setOnClickListener(v -> {
             currentFixture = (Fixture)fixtureSpinner.getSelectedItem();
 
-
             TextView home = requireView().findViewById(R.id.homeTeamTV);
             TextView away = requireView().findViewById(R.id.awayTeamTV);
 
-            home.setText(currentFixture.getHomeTeam().getName());
-            away.setText(currentFixture.getAwayTeam().getName());
+            home.setText(currentFixture.getHomeTeam().getAbbrev());
+            away.setText(currentFixture.getAwayTeam().getAbbrev());
 
-            Button startStop = requireView().findViewById(R.id.startStop);
-
-            startStop.setOnClickListener(view -> {
-                if(!matchStarted){
-
-                    chronometer.setBase(SystemClock.elapsedRealtime());
-                    chronometer.start();
-                    matchStarted = true;
-                    matchInPlay = true;
-                }else{
-                    chronometer.stop();
-//                    showStats();
-                }
-
-            });
-
-            Button playPause = requireView().findViewById(R.id.playPlause);
-            playPause.setOnClickListener(view -> {
-                if(matchInPlay) {
-                    chronometer.stop();
-//                    showStats();
-                }else
-                    chronometer.start();
-                matchInPlay = !matchInPlay;
-            });
-
-
-            initPlayers();
+            initPlayersAndStats();
+            initChronometer();
             dialog.dismiss();
+        });
+
+    }
+
+    private void initChronometer() {
+        chronometer = (PausableChronometer)requireView().findViewById(R.id.chronometer);
+
+        ImageButton startStop = requireView().findViewById(R.id.startStop);
+
+        startStop.setOnClickListener(view -> {
+            if(!matchStarted){
+
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.start();
+                matchStarted = true;
+                matchInPlay = true;
+                startStop.setBackgroundResource(R.drawable.ic_baseline_stop);
+
+            }else{
+                chronometer.stop();
+                showStats();
+            }
+
+        });
+
+        ImageButton playPause = requireView().findViewById(R.id.playPlause);
+        playPause.setOnClickListener(view -> {
+            if(matchInPlay) {
+                chronometer.stop();
+                showStats();
+            }else
+                chronometer.start();
+            if(matchInPlay)
+                playPause.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
+            else
+                playPause.setBackgroundResource(R.drawable.ic_baseline_pause_24);
+            matchInPlay = !matchInPlay;
+            //Pause button changes half
+            half = (half == 1) ? 2 : 1;
         });
 
     }
 
     private void showStats() {
+        viewModel.getStats(currentFixture);
+    }
+
+    private void createStatsDisplayDialog(){
+        HashMap<String, List<Stat>> groupedStats = getGroupedStats(stats);
+
+        List<String> statNames = getUniqueStats(stats);
+        List<String> percents = getPercents(groupedStats);
+
+
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-        View fView = getLayoutInflater().inflate(R.layout.fixture_selection_fragment, null);
-        mBuilder.setTitle("Select Fixture");
-        fixtureSpinner = (Spinner) fView.findViewById(R.id.spinnerFixtureSelection);
-        setFixtureList();
+        View fView = getLayoutInflater().inflate(R.layout.game_stat_display_dialog, null);
+
+        RecyclerView rv = (RecyclerView) fView.findViewById(R.id.gameStatRV);
+
+
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv.setAdapter(adapter);
+
+        adapter.setResults(statNames);
+        adapter.setPercents(percents);
+        adapter.notifyDataSetChanged();
 
         mBuilder.setView(fView);
         AlertDialog dialog = mBuilder.create();
         dialog.show();
-        chronometer = (PausableChronometer)requireView().findViewById(R.id.chronometer);
 
-        fView.findViewById(R.id.fixtureSelectionButton).setOnClickListener(v -> {
+        fView.findViewById(R.id.game_stat_button).setOnClickListener(v -> {
 
             dialog.dismiss();
         });
     }
+
+    public double getSecondsFromDurationString(String value){
+
+        String [] parts = value.split(":");
+
+        // Wrong format, no value for you.
+        if(parts.length < 2 || parts.length > 3)
+            return 0;
+
+        double seconds = 0.0, minutes = 0.0, hours = 0.0;
+
+        if(parts.length == 2){
+            seconds = Double.parseDouble(parts[1]);
+            minutes = Double.parseDouble(parts[0]);
+        }
+        else if(parts.length == 3){
+            seconds = Double.parseDouble(parts[2]);
+            minutes = Double.parseDouble(parts[1]);
+            hours = Double.parseDouble(parts[0]);
+        }
+
+        double totalSeconds = seconds + (minutes*60) + (hours*3600);
+        return totalSeconds / 60;
+    }
+
+    private List<String> getUniqueStats(List<Stat> stats) {
+        List<String> uniq = new ArrayList<>();
+
+        for(Stat stat: stats){
+            if(!uniq.contains(stat.getStatName()))
+                uniq.add(stat.getStatName());
+
+        }
+        return uniq;
+    }
+
+    private List<String> getPercents(HashMap<String, List<Stat>> groupedStats) {
+        List<String> percents = new ArrayList<>();
+
+        for(String s: groupedStats.keySet()){
+
+            List<Stat> stats = groupedStats.get(s);
+            double success = 0;
+            double total = 0;
+            for(int i = 0; i < stats.size(); i++){
+                total += Integer.parseInt(stats.get(i).getCount());
+                if(stats.get(i).getSuccess()){
+                    success += Integer.parseInt(stats.get(i).getCount());
+                }
+            }
+            double percent = success/total * 100;
+
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(2);
+            String percentStr = df.format(percent);
+            percents.add(percentStr);
+        }
+        return percents;
+    }
+
+    private HashMap<String, List<Stat>> getGroupedStats(List<Stat> stats) {
+        HashMap<String, List<Stat>> groupedStats = new HashMap<>();
+
+        for(int i = 0; i < stats.size(); i++) {
+            Stat stat = stats.get(i);
+            String statName = stat.getStatName();
+            List<Stat> statList;
+            if (groupedStats.containsKey(statName)) {
+                statList = groupedStats.get(statName);
+            } else {
+                statList = new ArrayList<>();
+            }
+            statList.add(stat);
+            groupedStats.put(statName, statList);
+        }
+
+        return groupedStats;
+
+    }
+
 
     private void initGridLayoutButtons(List<Player> players) {
         GridLayout grid = (GridLayout) view.findViewById(R.id.pitchGridLocations);
@@ -231,21 +340,73 @@ public class GameFragment extends Fragment {
                 public void onClick(View view){
                     // your click code here
                     mView = getLayoutInflater().inflate(R.layout.fragment_game_input, null);
+                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
                     initVoiceRecognition();
 
                     AlertDialog dialog = createInputDialog(mView);
 
                     mView.findViewById(R.id.inputStatButton).setOnClickListener(v -> {
-                        createStat(finalI);
+                        StatModel stat = createStat(finalI);
+                        if(!playerSelected.getFirstname().equals("Opposition")) {
+                            checkStatForScoreHome(stat);
+                        }else{
+                            checkStatForScoreOpposition(stat);
+                        }
                         speechRecognizer.destroy();
-                        //TODO Persist stat
                         dialog.dismiss();
-
                     });
+
+
 
                 }
             });
         }
+    }
+
+    private void checkStatForScoreOpposition(StatModel stat) {
+        switch (stat.getStatNameId().toLowerCase(Locale.ROOT)){
+            case "goal":
+                awayGoals++;
+                break;
+            case "point":
+                awayPoints++;
+            case "freescore":
+                if(stat.getSuccess())
+                    awayGoals++;
+                else
+                    awayPoints++;
+        }
+        updateScore();
+
+    }
+
+    private void updateScore(){
+        String homeScore = homeGoals+ ":" +homePoints;
+        String awayScore = awayGoals+ ":" +awayPoints;
+
+        TextView homeScoreTV = requireView().findViewById(R.id.homeScoreTV);
+        TextView awayScoreTV = requireView().findViewById(R.id.awayScoreTV);
+
+        homeScoreTV.setText(homeScore);
+        awayScoreTV.setText(awayScore);
+
+    }
+
+    private void checkStatForScoreHome(StatModel stat) {
+        switch (stat.getStatNameId().toLowerCase(Locale.ROOT)){
+            case "goal":
+                homeGoals++;
+                break;
+            case "point":
+                homePoints++;
+            case "freescore":
+                if(stat.getSuccess())
+                    homeGoals++;
+                else
+                    homePoints++;
+        }
+        updateScore();
+
     }
 
     private void populateContents(RelativeLayout gridSection, int playerNo) {
@@ -260,18 +421,34 @@ public class GameFragment extends Fragment {
         numTV.setText(num);
     }
 
-    private Stat createStat(int gridIndex) {
+    private StatModel createStat(int gridIndex) {
         List<String> gridLocations = new ArrayList<>(Arrays.asList("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3"));
 
-        Stat stat = new Stat();
-        stat.setLocation(gridLocations.get(gridIndex));
-        stat.setFirstName(playerSelected.getFirstname());
-        stat.setLastName(playerSelected.getLastname());
-        stat.setStatName(statNameSelected.getName());
+        StatModel stat = new StatModel();
+        stat.setLocationId(gridLocations.get(gridIndex));
+        stat.setPlayerId(playerSelected.getId());
+        stat.setStatNameId(statNameSelected.getId());
         stat.setSuccess(successSelected);
-        stat.setFixtureDate(currentFixture.getFixtureDate());
+        stat.setHalf(half);
+        stat.setFixtureId(currentFixture.getId());
+        String time = parseTime();
+        stat.setTimeOccurred(time);
+
+        StatRepository repo = new StatRepository();
+        repo.persistStat(TokenSingleton.getInstance().getBearerTokenString(), stat);
+        viewModel.getStats(currentFixture);
+
         return stat;
 
+
+    }
+
+    private String parseTime() {
+        String timeTxt = chronometer.getText().toString();
+        Double time = getSecondsFromDurationString(timeTxt);
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        return df.format(time);
     }
 
     private AlertDialog createInputDialog( View mView) {
@@ -323,7 +500,7 @@ public class GameFragment extends Fragment {
 
     }
 
-    public void initPlayers(){
+    public void initPlayersAndStats(){
         viewModel.getPlayerResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<Player>>() {
             @Override
             public void onChanged(List<Player> playerList) {
@@ -331,6 +508,17 @@ public class GameFragment extends Fragment {
                     //TODO setPlayerList contents to list of starting 15 (dependent on current fixture
                     players = playerList;
                     initGridLayoutButtons(players);
+                }
+            }
+        });
+
+        viewModel.getStatsLiveData().observe(getViewLifecycleOwner(), new Observer<List<Stat>>() {
+            @Override
+            public void onChanged(List<Stat> statList) {
+                if(statList != null){
+                    stats = statList;
+                    adapter.notifyDataSetChanged();
+                    createStatsDisplayDialog();
                 }
             }
         });
@@ -356,6 +544,9 @@ public class GameFragment extends Fragment {
     }
 
     public void setPlayerList(Spinner spinner){
+        Player player = new Player();
+        player.setFirstname("Opposition");
+        players.add(player);
         ArrayAdapter<Player> adapter =
                 new ArrayAdapter<Player>(getContext(),  android.R.layout.simple_spinner_dropdown_item, players);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);

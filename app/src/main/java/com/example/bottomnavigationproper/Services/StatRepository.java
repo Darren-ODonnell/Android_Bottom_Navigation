@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
 import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
 
 import java.util.HashMap;
@@ -181,6 +182,27 @@ public class StatRepository {
                 });
     }
 
+
+    public void countAllPlayerStatNameByFixtureDateGroupSuccess(String token, String fixtureDate) {
+        Map<String, String> params = new HashMap<>();
+        params.put("fixtureDate", fixtureDate);
+        apiInterface.countAllPlayerStatNameByFixtureDateGroupSuccess(token, params)
+                .enqueue(new Callback<List<Stat>>() {
+                    @Override
+                    public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
+                        if (response.body() != null) {
+                            statResponseLiveData.postValue(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Stat>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+
+                    }
+                });
+    }
+
     public void getCountAllPlayerStat(String token, String fixtureDate) {
         Map<String, String> params = new HashMap<>();
         params.put("fixtureDate", fixtureDate);
@@ -282,8 +304,24 @@ public class StatRepository {
     }
 
 
-    public void persistStat(Stat stat) {
+    public void persistStat(String token, StatModel stat) {
         //TODO create put/post request for persisting stat
+
+        apiInterface.addStat(token,stat)
+                .enqueue(new Callback<List<Stat>>(){
+
+            @Override
+            public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
+                if (response.body() != null) {
+                    statResponseLiveData.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Stat>> call, Throwable t) {
+                statResponseLiveData.postValue(null);
+            }
+        });
     }
 }
 
