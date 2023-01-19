@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:weightSum="7"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -22,12 +23,15 @@
                 android:id="@+id/chronometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+
                 android:textSize="30sp" />
 
             <LinearLayout
-                android:layout_width="93dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:orientation="vertical">
 
                 <TextView
@@ -46,7 +50,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="54dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical">
@@ -64,21 +68,36 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="2:01" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:layout_marginLeft="20dp"
+                >
+                <ImageButton
+                    android:id="@+id/startStop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ic_baseline_start"
+                    android:layout_weight="1"
+                    />
+
+                <ImageButton
+                    android:layout_marginStart="2dp"
+                    android:id="@+id/playPlause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ic_baseline_pause_24"
+                    android:layout_weight="1"
+
+                    />
+
             </LinearLayout>
 
-            <Button
-                android:id="@+id/startStop"
-                android:layout_width="wrap_content"
-                android:text="st/sp"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/playPlause"
-                android:text="pl/pa"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+
 
 
         </LinearLayout>
@@ -86,8 +105,8 @@
         <androidx.gridlayout.widget.GridLayout
 
             android:id="@+id/pitchGridLocations"
-            android:layout_width="409dp"
-            android:layout_height="551dp"
+            android:layout_width="411dp"
+            android:layout_height="566dp"
             android:background="@drawable/ic_gaelic_football_pitch_diagram"
 
             android:paddingLeft="10dp"

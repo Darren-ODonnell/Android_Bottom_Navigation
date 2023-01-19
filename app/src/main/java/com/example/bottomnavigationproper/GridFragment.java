@@ -4,36 +4,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bottomnavigationproper.Models.Fixture;
-import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Models.Stat;
-import com.example.bottomnavigationproper.Models.StatName;
-import com.example.bottomnavigationproper.ViewModels.StatViewModel;
-import com.example.bottomnavigationproper.utils.StatResultAdapter;
+import com.example.bottomnavigationproper.Models.StatView;
 
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class GridFragment extends Fragment {
 
-    private List<Stat> statList;
+    private List<StatView> statList;
     private HashMap<String, Integer> locations;
 
 
@@ -42,7 +28,7 @@ public class GridFragment extends Fragment {
         super.onCreate(savedInstanceState);
         assert this.getArguments() != null;
 
-        statList = (List<Stat>) this.getArguments().getSerializable("statList");
+        statList = (List<StatView>) this.getArguments().getSerializable("statList");
 
 //        locations = new ArrayList<>();
 
@@ -99,7 +85,7 @@ public class GridFragment extends Fragment {
     }
 
     public void heatMap(View view){
-        Map<String, List<Stat>> grid = getLocationCountGrid(statList);
+        Map<String, List<StatView>> grid = getLocationCountGrid(statList);
         Map<String, Integer> successGrid = getSuccessPercentGrid(grid);
 
 
@@ -118,7 +104,7 @@ public class GridFragment extends Fragment {
     }
 
     // Gets highest count per grid section ( colours are set based off highest count )
-    private int getLargestCount(Map<String, List<Stat>> grid) {
+    private int getLargestCount(Map<String, List<StatView>> grid) {
         //Used to determine what value to set the darkest colour to
         int highest = -1;
 
@@ -131,7 +117,7 @@ public class GridFragment extends Fragment {
         return highest;
     }
 
-    private Map<String, Integer> getSuccessPercentGrid(Map<String, List<Stat>> statMap) {
+    private Map<String, Integer> getSuccessPercentGrid(Map<String, List<StatView>> statMap) {
         Map<String, Integer> grid = initGrid();
 
         //cycle through grid
@@ -140,8 +126,8 @@ public class GridFragment extends Fragment {
             int successCount = 0;
 
              if (statMap.containsKey(key)){
-                 List<Stat> list = statMap.get(key);
-                 for(Stat s : list) {
+                 List<StatView> list = statMap.get(key);
+                 for(StatView s : list) {
                      if(s.getSuccess()){
                          successCount++;
                      }
@@ -155,8 +141,8 @@ public class GridFragment extends Fragment {
         return grid;
     }
 
-    private Map<String, List<Stat>> getLocationCountGrid(List<Stat> statList) {
-        Map<String, List<Stat>> grid = new HashMap<>();
+    private Map<String, List<StatView>> getLocationCountGrid(List<StatView> statList) {
+        Map<String, List<StatView>> grid = new HashMap<>();
 
 //        grid.put("A1", 0);grid.put("A2", 0);grid.put("A3", 0);
 //        grid.put("B1", 0);grid.put("B2", 0);grid.put("B3", 0);
@@ -173,11 +159,11 @@ public class GridFragment extends Fragment {
 
 
         // loop on data
-        for(Stat s: statList){
+        for(StatView s: statList){
             String loc = s.getLocation();
             // if location has a list
             if(grid.get(loc) == null){
-                grid.put(loc, new ArrayList<Stat>());
+                grid.put(loc, new ArrayList<StatView>());
             }
                 //get current state of list
                 List list = grid.get(loc);
@@ -212,7 +198,7 @@ public class GridFragment extends Fragment {
         else if(count > .2*(highestVal))
             return getResources().getColor(R.color.yellow);
         else
-            return getResources().getColor(R.color.lightBlue);
+            return getResources().getColor(R.color.lightYellow);
 
     }
 

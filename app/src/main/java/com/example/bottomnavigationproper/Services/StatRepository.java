@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
-import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.Models.StatView;
+import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ import retrofit2.Response;
 public class StatRepository {
 
     private APIInterface apiInterface;
-    private MutableLiveData<List<Stat>> statResponseLiveData;
+    private MutableLiveData<List<StatView>> statResponseLiveData;
     private MutableLiveData<List<StatName>> statNameLiveData;
     private MutableLiveData<Boolean> singleFixtureLiveData;
     private MutableLiveData<Boolean> singleStatLiveData;
@@ -73,7 +74,7 @@ public class StatRepository {
                 });
 
     }
-    public LiveData<List<Stat>> getStatsResponseLiveData() {
+    public LiveData<List<StatView>> getStatsResponseLiveData() {
         return statResponseLiveData;
     }
 
@@ -94,9 +95,9 @@ public class StatRepository {
         params.put("statName", statName);
 
         apiInterface.countAllFixtureByPlayerStatName(token, params)
-                .enqueue(new Callback<List<Stat>>() {
+                .enqueue(new Callback<List<StatView>>() {
                     @Override
-                    public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
+                    public void onResponse(Call<List<StatView>> call, Response<List<StatView>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
                             singleStatLiveData.postValue(true);
@@ -106,7 +107,7 @@ public class StatRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Stat>> call, Throwable t) {
+                    public void onFailure(Call<List<StatView>> call, Throwable t) {
                         statResponseLiveData.postValue(null);
 
                     }
@@ -119,9 +120,9 @@ public class StatRepository {
         params.put("statName", statName);
 
         apiInterface.countAllPlayerByFixtureStatName(token, params)
-                .enqueue(new Callback<List<Stat>>() {
+                .enqueue(new Callback<List<StatView>>() {
                     @Override
-                    public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
+                    public void onResponse(Call<List<StatView>> call, Response<List<StatView>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
                             singleStatLiveData.postValue(true);
@@ -130,7 +131,7 @@ public class StatRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Stat>> call, Throwable t) {
+                    public void onFailure(Call<List<StatView>> call, Throwable t) {
                         statResponseLiveData.postValue(null);
 
                     }
@@ -141,9 +142,9 @@ public class StatRepository {
         Map<String, String> params = new HashMap<>();
         params.put("statName", statName);
         apiInterface.countAllPlayerFixtureByStatName(token, params)
-                .enqueue(new Callback<List<Stat>>() {
+                .enqueue(new Callback<List<StatView>>() {
                     @Override
-                    public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
+                    public void onResponse(Call<List<StatView>> call, Response<List<StatView>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
                             singleStatLiveData.postValue(true);
@@ -153,7 +154,7 @@ public class StatRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Stat>> call, Throwable t) {
+                    public void onFailure(Call<List<StatView>> call, Throwable t) {
                         statResponseLiveData.postValue(null);
 
                     }
@@ -162,9 +163,9 @@ public class StatRepository {
 
     public void getCountAllPlayerStatFixture(String token) {
         apiInterface.countAllPlayerStat(token)
-                .enqueue(new Callback<List<Stat>>() {
+                .enqueue(new Callback<List<StatView>>() {
                     @Override
-                    public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
+                    public void onResponse(Call<List<StatView>> call, Response<List<StatView>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
                             singleStatLiveData.postValue(false);
@@ -174,7 +175,28 @@ public class StatRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Stat>> call, Throwable t) {
+                    public void onFailure(Call<List<StatView>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+
+                    }
+                });
+    }
+
+
+    public void countAllPlayerStatNameByFixtureDateGroupSuccess(String token, String fixtureDate) {
+        Map<String, String> params = new HashMap<>();
+        params.put("fixtureDate", fixtureDate);
+        apiInterface.countAllPlayerStatNameByFixtureDateGroupSuccess(token, params)
+                .enqueue(new Callback<List<StatView>>() {
+                    @Override
+                    public void onResponse(Call<List<StatView>> call, Response<List<StatView>> response) {
+                        if (response.body() != null) {
+                            statResponseLiveData.postValue(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<StatView>> call, Throwable t) {
                         statResponseLiveData.postValue(null);
 
                     }
@@ -185,9 +207,9 @@ public class StatRepository {
         Map<String, String> params = new HashMap<>();
         params.put("fixtureDate", fixtureDate);
         apiInterface.countAllPlayerStatNameByFixtureDate(token, params)
-                .enqueue(new Callback<List<Stat>>() {
+                .enqueue(new Callback<List<StatView>>() {
                     @Override
-                    public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
+                    public void onResponse(Call<List<StatView>> call, Response<List<StatView>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
                             singleFixtureLiveData.postValue(true);
@@ -196,7 +218,7 @@ public class StatRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Stat>> call, Throwable t) {
+                    public void onFailure(Call<List<StatView>> call, Throwable t) {
                         statResponseLiveData.postValue(null);
 
                     }
@@ -209,9 +231,9 @@ public class StatRepository {
         params.put("lastname", lastname);
 
         apiInterface.countAllStatNameFixtureByPlayer(token, params)
-                .enqueue(new Callback<List<Stat>>() {
+                .enqueue(new Callback<List<StatView>>() {
                     @Override
-                    public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
+                    public void onResponse(Call<List<StatView>> call, Response<List<StatView>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
                             singleStatLiveData.postValue(false);
@@ -221,7 +243,7 @@ public class StatRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Stat>> call, Throwable t) {
+                    public void onFailure(Call<List<StatView>> call, Throwable t) {
                         statResponseLiveData.postValue(null);
 
                     }
@@ -236,9 +258,9 @@ public class StatRepository {
         params.put("fixtureDate", fixtureDate);
 
         apiInterface.countAllStatsByPlayerFixtureDate(token, params)
-                .enqueue(new Callback<List<Stat>>() {
+                .enqueue(new Callback<List<StatView>>() {
                     @Override
-                    public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
+                    public void onResponse(Call<List<StatView>> call, Response<List<StatView>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
                             singleFixtureLiveData.postValue(true);
@@ -248,7 +270,7 @@ public class StatRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Stat>> call, Throwable t) {
+                    public void onFailure(Call<List<StatView>> call, Throwable t) {
                         statResponseLiveData.postValue(null);
 
                     }
@@ -263,9 +285,9 @@ public class StatRepository {
         params.put("statName", statName);
 
         apiInterface.countStat(token, params)
-                .enqueue(new Callback<List<Stat>>() {
+                .enqueue(new Callback<List<StatView>>() {
                     @Override
-                    public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
+                    public void onResponse(Call<List<StatView>> call, Response<List<StatView>> response) {
                         if (response.body() != null) {
                             statResponseLiveData.postValue(response.body());
                             singleStatLiveData.postValue(true);
@@ -274,7 +296,7 @@ public class StatRepository {
                     }
 
                     @Override
-                    public void onFailure(Call<List<Stat>> call, Throwable t) {
+                    public void onFailure(Call<List<StatView>> call, Throwable t) {
                         statResponseLiveData.postValue(null);
 
                     }
@@ -282,8 +304,24 @@ public class StatRepository {
     }
 
 
-    public void persistStat(Stat stat) {
+    public void persistStat(String token, StatModel stat) {
         //TODO create put/post request for persisting stat
+
+        apiInterface.addStat(token,stat)
+                .enqueue(new Callback<List<StatView>>(){
+
+            @Override
+            public void onResponse(Call<List<StatView>> call, Response<List<StatView>> response) {
+                if (response.body() != null) {
+                    statResponseLiveData.postValue(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<StatView>> call, Throwable t) {
+                statResponseLiveData.postValue(null);
+            }
+        });
     }
 }
 

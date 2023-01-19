@@ -42,7 +42,7 @@ public class Dictionaries {
         }
         playerNumbersStrings = Arrays.asList("one", "two", "three", "four", "five", "six", "seven", "eight", "nine","ten",
                 "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen","twenty",
-                "twentyone", "twentytwo", "twentythree","twentyfour", "twentyfive", "twentysix", "twentyseven", "twentyeight", "twentynine", "thirty");
+                "twentyone", "twentytwo", "twentythree","twentyfour", "twentyfive", "twentysix", "twentyseven", "twentyeight", "twentynine", "thirty", "opposition");
 
         allNums.addAll(playerNumbers);
         allNums.addAll(playerNumbersStrings);
@@ -57,9 +57,9 @@ public class Dictionaries {
                 "Solo","Substitute");
 
         // success
-        success = Arrays.asList("true","false","win","loss","On", "Off", "Won", "Lost");
-        successTrue = Arrays.asList("true","win","On", "Won");
-        successFalse = Arrays.asList("false", "loss", "Off", "Lost");
+        success = Arrays.asList("true","false","win","loss","On", "Off", "Won", "Lost", "Goal", "Point");
+        successTrue = Arrays.asList("true","win","On", "Won", "Goal");
+        successFalse = Arrays.asList("false", "loss", "Off", "Lost", "Point");
 
         // combining first and second words
         for (String number : playerNumbers)
