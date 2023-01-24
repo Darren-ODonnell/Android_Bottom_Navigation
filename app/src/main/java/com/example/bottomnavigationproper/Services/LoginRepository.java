@@ -7,6 +7,7 @@ import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Login;
+import com.example.bottomnavigationproper.Register;
 import com.example.bottomnavigationproper.User;
 
 import retrofit2.Call;
@@ -28,6 +29,34 @@ public class LoginRepository {
 
     public void login(Login login){
         Call<User> call = apiInterface.login(login);
+
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
+
+                if(response.isSuccessful()){
+                    assert response.body() != null;
+                    User user = response.body();
+                    String token = user.getAccessToken();
+                    tokenLiveData.postValue(token);
+                    validToken.postValue(true);
+                    TokenSingleton.getInstance().setTokenString(token);
+                }else{
+//                    Toast.makeText(getApplicationContext(), "Login not correct :(", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                call.cancel();
+//                Toast.makeText(getApplicationContext(), "error :(", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    public void register(Register register){
+        Call<User> call = apiInterface.register(register);
 
         call.enqueue(new Callback<User>() {
             @Override

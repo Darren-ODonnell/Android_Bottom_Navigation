@@ -3,18 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/green6"
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/gameStatRV"
         android:layout_width="match_parent"
-        android:minHeight="200dp"
         android:layout_height="wrap_content"
-         />
+        android:layout_margin="8dp"
+        android:background="@color/green5"
+
+        android:minHeight="200dp" />
     <Button
         android:id="@+id/game_stat_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/green5"
+        android:layout_marginBottom="8dp"
         android:text="Back"/>
 </LinearLayout>
