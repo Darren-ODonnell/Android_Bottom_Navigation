@@ -30,9 +30,23 @@ public class InGameStatsAdapter extends RecyclerView.Adapter<InGameStatsAdapter.
     @Override
     public void onBindViewHolder(@NonNull InGameStatsHolder holder, int position) {
         String stat = results.get(position);
-        String percent = percents.get(position) + "%";
+        double percent = Double.parseDouble(percents.get(position));
+        int width = getPercentWidth(percent);
+        String percentStr = percent + "%";
         holder.statTV.setText(stat);
-        holder.countTV.setText(percent);
+        holder.countTV.setText(percentStr);
+
+
+        ViewGroup.LayoutParams parms = holder.countTV.getLayoutParams();
+        parms.width = width;
+
+    }
+
+    private int getPercentWidth(double percent){
+        double maxPixels = 550.0;
+
+        return (int) Math.round(maxPixels * (percent / 100));
+
     }
 
     @Override

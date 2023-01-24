@@ -708,13 +708,20 @@ public class GameFragment extends Fragment {
 //                                        validateInput()
 //                                )
 //                        );
+                String word = words[1];
+                if (words.length > 3){
+                    word += words[2];
+                    Log.d("speechResult", "word " + word);
+
+                }
+
                 String stat = dict.getStatNames()
                         .get(
-                                validateInput(words[1], dict.getStatNames())
+                                validateInput(word, dict.getStatNames())
                         );
                 String success = dict.getSuccess()
                         .get(
-                                validateInput(words[2], dict.getSuccess())
+                                validateInput(words[words.length-1], dict.getSuccess())
                         );
 
                 Spinner playerSpinner = mView.findViewById(R.id.gameSpinnerPlayer);

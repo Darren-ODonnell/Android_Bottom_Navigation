@@ -8,6 +8,7 @@ import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
+import com.example.bottomnavigationproper.Register;
 import com.example.bottomnavigationproper.User;
 
 import java.util.List;
@@ -28,6 +29,9 @@ public interface APIInterface {
 
     @POST("api/auth/login")
     Call<User> login(@Body Login login);
+
+    @POST("api/auth/register")
+    Call<User> register(@Body Register register);
 
     @GET("api/auth/checkToken")
     Call<Boolean> checkToken(@Query("token") String token);

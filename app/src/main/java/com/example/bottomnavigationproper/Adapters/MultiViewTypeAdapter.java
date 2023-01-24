@@ -184,6 +184,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
 
     private void createBarChart(RecyclerView.ViewHolder holder, List<StatsView> statsForPlayer) {
         BarChart barChart = ((BarChartViewHolder) holder).barChart;
+        barChart.setBackgroundColor(barChart.getContext().getResources().getColor(R.color.green4));
         ArrayList<BarEntry> entries = new ArrayList<>();
         List<String> xValues = new ArrayList<>();
 
@@ -200,8 +201,8 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
             i++;
         }
 
-        BarDataSet barDataSet = new BarDataSet(entries, "Bar Chart");
-        barDataSet.setColor(R.color.purple_200);
+        BarDataSet barDataSet = new BarDataSet(entries, "Stat Occurrence Frequency");
+        barDataSet.setColor(barChart.getContext().getResources().getColor(R.color.pink1));
         barDataSet.setDrawValues(false);
 
         BarData data = new BarData(barDataSet);
@@ -221,6 +222,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
         xAxis.setLabelCount(xValues.size());
 
         barChart.setData(data);
+
         if(singleStat)
             barChart.setXAxisRenderer(new CustomXAxisRenderer(barChart.getViewPortHandler(), barChart.getXAxis(), barChart.getTransformer(YAxis.AxisDependency.LEFT)));
 
