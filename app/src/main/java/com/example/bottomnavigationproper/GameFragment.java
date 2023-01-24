@@ -39,14 +39,13 @@ import android.widget.TextView;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.StatRepository;
 import com.example.bottomnavigationproper.ViewModels.GameViewModel;
 import com.example.bottomnavigationproper.Adapters.InGameStatsAdapter;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +53,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class GameFragment extends Fragment {
 
@@ -84,7 +84,7 @@ public class GameFragment extends Fragment {
     View view;
 
     View mView;
-    List<Stat> stats = new ArrayList<>();
+    List<StatsView> statsViews = new ArrayList<>();
     List<StatName> statNames = new ArrayList<>();
     List<Player> players = new ArrayList<>();
     List<String> successList = new ArrayList<>();
@@ -201,10 +201,30 @@ public class GameFragment extends Fragment {
     }
 
     private void createStatsDisplayDialog(){
-        HashMap<String, List<Stat>> groupedStats = getGroupedStats(stats);
+        HashMap<String, List<StatsView>> groupedStats = getGroupedStats(statsViews);
 
-        List<String> statNames = getUniqueStats(stats);
+        List<String> statNames = new ArrayList<>();
         List<String> percents = getPercents(groupedStats);
+
+        for(String s: groupedStats.keySet()){
+
+            statNames.add(s);
+            List<StatsView> statsViews = groupedStats.get(s);
+            double success = 0;
+            double total = 0;
+            for(int i = 0; i < Objects.requireNonNull(statsViews).size(); i++){
+                total += Integer.parseInt(statsViews.get(i).getCount());
+                if(statsViews.get(i).getSuccess()){
+                    success += Integer.parseInt(statsViews.get(i).getCount());
+                }
+            }
+            double percent = success/total * 100;
+
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(2);
+            String percentStr = df.format(percent);
+            percents.add(percentStr);
+        }
 
 
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
@@ -254,29 +274,29 @@ public class GameFragment extends Fragment {
         return totalSeconds / 60;
     }
 
-    private List<String> getUniqueStats(List<Stat> stats) {
+    private List<String> getUniqueStats(List<StatsView> statsViews) {
         List<String> uniq = new ArrayList<>();
 
-        for(Stat stat: stats){
-            if(!uniq.contains(stat.getStatName()))
-                uniq.add(stat.getStatName());
+        for(StatsView statsView : statsViews){
+            if(!uniq.contains(statsView.getStatName()))
+                uniq.add(statsView.getStatName());
 
         }
         return uniq;
     }
 
-    private List<String> getPercents(HashMap<String, List<Stat>> groupedStats) {
+    private List<String> getPercents(HashMap<String, List<StatsView>> groupedStats) {
         List<String> percents = new ArrayList<>();
 
         for(String s: groupedStats.keySet()){
 
-            List<Stat> stats = groupedStats.get(s);
+            List<StatsView> statsViews = groupedStats.get(s);
             double success = 0;
             double total = 0;
-            for(int i = 0; i < stats.size(); i++){
-                total += Integer.parseInt(stats.get(i).getCount());
-                if(stats.get(i).getSuccess()){
-                    success += Integer.parseInt(stats.get(i).getCount());
+            for(int i = 0; i < Objects.requireNonNull(statsViews).size(); i++){
+                total += Integer.parseInt(statsViews.get(i).getCount());
+                if(statsViews.get(i).getSuccess()){
+                    success += Integer.parseInt(statsViews.get(i).getCount());
                 }
             }
             double percent = success/total * 100;
@@ -289,20 +309,20 @@ public class GameFragment extends Fragment {
         return percents;
     }
 
-    private HashMap<String, List<Stat>> getGroupedStats(List<Stat> stats) {
-        HashMap<String, List<Stat>> groupedStats = new HashMap<>();
+    private HashMap<String, List<StatsView>> getGroupedStats(List<StatsView> statsViews) {
+        HashMap<String, List<StatsView>> groupedStats = new HashMap<>();
 
-        for(int i = 0; i < stats.size(); i++) {
-            Stat stat = stats.get(i);
-            String statName = stat.getStatName();
-            List<Stat> statList;
+        for(int i = 0; i < statsViews.size(); i++) {
+            StatsView statsView = statsViews.get(i);
+            String statName = statsView.getStatName();
+            List<StatsView> statsViewList;
             if (groupedStats.containsKey(statName)) {
-                statList = groupedStats.get(statName);
+                statsViewList = groupedStats.get(statName);
             } else {
-                statList = new ArrayList<>();
+                statsViewList = new ArrayList<>();
             }
-            statList.add(stat);
-            groupedStats.put(statName, statList);
+            statsViewList.add(statsView);
+            groupedStats.put(statName, statsViewList);
         }
 
         return groupedStats;
@@ -365,12 +385,12 @@ public class GameFragment extends Fragment {
 
     private void checkStatForScoreOpposition(StatModel stat) {
         switch (stat.getStatNameId().toLowerCase(Locale.ROOT)){
-            case "goal":
+            case "scg":
                 awayGoals++;
                 break;
-            case "point":
+            case "scpo":
                 awayPoints++;
-            case "freescore":
+            case "fs":
                 if(stat.getSuccess())
                     awayGoals++;
                 else
@@ -394,12 +414,12 @@ public class GameFragment extends Fragment {
 
     private void checkStatForScoreHome(StatModel stat) {
         switch (stat.getStatNameId().toLowerCase(Locale.ROOT)){
-            case "goal":
+            case "scg":
                 homeGoals++;
                 break;
-            case "point":
+            case "scpo":
                 homePoints++;
-            case "freescore":
+            case "fs":
                 if(stat.getSuccess())
                     homeGoals++;
                 else
@@ -435,8 +455,7 @@ public class GameFragment extends Fragment {
         stat.setTimeOccurred(time);
 
         StatRepository repo = new StatRepository();
-        repo.persistStat(TokenSingleton.getInstance().getBearerTokenString(), stat);
-        viewModel.getStats(currentFixture);
+        repo.persistStat(TokenSingleton.getInstance().getBearerTokenString(), stat, currentFixture.getFixtureDate());
 
         return stat;
 
@@ -512,11 +531,11 @@ public class GameFragment extends Fragment {
             }
         });
 
-        viewModel.getStatsLiveData().observe(getViewLifecycleOwner(), new Observer<List<Stat>>() {
+        viewModel.getStatsLiveData().observe(getViewLifecycleOwner(), new Observer<List<StatsView>>() {
             @Override
-            public void onChanged(List<Stat> statList) {
-                if(statList != null){
-                    stats = statList;
+            public void onChanged(List<StatsView> statsViewList) {
+                if(statsViewList != null){
+                    statsViews = statsViewList;
                     adapter.notifyDataSetChanged();
                     createStatsDisplayDialog();
                 }
@@ -545,7 +564,9 @@ public class GameFragment extends Fragment {
 
     public void setPlayerList(Spinner spinner){
         Player player = new Player();
-        player.setFirstname("Opposition");
+        player.setId(80L);
+        player.setFirstname("");
+        player.setLastname("Opposition");
         players.add(player);
         ArrayAdapter<Player> adapter =
                 new ArrayAdapter<Player>(getContext(),  android.R.layout.simple_spinner_dropdown_item, players);

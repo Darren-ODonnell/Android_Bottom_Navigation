@@ -45,6 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
             Login loginObj = new Login(username, password);
             service.login(loginObj);
+            storeToken(getApplicationContext());
 
             startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
 

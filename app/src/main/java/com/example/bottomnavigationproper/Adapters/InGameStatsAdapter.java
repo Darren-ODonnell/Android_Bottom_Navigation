@@ -8,12 +8,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bottomnavigationproper.Models.Fixture;
-import com.example.bottomnavigationproper.Models.Stat;
 import com.example.bottomnavigationproper.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 

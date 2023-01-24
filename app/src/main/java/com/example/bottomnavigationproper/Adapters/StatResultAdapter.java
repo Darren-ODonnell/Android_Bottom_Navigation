@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bottomnavigationproper.ChartType;
-import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.R;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.List;
 
 
 public class StatResultAdapter extends RecyclerView.Adapter<StatResultAdapter.StatResultsHolder> {
-    private List<Stat> results = new ArrayList<>();
+    private List<StatsView> results = new ArrayList<>();
     private Boolean singleStat;
     private Boolean singleFixture;
     private ChartType chartType;
@@ -36,10 +36,10 @@ public class StatResultAdapter extends RecyclerView.Adapter<StatResultAdapter.St
 
     @Override
     public void onBindViewHolder(@NonNull StatResultsHolder holder, int position) {
-        Stat stat = results.get(position);
+        StatsView statsView = results.get(position);
 
-        holder.statNameTV.setText(stat.getStatName());
-        holder.playerNameTV.setText(stat.getFirstName());
+        holder.statNameTV.setText(statsView.getStatName());
+        holder.playerNameTV.setText(statsView.getFirstName());
     }
 
     @Override
@@ -47,7 +47,7 @@ public class StatResultAdapter extends RecyclerView.Adapter<StatResultAdapter.St
         return results.size();
     }
 
-    public void setResults(List<Stat> results) {
+    public void setResults(List<StatsView> results) {
         this.results = results;
         notifyDataSetChanged();
     }

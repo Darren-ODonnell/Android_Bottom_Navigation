@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        if(token != null){
-            service.validateJWT(token);
-        }else{
+//        if(token != null){
+//            service.validateJWT(token);
+//        }else{
             buildRegisterLoginScreen();
-        }
+//        }
     }
 
     private String retrieveToken() {
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 //        findViewById(R.id.navigate_to_register).setOnClickListener(v -> {
-//            startActivity(new Intent(this, RegisterActivity.class));
+//            startActivity(new Intent(this, com.example.bottomnavigationproper.RegisterActivity.class));
 //        });
 //        findViewById(R.id.login).setOnClickListener(v -> onLogin());
     }

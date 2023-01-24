@@ -3,7 +3,7 @@
 If selection = all -> no parm sent to api
 eg.
 players = all
-stats = all
+statsViews = all
 time = fixture_date
 
 send fixture_date (as string) to endpoint
@@ -28,10 +28,10 @@ TODO
 Fix StatsScreen Layout
 
 20/11/2022 TODO
-StatsRepository for other stats returned.
-if locaiton based stat -> gridLayout -> else statsDisplay
-change navToGridLayout from stats display to an if statement above.
-stat display for graph
+StatsRepository for other statsViews returned.
+if locaiton based statsView -> gridLayout -> else statsDisplay
+change navToGridLayout from statsViews display to an if statement above.
+statsView display for graph
 
 todo ->
 Modify HeatMap to have a ( i ) button which opens up a fragment for explaining the % and colours
