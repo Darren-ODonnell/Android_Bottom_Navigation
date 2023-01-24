@@ -42,7 +42,7 @@ public class Dictionaries {
         }
         playerNumbersStrings = Arrays.asList("one", "two", "three", "four", "five", "six", "seven", "eight", "nine","ten",
                 "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen","twenty",
-                "twentyone", "twentytwo", "twentythree","twentyfour", "twentyfive", "twentysix", "twentyseven", "twentyeight", "twentynine", "thirty", "opposition");
+                "twentyone", "twentytwo", "twentythree","twentyfour", "twentyfive", "twentysix", "twentyseven", "twentyeight", "twentynine", "thirty", "Opposition");
 
         allNums.addAll(playerNumbers);
         allNums.addAll(playerNumbersStrings);
@@ -51,6 +51,7 @@ public class Dictionaries {
             numMap.put(playerNumbers.get(i-1), Integer.toString(i));
             numMap.put(playerNumbersStrings.get(i-1), Integer.toString(i));
         }
+        numMap.put(playerNumbersStrings.get(playerNumbers.size()), "30");
         // stat names
         statNames = Arrays.asList("Block","Catch","FreePass","FreeScore","Hook","Handpass",
                 "PuckOut","PuckOutOpp","Pass","Ruck","Save","Goal","Point",

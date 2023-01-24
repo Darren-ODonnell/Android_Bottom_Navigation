@@ -2,7 +2,9 @@ package com.example.bottomnavigationproper.Models;
 
 import com.google.gson.annotations.Expose;
 
-public class Stat {
+import java.math.BigDecimal;
+
+public class StatsView {
     @Expose
     private String statName;
     @Expose
@@ -24,11 +26,11 @@ public class Stat {
     @Expose
     private String fixtureDate;
     @Expose
-    private String timeOccurred;
+    private BigDecimal timeOccurred;
     @Expose
     private String count;
 
-    public Stat(){
+    public StatsView(){
 
     }
 
@@ -104,11 +106,11 @@ public class Stat {
         this.fixtureDate = fixtureDate;
     }
 
-    public String getTimeOccurred() {
+    public BigDecimal getTimeOccurred() {
         return timeOccurred;
     }
 
-    public void setTimeOccurred(String timeOccurred) {
+    public void setTimeOccurred(BigDecimal timeOccurred) {
         this.timeOccurred = timeOccurred;
     }
 

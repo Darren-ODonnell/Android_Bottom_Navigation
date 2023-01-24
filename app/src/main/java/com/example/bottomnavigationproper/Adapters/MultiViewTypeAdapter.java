@@ -5,14 +5,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.CustomXAxisRenderer;
+import com.example.bottomnavigationproper.Models.StatsView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -25,9 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MultiViewTypeAdapter extends RecyclerView.Adapter{
-    private List<Stat> results = new ArrayList<>();
-    private HashMap<String, List<Stat>> playerStats = new HashMap<>();
-    private HashMap<Integer, List<Stat>> intPlayerStats = new HashMap<>();
+    private List<StatsView> results = new ArrayList<>();
+    private HashMap<String, List<StatsView>> playerStats = new HashMap<>();
+    private HashMap<Integer, List<StatsView>> intPlayerStats = new HashMap<>();
     private Boolean singleStat;
     private Boolean singleFixture;
 //    private ChartType chartType;
@@ -78,23 +79,24 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
 
 
 
-    public void setResults(List<Stat>data) {
+    public void setResults(List<StatsView>data) {
         this.results = data;
 
         this.playerStats = mapResultsToPlayer(results);
     }
 
-    private HashMap<String, List<Stat>> mapResultsToPlayer(List<Stat> results) {
-        HashMap<String, List<Stat>> playerStats = new HashMap<>();
+    private HashMap<String, List<StatsView>> mapResultsToPlayer(List<StatsView> results) {
+        HashMap<String, List<StatsView>> playerStats = new HashMap<>();
         int i = 0;
-        for(Stat s: results){
+        for(StatsView s: results){
             String fullName = s.getFirstName() + " " + s.getLastName();
             if(playerStats.get(fullName) == null){
-                List<Stat> list = new ArrayList<>();
+                List<StatsView> list = new ArrayList<>();
+                list.add(s);
                 playerStats.put(fullName, list);
                 intPlayerStats.put(i++,list);
             }else{
-                List<Stat> list = playerStats.get(fullName);
+                List<StatsView> list = playerStats.get(fullName);
                 assert list != null;
                 list.add(s);
                 playerStats.put(fullName, list);
@@ -154,7 +156,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int listPosition) {
 
-        List<Stat> statsForPlayer = intPlayerStats.get(listPosition);
+        List<StatsView> statsForPlayer = intPlayerStats.get(listPosition);
 
         if (statsForPlayer != null) {
 
@@ -180,16 +182,21 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
             }
         }
 
-    private void createBarChart(RecyclerView.ViewHolder holder, List<Stat> statsForPlayer) {
+    private void createBarChart(RecyclerView.ViewHolder holder, List<StatsView> statsForPlayer) {
         BarChart barChart = ((BarChartViewHolder) holder).barChart;
         ArrayList<BarEntry> entries = new ArrayList<>();
         List<String> xValues = new ArrayList<>();
 
         int i = 0;
-        for(Stat s: statsForPlayer){
+        for(StatsView s: statsForPlayer){
             BarEntry barEntry = new BarEntry(i, Float.parseFloat(s.getCount()));
             entries.add(barEntry);
-            xValues.add(s.getStatName());
+            if(singleStat) {
+                String temp = s.getHomeTeam() + "\n" + s.getFixtureDate();
+                xValues.add(temp);
+            }else
+                xValues.add(s.getStatName());
+
             i++;
         }
 
@@ -214,6 +221,9 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
         xAxis.setLabelCount(xValues.size());
 
         barChart.setData(data);
+        if(singleStat)
+            barChart.setXAxisRenderer(new CustomXAxisRenderer(barChart.getViewPortHandler(), barChart.getXAxis(), barChart.getTransformer(YAxis.AxisDependency.LEFT)));
+
         barChart.invalidate();
 
         Legend legend = barChart.getLegend();

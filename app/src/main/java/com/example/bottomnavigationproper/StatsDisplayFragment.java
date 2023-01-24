@@ -1,12 +1,9 @@
 package com.example.bottomnavigationproper;
 
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -16,25 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.bottomnavigationproper.Adapters.MultiViewTypeAdapter;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Models.Stat;
+import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatName;
-import com.example.bottomnavigationproper.utils.StatResultAdapter;
 
 //import com.example.bottomnavigationproper.utils.PlayerResultsAdapter;
 import com.example.bottomnavigationproper.ViewModels.StatViewModel;
-import com.github.mikephil.charting.charts.BarChart;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class StatsDisplayFragment extends Fragment {
 
@@ -64,11 +54,11 @@ public class StatsDisplayFragment extends Fragment {
     private void initViewModel() {
         viewModel = new ViewModelProvider(this).get(StatViewModel.class);
         viewModel.init();
-        viewModel.getStatResponseLiveData().observe(this, new Observer<List<Stat>>() {
+        viewModel.getStatResponseLiveData().observe(this, new Observer<List<StatsView>>() {
             @Override
-            public void onChanged(List<Stat> statList) {
-                if (statList != null) {
-                    adapter.setResults(statList);
+            public void onChanged(List<StatsView> statsViewList) {
+                if (statsViewList != null) {
+                    adapter.setResults(statsViewList);
                     adapter.notifyDataSetChanged();
                 }
 

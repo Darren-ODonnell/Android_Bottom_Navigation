@@ -4,9 +4,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="game">game</string>
     <string name="home">home</string>
-    <string name="stats">stats</string>
+    <string name="statsViews">statsViews</string>
     <string name="statsDisplay">statsDisplay</string>
-    <string name="stat">Stat</string>
+    <string name="statsView">Stat</string>
     <string name="time_period">Time Period</string>
     <string name="player">player</string>
     <string name="preference_file_key" />

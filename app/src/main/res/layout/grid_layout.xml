@@ -19,7 +19,7 @@
             android:id="@+id/explanation2"
             android:layout_width="142dp"
             android:layout_height="wrap_content"
-            android:text="The Percentage: The success rate of selected stat within a section"
+            android:text="The Percentage: The success rate of selected statsView within a section"
             app:layout_column="1"
             app:layout_columnWeight="3"
             app:layout_row="4"

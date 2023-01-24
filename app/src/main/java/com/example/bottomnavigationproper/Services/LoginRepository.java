@@ -60,11 +60,11 @@ public class LoginRepository {
         call.enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if(response.body().booleanValue()){
+                if(Boolean.TRUE.equals(response.body())){
                     validToken.postValue(true);
                     TokenSingleton.getInstance().setTokenString(token);
-                }
-
+                }else
+                    validToken.postValue(false);
             }
 
             @Override
