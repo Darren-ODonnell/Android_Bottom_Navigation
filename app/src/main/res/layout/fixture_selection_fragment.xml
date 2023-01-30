@@ -3,21 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/green6"
-    android:orientation="vertical">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:layout_margin="25dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Select Fixture"
+        android:textAlignment="center"
+        android:textColor="@color/green2"
+        android:textSize="36sp"
+        />
 
     <Spinner
         android:id="@+id/spinnerFixtureSelection"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:backgroundTint="@color/pink1" />
+        android:backgroundTint="@color/green2"
+        android:paddingStart="20dp"
+        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/fixtureSelectionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1"
-        android:backgroundTint="@color/green5"
-        android:text="Button" />
+        android:backgroundTint="@color/pink4"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="5"
+        android:text="Confirm"
+        android:textColor="@color/green2" />
 </LinearLayout>
