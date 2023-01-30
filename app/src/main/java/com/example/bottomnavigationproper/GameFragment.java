@@ -132,7 +132,7 @@ public class GameFragment extends Fragment {
     private void showFixtureSelection() {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
         View fView = getLayoutInflater().inflate(R.layout.fixture_selection_fragment, null);
-        mBuilder.setTitle("Select Fixture");
+//        mBuilder.setTitle("Select Fixture");
         fixtureSpinner = (Spinner) fView.findViewById(R.id.spinnerFixtureSelection);
         setFixtureList();
 
@@ -472,8 +472,6 @@ public class GameFragment extends Fragment {
 
     private AlertDialog createInputDialog( View mView) {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-        mBuilder.setTitle("Input Stat");
-
 
         Spinner successSpinner = (Spinner) mView.findViewById(R.id.gameSpinnerSuccess);
         setSuccessList(successSpinner);
@@ -548,7 +546,7 @@ public class GameFragment extends Fragment {
 
     private void setFixtureList() {
         ArrayAdapter<Fixture> adapter =
-                new ArrayAdapter<Fixture>(getContext(),  android.R.layout.simple_spinner_dropdown_item, fixtures);
+                new ArrayAdapter<Fixture>(getContext(),  R.layout.fixture_spinner_item, fixtures);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         fixtureSpinner.setAdapter(adapter);
 
@@ -569,7 +567,7 @@ public class GameFragment extends Fragment {
         player.setLastname("Opposition");
         players.add(player);
         ArrayAdapter<Player> adapter =
-                new ArrayAdapter<Player>(getContext(),  android.R.layout.simple_spinner_dropdown_item, players);
+                new ArrayAdapter<Player>(getContext(),  R.layout.fixture_spinner_item, players);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -588,7 +586,7 @@ public class GameFragment extends Fragment {
 //        options.add(0, Boolean.FALSE);
         successList = Dictionaries.getInstance().getSuccess();
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(getContext(),  android.R.layout.simple_spinner_dropdown_item, successList);
+                new ArrayAdapter<String>(getContext(),  R.layout.fixture_spinner_item, successList);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -605,7 +603,7 @@ public class GameFragment extends Fragment {
     public void setStatNameList(Spinner spinner){
 
         ArrayAdapter<StatName> adapter =
-                new ArrayAdapter<StatName>(getContext(),  android.R.layout.simple_spinner_dropdown_item, statNames);
+                new ArrayAdapter<StatName>(getContext(),  R.layout.fixture_spinner_item, statNames);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -618,7 +616,7 @@ public class GameFragment extends Fragment {
         });
     }
 
-    private EditText editText;
+//    private EditText editText;
     public static final Integer RecordAudioRequestCode = 1;
     private SpeechRecognizer speechRecognizer;
     private ImageView micButton;
@@ -631,7 +629,7 @@ public class GameFragment extends Fragment {
 
 
         micButton = mView.findViewById(R.id.button);
-        editText = mView.findViewById(R.id.text);
+//        editText = mView.findViewById(R.id.text);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getActivity());
 
         final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -646,8 +644,8 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onBeginningOfSpeech() {
-                editText.setText("");
-                editText.setHint("Listening...");
+//                editText.setText("");
+//                editText.setHint("Listening...");
             }
 
             @Override
@@ -770,6 +768,7 @@ public class GameFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    micButton.setImageResource(R.drawable.ic_mic_black_off);
                     speechRecognizer.stopListening();
                 }
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN){
