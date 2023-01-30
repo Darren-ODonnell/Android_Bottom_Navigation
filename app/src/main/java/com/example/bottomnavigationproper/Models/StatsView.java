@@ -2,9 +2,10 @@ package com.example.bottomnavigationproper.Models;
 
 import com.google.gson.annotations.Expose;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class StatsView {
+public class StatsView implements Serializable {
     @Expose
     private String statName;
     @Expose

@@ -21,6 +21,8 @@ import com.example.bottomnavigationproper.R;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -66,6 +68,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
 
         TextView playerName;
         TextView fixture;
+        TextView statName;
         BarChart barChart;
 
         public BarChartViewHolder(View itemView) {
@@ -73,6 +76,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
 
             this.playerName = (TextView) itemView.findViewById(R.id.bar_player);
             this.fixture = (TextView) itemView.findViewById(R.id.bar_fixture);
+            this.statName = (TextView) itemView.findViewById(R.id.bar_stat);
             this.barChart = (BarChart) itemView.findViewById(R.id.bar_graph);
         }
     }
@@ -164,9 +168,20 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
 //                ((BarChartViewHolder) holder).statName.setText(stat.getStatName());
             String fullName = statsForPlayer.get(0).getFirstName() + " " + statsForPlayer.get(0).getLastName();
             String fixtureDate = statsForPlayer.get(0).getFixtureDate();
+            String statName = statsForPlayer.get(0).getStatName();
                 ((BarChartViewHolder) holder).playerName.setText(fullName);
-                ((BarChartViewHolder) holder).fixture.setText(fixtureDate);
+                if(singleFixture)
+                    ((BarChartViewHolder) holder).fixture.setText(fixtureDate);
+                else
+                    ((BarChartViewHolder) holder).fixture.setText("All Fixtures");
                 createBarChart(holder, statsForPlayer);
+
+                if(singleStat)
+                    ((BarChartViewHolder) holder).statName.setText(statName);
+                else
+                    ((BarChartViewHolder) holder).statName.setText("All Stats");
+
+
 
 
 //            }

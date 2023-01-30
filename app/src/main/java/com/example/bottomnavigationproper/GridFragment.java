@@ -12,10 +12,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.bottomnavigationproper.Models.StatsView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class GridFragment extends Fragment {
 
@@ -94,8 +96,14 @@ public class GridFragment extends Fragment {
         int highest = getLargestCount(grid);
 
         // Setting colourGrid
-        for(String key: grid.keySet()){
-            int count = grid.get(key).size();
+        for(String key: colourGrid.keySet()){
+            int count;
+            if(grid.get(key) != null){
+                count = Objects.requireNonNull(grid.get(key)).size();
+            }else{
+                count = 0;
+
+            }
             colourGrid.put(key, getColour(count, highest));
         }
 
@@ -134,7 +142,8 @@ public class GridFragment extends Fragment {
                  }
                  if(!list.isEmpty()){
                      grid.put(key, (successCount * 100) / list.size());
-                 }
+                 }else
+                     grid.put(key, 0);
              }
         }
 
@@ -143,20 +152,6 @@ public class GridFragment extends Fragment {
 
     private Map<String, List<StatsView>> getLocationCountGrid(List<StatsView> statsViewList) {
         Map<String, List<StatsView>> grid = new HashMap<>();
-
-//        grid.put("A1", 0);grid.put("A2", 0);grid.put("A3", 0);
-//        grid.put("B1", 0);grid.put("B2", 0);grid.put("B3", 0);
-//        grid.put("C1", 0);grid.put("C2", 0);grid.put("C3", 0);
-//        grid.put("D1", 0);grid.put("D2", 0);grid.put("D3", 0);
-//        grid.put("E1", 0);grid.put("E2", 0);grid.put("E3", 0);
-
-
-
-
-
-
-
-
 
         // loop on data
         for(StatsView s: statsViewList){
@@ -197,9 +192,10 @@ public class GridFragment extends Fragment {
             return getResources().getColor(R.color.orange);
         else if(count > .2*(highestVal))
             return getResources().getColor(R.color.yellow);
-        else
+        else if(count > 0)
             return getResources().getColor(R.color.lightYellow);
-
+        else
+            return getResources().getColor(R.color.lightGray);
     }
 
 }
