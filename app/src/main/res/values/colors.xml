@@ -7,11 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="redOrange">#ed683c</color>
-    <color name="red">#e93e3a</color>
-    <color name="orange">#f3903f</color>
-    <color name="yellow">#fdc70c</color>
-    <color name="lightYellow">#fff33b</color>
+    <color name="redOrange">#CCed683c</color>
+    <color name="red">#CCe93e3a</color>
+    <color name="orange">#CCf3903f</color>
+    <color name="yellow">#CCfdc70c</color>
+    <color name="lightYellow">#CCfff33b</color>
+    <color name="lightGray">#CCD3D3D3</color>
     <color name="green1">#BBEC98</color>
     <color name="green2">#8AE248</color>
     <color name="green3">#65E00E</color>

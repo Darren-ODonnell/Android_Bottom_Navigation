@@ -82,6 +82,8 @@
                     app:iconPadding="0dp"
                     app:iconSize="24dp"
                     app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
+                    android:backgroundTint="@color/pink4"
+
                     tools:ignore="SpeakableTextPresentCheck" />
 
                 <Button
@@ -97,7 +99,9 @@
                     app:icon="@drawable/ic_heatmap"
                     app:iconPadding="0dp"
                     app:iconSize="24dp"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded" />
+                    android:backgroundTint="@color/pink4"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
+                    />
             </LinearLayout>
 
         </LinearLayout>

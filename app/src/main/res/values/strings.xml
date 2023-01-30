@@ -17,6 +17,7 @@
     <string name="re_type_password">Re-type Password</string>
     <string name="register">Register</string>
     <string name="tag">Stats are the foundation from which a team achieves it\'s greatest victory</string>
+    <string name="login">Login</string>
 
     <string-array name="planets_array">
             <item>Mercury</item>
