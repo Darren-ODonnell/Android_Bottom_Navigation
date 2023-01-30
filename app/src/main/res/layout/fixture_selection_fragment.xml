@@ -2,19 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/green6"
     android:orientation="vertical">
 
     <Spinner
         android:id="@+id/spinnerFixtureSelection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:backgroundTint="@color/pink1" />
 
     <Button
         android:id="@+id/fixtureSelectionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:layout_weight="1"
-        android:text="Button"
-        android:layout_gravity="center_horizontal"/>
+        android:backgroundTint="@color/green5"
+        android:text="Button" />
 </LinearLayout>

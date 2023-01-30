@@ -14,6 +14,7 @@ import com.example.bottomnavigationproper.Services.LoginRepository;
 public class MainActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "token_key";
     public static final String API_KEY = "jwt_token";
+    private static final boolean DEBUG_LOGIN_WITHOUT_JWT = false;
     SharedPreferences settings;
 
     @Override
@@ -42,11 +43,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        if(token != null){
-//            service.validateJWT(token);
-//        }else{
+        if(DEBUG_LOGIN_WITHOUT_JWT){
             buildRegisterLoginScreen();
-//        }
+        }else{
+            if(token != null){
+                service.validateJWT(token);
+            }else{
+                buildRegisterLoginScreen();
+            }
+        }
+
     }
 
     private String retrieveToken() {
@@ -66,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.navigate_to_register).setOnClickListener(v -> {
             startActivity(new Intent(this, com.example.bottomnavigationproper.RegisterActivity.class));
         });
-//        findViewById(R.id.login).setOnClickListener(v -> onLogin());
     }
 
     public void storeToken(Context context) {

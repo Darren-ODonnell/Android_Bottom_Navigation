@@ -7,23 +7,33 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Login;
+import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Services.LoginRepository;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
+import com.example.bottomnavigationproper.ViewModels.LoginViewModel;
+import com.example.bottomnavigationproper.ViewModels.StatViewModel;
+
+import java.util.List;
 
 
 public class LoginActivity extends AppCompatActivity {
+
+    LoginViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        loginFromInput();
+        attemptLogin();
         returnToRegister();
 
     }
@@ -34,22 +44,36 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void loginFromInput(){
-        LoginRepository service = new LoginRepository();
-        PlayerRepository playerRepository = new PlayerRepository();
-
+    public void attemptLogin(){
 
         findViewById(R.id.login).setOnClickListener(v -> {
+
+            viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+            viewModel.init();
+            viewModel.getTokenValidityLiveData().observe(this, new Observer<Boolean>() {
+                @Override
+                public void onChanged(Boolean valid) {
+                    if (valid) {
+                       loginFromInput();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "User does not exist, please register", Toast.LENGTH_LONG).show();
+                    }
+
+                }
+            });
             String username = getTextFromEditText(R.id.name);
             String password = getTextFromEditText(R.id.password);
 
             Login loginObj = new Login(username, password);
-            service.login(loginObj);
-            storeToken(getApplicationContext());
-
-            startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
+            viewModel.login(loginObj);
 
         });
+    }
+
+    private void loginFromInput(){
+        storeToken(getApplicationContext());
+
+        startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
     }
 
     private String getTextFromEditText(int id){

@@ -43,11 +43,13 @@ public class LoginRepository {
                     TokenSingleton.getInstance().setTokenString(token);
                 }else{
 //                    Toast.makeText(getApplicationContext(), "Login not correct :(", Toast.LENGTH_SHORT).show();
+                    validToken.postValue(false);
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                validToken.postValue(false);
                 call.cancel();
 //                Toast.makeText(getApplicationContext(), "error :(", Toast.LENGTH_SHORT).show();
             }
