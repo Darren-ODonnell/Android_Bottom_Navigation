@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.navigate_to_register).setOnClickListener(v -> {
             startActivity(new Intent(this, com.example.bottomnavigationproper.RegisterActivity.class));
         });
-//        findViewById(R.id.login).setOnClickListener(v -> onLogin());
     }
 
     public void storeToken(Context context) {
