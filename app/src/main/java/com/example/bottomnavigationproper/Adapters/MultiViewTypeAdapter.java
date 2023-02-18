@@ -219,15 +219,12 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
         }
 
         BarDataSet barDataSet = new BarDataSet(entries, "Stat Occurrence Frequency");
-//        barDataSet.setColor(barChart.getContext().getResources().getColor(R.color.pink1));
 
         List<Integer> colors = new ArrayList<>();
         for (int j = 0; j < xValues.size(); j++) {
             colors.add(getColorForName(xValues.get(j)));
         }
 
-        // Create a BarDataSet object with the entries, labels, and colors
-//        BarDataSet dataSet = new BarDataSet(entries, "Stat Occurrence Frequency");
         barDataSet.setColors(colors);
         barDataSet.setDrawValues(false);
 
