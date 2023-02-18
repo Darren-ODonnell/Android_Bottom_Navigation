@@ -15,7 +15,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/green3">
 
         <LinearLayout
             android:id="@+id/linearLayout6"
@@ -65,43 +66,28 @@
                 android:gravity="center_horizontal|center_vertical"
                 android:orientation="vertical">
 
-                <Button
+
+                <ImageButton
                     android:id="@+id/statsDisplayButton"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginBottom="8dp"
-                    android:insetLeft="0dp"
-
-                    android:insetTop="0dp"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    android:maxWidth="48dp"
-                    android:maxHeight="48dp"
-                    app:icon="@drawable/ic_barchart"
-                    app:iconPadding="0dp"
-                    app:iconSize="24dp"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
-                    android:backgroundTint="@color/pink4"
-
-                    tools:ignore="SpeakableTextPresentCheck" />
-
-                <Button
-                    android:id="@+id/heatmapDisplayButton"
-                    style="@style/Widget.MaterialComponents.Button.Icon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="8dp"
-                    android:insetLeft="0dp"
-                    android:insetTop="0dp"
-                    android:insetRight="0dp"
-                    android:insetBottom="0dp"
-                    app:icon="@drawable/ic_heatmap"
-                    app:iconPadding="0dp"
-                    app:iconSize="24dp"
-                    android:backgroundTint="@color/pink4"
-                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.MyApp.Button.Rounded"
-                    />
+                    android:background="@drawable/shadow_button_layer_list"
+
+                    android:src="@drawable/ic_barchart"
+
+                    app:iconSize="24dp" />
+
+                <ImageButton
+                    android:id="@+id/heatmapDisplayButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/shadow_button_layer_list"
+
+                    android:src="@drawable/ic_heatmap"
+
+                    app:iconSize="24dp" />
             </LinearLayout>
 
         </LinearLayout>

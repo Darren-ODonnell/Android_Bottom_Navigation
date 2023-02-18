@@ -9,10 +9,12 @@ import androidx.lifecycle.LiveData;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Models.Result;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.FixtureRepository;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
+import com.example.bottomnavigationproper.Services.ScoreRepository;
 import com.example.bottomnavigationproper.Services.StatRepository;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class GameViewModel extends AndroidViewModel {
 
     private StatRepository statRepository;
     private LiveData<List<StatName>> statNameLiveData;
+    private LiveData<Result> scoreLiveData;
 
     private LiveData<List<StatsView>> statsLiveData;
 
@@ -50,11 +53,9 @@ public class GameViewModel extends AndroidViewModel {
 
         statRepository = new StatRepository();
         statNameLiveData = statRepository.getStatNameLiveData();
-
         statsLiveData = statRepository.getStatsResponseLiveData();
 
-
-
+        scoreLiveData = statRepository.getScoreLiveData();
     }
 
     public void getFixtures() {
@@ -71,6 +72,14 @@ public class GameViewModel extends AndroidViewModel {
 
     public void getStats(Fixture fixture){
         statRepository.countAllPlayerStatNameByFixtureDateGroupSuccess(TokenSingleton.getInstance().getBearerTokenString(), fixture.getFixtureDate());
+    }
+
+    public void getScore(Fixture fixture){
+        statRepository.getScoreForFixture(TokenSingleton.getInstance().getBearerTokenString(), fixture.getFixtureDate());
+    }
+
+    public LiveData<Result> getScoreLiveData() {
+        return scoreLiveData;
     }
 
     public LiveData<List<Fixture>> getFixturesResponseLiveData() {

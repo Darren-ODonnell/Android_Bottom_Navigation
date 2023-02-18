@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
+import com.example.bottomnavigationproper.Models.Result;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
@@ -24,6 +25,7 @@ public class StatRepository {
     private MutableLiveData<List<StatName>> statNameLiveData;
     private MutableLiveData<Boolean> singleFixtureLiveData;
     private MutableLiveData<Boolean> singleStatLiveData;
+    private MutableLiveData<Result> scoreResponseLiveData;
 
 
     public StatRepository(){
@@ -31,6 +33,7 @@ public class StatRepository {
         statNameLiveData = new MutableLiveData<>();
         singleFixtureLiveData = new MutableLiveData<>();
         singleStatLiveData = new MutableLiveData<>();
+        scoreResponseLiveData = new MutableLiveData<>();
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
     }
@@ -324,5 +327,27 @@ public class StatRepository {
             }
         });
     }
+
+    public void getScoreForFixture(String token, String fixtureDate) {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("fixture_date", fixtureDate);
+
+        apiInterface.getScoreByFixtureDate(token, params)
+                .enqueue(new Callback<Result>() {
+                    @Override
+                    public void onResponse(Call<Result> call, Response<Result> response) {
+                        if (response.body() != null)
+                            scoreResponseLiveData.postValue(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<Result> call, Throwable t) {
+                        scoreResponseLiveData.postValue(null);
+                    }
+
+                });
+    }
+    public LiveData<Result> getScoreLiveData() {return scoreResponseLiveData;}
 }
 

@@ -1,4 +1,4 @@
-package com.example.bottomnavigationproper;
+package com.example.bottomnavigationproper.Models;
 
 import java.util.Set;
 

@@ -16,10 +16,14 @@
         android:minHeight="200dp" />
     <Button
         android:id="@+id/game_stat_button"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:backgroundTint="@color/green5"
-        android:layout_marginBottom="8dp"
-        android:text="Back"/>
+        android:backgroundTint="@color/pink4"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="5"
+        android:text="Back"
+        android:textColor="@color/green2"/>
 </LinearLayout>
