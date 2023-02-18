@@ -5,10 +5,11 @@ import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Login;
 import com.example.bottomnavigationproper.Models.Player;
 
+import com.example.bottomnavigationproper.Models.Result;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
-import com.example.bottomnavigationproper.Register;
+import com.example.bottomnavigationproper.Models.Register;
 import com.example.bottomnavigationproper.User;
 
 import java.util.List;
@@ -16,8 +17,6 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -92,4 +91,10 @@ public interface APIInterface {
 
     @PUT("stats/add")
     Call<List<StatsView>> addStat(@Header("Authorization") String token, @Body StatModel statModel );
+
+    @GET("stats/scoreByFixtureDate")
+    Call<Result> getScoreByFixtureDate(@Header("Authorization") String token,
+                                       @QueryMap Map<String, String> params );
+
+
 }

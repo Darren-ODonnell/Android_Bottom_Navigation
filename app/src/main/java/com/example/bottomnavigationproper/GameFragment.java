@@ -39,6 +39,7 @@ import android.widget.TextView;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Models.Result;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
@@ -79,6 +80,9 @@ public class GameFragment extends Fragment {
     private boolean matchInPlay = false;
     private Integer half = 1;
 
+    String homeScore = "", awayScore = "";
+    TextView homeScoreTV, awayScoreTV;
+
     int homeGoals, homePoints, awayGoals, awayPoints;
 
     View view;
@@ -112,6 +116,8 @@ public class GameFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_game, container, false);
+        homeScoreTV = view.findViewById(R.id.homeScoreTV);
+        awayScoreTV = view.findViewById(R.id.awayScoreTV);
 
 
 
@@ -367,11 +373,11 @@ public class GameFragment extends Fragment {
 
                     mView.findViewById(R.id.inputStatButton).setOnClickListener(v -> {
                         StatModel stat = createStat(finalI);
-                        if(!playerSelected.getFirstname().equals("Opposition")) {
-                            checkStatForScoreHome(stat);
-                        }else{
-                            checkStatForScoreOpposition(stat);
-                        }
+//                        if(!playerSelected.getFirstname().equals("Opposition")) {
+//                            checkStatForScoreHome(stat);
+//                        }else{
+//                            checkStatForScoreOpposition(stat);
+//                        }
                         speechRecognizer.destroy();
                         dialog.dismiss();
                     });
@@ -383,26 +389,26 @@ public class GameFragment extends Fragment {
         }
     }
 
-    private void checkStatForScoreOpposition(StatModel stat) {
-        switch (stat.getStatNameId().toLowerCase(Locale.ROOT)){
-            case "scg":
-                awayGoals++;
-                break;
-            case "scpo":
-                awayPoints++;
-            case "fs":
-                if(stat.getSuccess())
-                    awayGoals++;
-                else
-                    awayPoints++;
-        }
-        updateScore();
-
-    }
+//    private void checkStatForScoreOpposition(StatModel stat) {
+//        switch (stat.getStatNameId().toLowerCase(Locale.ROOT)){
+//            case "scg":
+//                awayGoals++;
+//                break;
+//            case "scpo":
+//                awayPoints++;
+//            case "fs":
+//                if(stat.getSuccess())
+//                    awayGoals++;
+//                else
+//                    awayPoints++;
+//        }
+//        updateScore();
+//
+//    }
 
     private void updateScore(){
-        String homeScore = homeGoals+ ":" +homePoints;
-        String awayScore = awayGoals+ ":" +awayPoints;
+//        String homeScore = homeGoals+ ":" +homePoints;
+//        String awayScore = awayGoals+ ":" +awayPoints;
 
         TextView homeScoreTV = requireView().findViewById(R.id.homeScoreTV);
         TextView awayScoreTV = requireView().findViewById(R.id.awayScoreTV);
@@ -412,22 +418,22 @@ public class GameFragment extends Fragment {
 
     }
 
-    private void checkStatForScoreHome(StatModel stat) {
-        switch (stat.getStatNameId().toLowerCase(Locale.ROOT)){
-            case "scg":
-                homeGoals++;
-                break;
-            case "scpo":
-                homePoints++;
-            case "fs":
-                if(stat.getSuccess())
-                    homeGoals++;
-                else
-                    homePoints++;
-        }
-        updateScore();
-
-    }
+//    private void checkStatForScoreHome(StatModel stat) {
+//        switch (stat.getStatNameId().toLowerCase(Locale.ROOT)){
+//            case "scg":
+//                homeGoals++;
+//                break;
+//            case "scpo":
+//                homePoints++;
+//            case "fs":
+//                if(stat.getSuccess())
+//                    homeGoals++;
+//                else
+//                    homePoints++;
+//        }
+//        updateScore();
+//
+//    }
 
     private void populateContents(RelativeLayout gridSection, int playerNo) {
         TextView numTV = (TextView) gridSection.getChildAt(1);
@@ -456,6 +462,7 @@ public class GameFragment extends Fragment {
 
         StatRepository repo = new StatRepository();
         repo.persistStat(TokenSingleton.getInstance().getBearerTokenString(), stat, currentFixture.getFixtureDate());
+
 
         return stat;
 
@@ -510,8 +517,21 @@ public class GameFragment extends Fragment {
                 }
             }
         });
+
+        viewModel.getScoreLiveData().observe(getViewLifecycleOwner(), new Observer<Result>() {
+            @Override
+            public void onChanged(Result result) {
+                homeScore = result.getHomeScore();
+                awayScore = result.getAwayScore();
+                homeScoreTV.setText(homeScore);
+                awayScoreTV.setText(awayScore);
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         viewModel.getStatNames();
         viewModel.getFixtures();
+
 
 
 
@@ -534,6 +554,7 @@ public class GameFragment extends Fragment {
             public void onChanged(List<StatsView> statsViewList) {
                 if(statsViewList != null){
                     statsViews = statsViewList;
+                    viewModel.getScore(currentFixture);
                     adapter.notifyDataSetChanged();
                     createStatsDisplayDialog();
                 }
@@ -565,7 +586,10 @@ public class GameFragment extends Fragment {
         player.setId(80L);
         player.setFirstname("");
         player.setLastname("Opposition");
-        players.add(player);
+        if(!players.contains(player)){
+            players.add(player);
+
+        }
         ArrayAdapter<Player> adapter =
                 new ArrayAdapter<Player>(getContext(),  R.layout.fixture_spinner_item, players);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);

@@ -7,7 +7,7 @@ import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Login;
-import com.example.bottomnavigationproper.Register;
+import com.example.bottomnavigationproper.Models.Register;
 import com.example.bottomnavigationproper.User;
 
 import retrofit2.Call;

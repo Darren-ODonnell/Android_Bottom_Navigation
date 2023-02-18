@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import com.example.bottomnavigationproper.Models.Fixture;
@@ -167,11 +168,11 @@ public class StatsFragment extends Fragment {
     }
 
     private void initButton(View view) {
-        Button heatButton = view.findViewById(R.id.heatmapDisplayButton);
+        ImageButton heatButton = view.findViewById(R.id.heatmapDisplayButton);
         heatButton.setOnClickListener(v -> {
             retrieveStats(playerSelected, fixtureSelected, statNameSelected);
         });
-        Button button = view.findViewById(R.id.statsDisplayButton);
+        ImageButton button = view.findViewById(R.id.statsDisplayButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,5 +1,5 @@
 package com.example.bottomnavigationproper;
 
 public class StringReferences {
-    public static String JUDES = "Naomh Jude";
+    public static String JUDES = "St Judes";
 }

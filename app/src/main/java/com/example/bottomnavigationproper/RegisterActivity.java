@@ -11,7 +11,7 @@ import android.widget.EditText;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
-import com.example.bottomnavigationproper.Models.Login;
+import com.example.bottomnavigationproper.Models.Register;
 import com.example.bottomnavigationproper.Services.LoginRepository;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
 
@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
             service.register(regObj);
             storeToken(getApplicationContext());
 
-            startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
 
         });
     }
