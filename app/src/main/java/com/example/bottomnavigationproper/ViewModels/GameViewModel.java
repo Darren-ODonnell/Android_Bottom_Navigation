@@ -10,6 +10,7 @@ import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.Result;
+import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.FixtureRepository;
@@ -92,5 +93,8 @@ public class GameViewModel extends AndroidViewModel {
     public LiveData<List<StatsView>> getStatsLiveData(){ return statsLiveData;}
 
 
-
+    public void persistStat(String bearerTokenString, StatModel stat, Fixture fixture) {
+        statRepository.persistStat(bearerTokenString, stat, fixture.getFixtureDate());
+        getStats(fixture);
+    }
 }

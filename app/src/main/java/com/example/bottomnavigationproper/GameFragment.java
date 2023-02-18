@@ -348,10 +348,6 @@ public class GameFragment extends Fragment {
             RelativeLayout gridSection;
 
             if(i == 8) {
-
-
-                gridSection = (RelativeLayout) grid.getChildAt(childCount -1 -i);
-
                 ++i;
             }
 
@@ -448,7 +444,7 @@ public class GameFragment extends Fragment {
     }
 
     private StatModel createStat(int gridIndex) {
-        List<String> gridLocations = new ArrayList<>(Arrays.asList("A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3"));
+        List<String> gridLocations = new ArrayList<>(Arrays.asList("","A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3"));
 
         StatModel stat = new StatModel();
         stat.setLocationId(gridLocations.get(gridIndex));
@@ -461,8 +457,7 @@ public class GameFragment extends Fragment {
         stat.setTimeOccurred(time);
 
         StatRepository repo = new StatRepository();
-        repo.persistStat(TokenSingleton.getInstance().getBearerTokenString(), stat, currentFixture.getFixtureDate());
-
+        viewModel.persistStat(TokenSingleton.getInstance().getBearerTokenString(), stat, currentFixture);
 
         return stat;
 
@@ -556,7 +551,10 @@ public class GameFragment extends Fragment {
                     statsViews = statsViewList;
                     viewModel.getScore(currentFixture);
                     adapter.notifyDataSetChanged();
-                    createStatsDisplayDialog();
+                    if(!matchInPlay){
+                        createStatsDisplayDialog();
+
+                    }
                 }
             }
         });
