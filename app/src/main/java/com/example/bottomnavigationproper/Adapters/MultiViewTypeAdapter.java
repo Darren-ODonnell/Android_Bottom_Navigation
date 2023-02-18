@@ -1,5 +1,6 @@
 package com.example.bottomnavigationproper.Adapters;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bottomnavigationproper.CustomXAxisRenderer;
+import com.example.bottomnavigationproper.Dictionaries;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -199,7 +201,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
 
     private void createBarChart(RecyclerView.ViewHolder holder, List<StatsView> statsForPlayer) {
         BarChart barChart = ((BarChartViewHolder) holder).barChart;
-        barChart.setBackgroundColor(barChart.getContext().getResources().getColor(R.color.green4));
+        barChart.setBackgroundColor(barChart.getContext().getResources().getColor(R.color.green5));
         ArrayList<BarEntry> entries = new ArrayList<>();
         List<String> xValues = new ArrayList<>();
 
@@ -217,7 +219,16 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
         }
 
         BarDataSet barDataSet = new BarDataSet(entries, "Stat Occurrence Frequency");
-        barDataSet.setColor(barChart.getContext().getResources().getColor(R.color.pink1));
+//        barDataSet.setColor(barChart.getContext().getResources().getColor(R.color.pink1));
+
+        List<Integer> colors = new ArrayList<>();
+        for (int j = 0; j < xValues.size(); j++) {
+            colors.add(getColorForName(xValues.get(j)));
+        }
+
+        // Create a BarDataSet object with the entries, labels, and colors
+//        BarDataSet dataSet = new BarDataSet(entries, "Stat Occurrence Frequency");
+        barDataSet.setColors(colors);
         barDataSet.setDrawValues(false);
 
         BarData data = new BarData(barDataSet);
@@ -256,6 +267,18 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
         //setting the location of legend outside the chart, default false if not set
         legend.setDrawInside(false);
 
+    }
+
+    private int getColorForName(String s) {
+        List<String> statnames = Dictionaries.getInstance().getStatNames();
+        List<Integer> colours = Dictionaries.getInstance().getColours();
+
+        int index = statnames.indexOf(s);
+        int i = index;
+        while(i >= colours.size()){
+            i-= colours.size();
+        }
+        return (i == -1) ? Color.BLACK : colours.get(i);
     }
 
 
