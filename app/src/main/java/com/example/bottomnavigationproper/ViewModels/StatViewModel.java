@@ -20,6 +20,7 @@ public class StatViewModel extends AndroidViewModel {
     private LiveData<List<StatsView>> statResponseLiveData;
     private LiveData<Boolean> singleStatLiveData;
     private LiveData<Boolean> singleFixtureLiveData;
+    private LiveData<List<StatName>> statNameLiveData;
 
     public StatViewModel(@NonNull Application application) {
         super(application);
@@ -30,12 +31,7 @@ public class StatViewModel extends AndroidViewModel {
         statResponseLiveData = statRepository.getStatsResponseLiveData();
         singleStatLiveData = statRepository.getSingleStatLiveData();
         singleFixtureLiveData = statRepository.getSingleFixtureLiveData();
-
-    }
-
-    public void getStats() {
-
-//        statRepository.getStats(TokenSingleton.getInstance().getBearerTokenString());
+        statNameLiveData = statRepository.getStatNameLiveData();
 
     }
 
@@ -95,5 +91,12 @@ public class StatViewModel extends AndroidViewModel {
                 TokenSingleton.getInstance().getBearerTokenString(), player.getFirstname(), player.getLastname(), fixture.getFixtureDate(), statName.getName());
     }
 
+    public void getStatNames() {
+        statRepository.getStatNames(TokenSingleton.getInstance().getBearerTokenString());
+    }
+
+    public LiveData<List<StatName>> getStatNameLiveData() {
+        return statNameLiveData;
+    }
 
 }

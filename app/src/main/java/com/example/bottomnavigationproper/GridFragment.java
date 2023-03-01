@@ -30,7 +30,7 @@ public class GridFragment extends Fragment {
         super.onCreate(savedInstanceState);
         assert this.getArguments() != null;
 
-        statsViewList = (List<StatsView>) this.getArguments().getSerializable("statList");
+        statsViewList = getArguments().getParcelableArrayList("statList");
 
 //        locations = new ArrayList<>();
 

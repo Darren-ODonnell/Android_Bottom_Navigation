@@ -93,8 +93,21 @@ public interface APIInterface {
     Call<List<StatsView>> addStat(@Header("Authorization") String token, @Body StatModel statModel );
 
     @GET("stats/scoreByFixtureDate")
-    Call<Result> getScoreByFixtureDate(@Header("Authorization") String token,
-                                       @QueryMap Map<String, String> params );
+    Call<Result> getScoreByFixtureDate(@Header("Authorization") String token, @QueryMap Map<String, String> params );
+
+    @GET("stats_view/getAvgStatsForWinsByOpponent")
+    Call<List<StatsView>> getAvgStatsForWinsByOpponent(@Header("Authorization") String accessToken,
+                                                                          @QueryMap Map<String, String> params);
+
+    @GET("stats_view/getAvgStatsForLossesByOpponent")
+    Call<List<StatsView>> getAvgStatsForLossesByOpponent(@Header("Authorization") String accessToken,
+                                                       @QueryMap Map<String, String> params);
+
+    @GET("stats_view/getStatsForLastFiveFixturesWon")
+    Call<List<StatsView>> getStatsForLastFiveFixturesWon(@Header("Authorization") String accessToken);
+
+    @GET("stats_view/getStatsForLastFiveFixturesLost")
+    Call<List<StatsView>> getStatsForLastFiveFixturesLost(@Header("Authorization") String accessToken);
 
 
 }

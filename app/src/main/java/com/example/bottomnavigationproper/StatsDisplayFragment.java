@@ -95,9 +95,7 @@ public class StatsDisplayFragment extends Fragment {
         return view;
     }
 
-    public void performSearch() {
-        viewModel.getStats();
-    }
+
 
     public void retrieveStats(Player player, Fixture fixture, StatName statName) {
         boolean playerAll, fixtureAll, statAll;

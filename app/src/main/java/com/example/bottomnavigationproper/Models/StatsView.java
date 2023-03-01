@@ -1,11 +1,18 @@
 package com.example.bottomnavigationproper.Models;
 
+import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.RequiresApi;
+
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
-public class StatsView implements Serializable {
+public class StatsView implements Serializable, Parcelable {
     @Expose
     private String statName;
     @Expose
@@ -147,5 +154,61 @@ public class StatsView implements Serializable {
                 ", timeOccurred='" + timeOccurred + '\'' +
                 ", count='" + count + '\'' +
                 '}';
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    protected StatsView(Parcel in) {
+        statName = in.readString();
+        success = in.readBoolean();
+        half = in.readInt();
+        season = in.readInt();
+        firstName = in.readString();
+        lastName = in.readString();
+        homeTeam = in.readString();
+        awayTeam = in.readString();
+        location = in.readString();
+        fixtureDate = in.readString();
+        if (in.readByte() == 0) {
+            timeOccurred = null;
+        } else {
+            String value = in.readString();
+            timeOccurred = new BigDecimal(value);
+        }
+        count = in.readString();
+    }
+
+    public static final Creator<StatsView> CREATOR = new Creator<StatsView>() {
+        @RequiresApi(api = Build.VERSION_CODES.Q)
+        @Override
+        public StatsView createFromParcel(Parcel in) {
+            return new StatsView(in);
+        }
+
+        @Override
+        public StatsView[] newArray(int size) {
+            return new StatsView[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+         dest.writeString(statName);
+         dest.writeBoolean(success);
+         dest.writeInt(half);
+         dest.writeInt(season);
+         dest.writeString(firstName);
+         dest.writeString(lastName);
+         dest.writeString(homeTeam);
+         dest.writeString(awayTeam);
+         dest.writeString(location);
+         dest.writeString(fixtureDate);
+         dest.writeString(String.valueOf(timeOccurred));
+         dest.writeString(count);
     }
 }

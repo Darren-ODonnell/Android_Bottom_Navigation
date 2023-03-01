@@ -18,15 +18,10 @@
     <string name="register">Register</string>
     <string name="tag">Stats are the foundation from which a team achieves it\'s greatest victory</string>
     <string name="login">Login</string>
+    <string name="favourite_stats">Favourite Stats</string>
+    <string name="log_out">Log Out</string>
+    <string name="allStats">All</string>
+    <string name="favourites">Favourites</string>
+    <string name="submit">Submit</string>
 
-    <string-array name="planets_array">
-            <item>Mercury</item>
-            <item>Venus</item>
-            <item>Earth</item>
-            <item>Mars</item>
-            <item>Jupiter</item>
-            <item>Saturn</item>
-            <item>Uranus</item>
-            <item>Neptune</item>
-        </string-array>
 </resources>
