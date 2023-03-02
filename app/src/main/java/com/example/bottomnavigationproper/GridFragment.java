@@ -103,18 +103,23 @@ public class GridFragment extends Fragment {
 
 
         // Setting colourGrid
-        for(String key: grid.keySet()){
-            List<StatsView> location = grid.get(key);
-            assert location != null;
-            int count = Integer.parseInt(location.get(0).getCount());
-            if(location.size()>1)
-                count += Integer.parseInt(location.get(1).getCount());
+        for(String key: colourGrid.keySet()){
+            if(grid.containsKey(key)){
+                List<StatsView> location = grid.get(key);
+                assert location != null;
+                int count = Integer.parseInt(location.get(0).getCount());
+                if(location.size()>1)
+                    count += Integer.parseInt(location.get(1).getCount());
 
-            if(count > highest){
-                highest = count;
+                if(count > highest){
+                    highest = count;
+                }
+
+                colourGrid.put(key, getColour(count, highest));
+            }else{
+                colourGrid.put(key, getColour(0,1));
             }
 
-            colourGrid.put(key, getColour(count, highest));
         }
 
         // Example key,value (A1, yellow) , (A2, red)
