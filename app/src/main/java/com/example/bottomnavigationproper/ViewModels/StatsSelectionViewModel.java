@@ -86,44 +86,44 @@ public class StatsSelectionViewModel extends AndroidViewModel {
     }
 
 
-    public void getAllPlayerStatFixture() {
-        statRepository.getCountAllPlayerStatFixture(
+    public void getAllPlayerStatFixtureHeatMap() {
+        statRepository.getCountAllPlayerStatFixtureHeatMap(
                 TokenSingleton.getInstance().getBearerTokenString());
     }
 
-    public void getAllPlayerFixture(StatName statName) {
-        statRepository.getCountAllPlayerFixture(
+    public void getAllPlayerFixtureHeatMap(StatName statName) {
+        statRepository.getCountAllPlayerFixtureHeatMap(
                 TokenSingleton.getInstance().getBearerTokenString(), statName.getName());
     }
 
-    public void getAllPlayerStat(Fixture fixture) {
-        statRepository.getCountAllPlayerStat(
+    public void getAllPlayerStatHeatMap(Fixture fixture) {
+        statRepository.getCountAllPlayerStatHeatMap(
                 TokenSingleton.getInstance().getBearerTokenString(), fixture.getFixtureDate());
     }
 
-    public void getAllStatFixture(Player player) {
-        statRepository.getCountAllStatFixture(
+    public void getAllStatFixtureHeatMap(Player player) {
+        statRepository.getCountAllStatFixtureHeatMap(
                 TokenSingleton.getInstance().getBearerTokenString(), player.getFirstname(), player.getLastname());
     }
 
-    public void getAllPlayer(Fixture fixture, StatName statName) {
-        statRepository.getCountAllPlayer(
+    public void getAllPlayerHeatMap(Fixture fixture, StatName statName) {
+        statRepository.getCountAllPlayerHeatMap(
                 TokenSingleton.getInstance().getBearerTokenString(), fixture.getFixtureDate(), statName.getName());
     }
 
-    public void getAllFixture(Player player, StatName statName) {
-        statRepository.getCountAllFixture(
+    public void getAllFixtureHeatMap(Player player, StatName statName) {
+        statRepository.getCountAllFixtureHeatMap(
                 TokenSingleton.getInstance().getBearerTokenString(),player.getFirstname(),
                 player.getLastname(), statName.getName());
     }
 
-    public void getAllStats(Player player, Fixture fixture) {
-        statRepository.getCountAllStats(
+    public void getAllStatsHeatMap(Player player, Fixture fixture) {
+        statRepository.getCountAllStatsHeatMap(
                 TokenSingleton.getInstance().getBearerTokenString(), player.getFirstname(), player.getLastname(), fixture.getFixtureDate());
     }
 
-    public void getStat(Player player, Fixture fixture, StatName statName) {
-        statRepository.getCountStat(
+    public void getStatHeatMap(Player player, Fixture fixture, StatName statName) {
+        statRepository.getCountStatHeatMap(
                 TokenSingleton.getInstance().getBearerTokenString(), player.getFirstname(), player.getLastname(), fixture.getFixtureDate(), statName.getName());
     }
 }

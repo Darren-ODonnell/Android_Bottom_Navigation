@@ -313,6 +313,201 @@ public class StatRepository {
     }
 
 
+    public void getCountAllFixtureHeatMap(String token, String firstname, String lastname, String statName){
+        Map<String, String> params = new HashMap<>();
+        params.put("firstname", firstname);
+        params.put("lastname", lastname);
+        params.put("statName", statName);
+
+        apiInterface.countAllFixtureByPlayerStatNameHeatMap(token, params)
+                .enqueue(new Callback<List<StatsView>>() {
+                    @Override
+                    public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
+                        if (response.body() != null) {
+                            statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(true);
+                            singleFixtureLiveData.postValue(false);
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<StatsView>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+
+                    }
+                });
+    }
+
+    public void getCountAllPlayerHeatMap(String token, String fixtureDate, String statName) {
+        Map<String, String> params = new HashMap<>();
+        params.put("fixtureDate", fixtureDate);
+        params.put("statName", statName);
+
+        apiInterface.countAllPlayerByFixtureStatNameHeatMap(token, params)
+                .enqueue(new Callback<List<StatsView>>() {
+                    @Override
+                    public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
+                        if (response.body() != null) {
+                            statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(true);
+                            singleFixtureLiveData.postValue(true);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<StatsView>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+
+                    }
+                });
+    }
+
+    public void getCountAllPlayerFixtureHeatMap(String token, String statName) {
+        Map<String, String> params = new HashMap<>();
+        params.put("statName", statName);
+        apiInterface.countAllPlayerFixtureByStatNameHeatMap(token, params)
+                .enqueue(new Callback<List<StatsView>>() {
+                    @Override
+                    public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
+                        if (response.body() != null) {
+                            statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(true);
+                            singleFixtureLiveData.postValue(false);
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<StatsView>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+
+                    }
+                });
+    }
+
+    public void getCountAllPlayerStatFixtureHeatMap(String token) {
+        apiInterface.countAllPlayerStatHeatMap(token)
+                .enqueue(new Callback<List<StatsView>>() {
+                    @Override
+                    public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
+                        if (response.body() != null) {
+                            statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(false);
+                            singleFixtureLiveData.postValue(false);
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<StatsView>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+
+                    }
+                });
+    }
+
+    public void getCountAllPlayerStatHeatMap(String token, String fixtureDate) {
+        Map<String, String> params = new HashMap<>();
+        params.put("fixtureDate", fixtureDate);
+        apiInterface.countAllPlayerStatNameByFixtureDateHeatMap(token, params)
+                .enqueue(new Callback<List<StatsView>>() {
+                    @Override
+                    public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
+                        if (response.body() != null) {
+                            statResponseLiveData.postValue(response.body());
+                            singleFixtureLiveData.postValue(true);
+                            singleStatLiveData.postValue(false);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<StatsView>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+
+                    }
+                });
+    }
+
+    public void getCountAllStatFixtureHeatMap(String token, String firstname, String lastname) {
+        Map<String, String> params = new HashMap<>();
+        params.put("firstname", firstname);
+        params.put("lastname", lastname);
+
+        apiInterface.countAllStatNameFixtureByPlayerHeatMap(token, params)
+                .enqueue(new Callback<List<StatsView>>() {
+                    @Override
+                    public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
+                        if (response.body() != null) {
+                            statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(false);
+                            singleFixtureLiveData.postValue(false);
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<StatsView>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+
+                    }
+                });
+
+    }
+
+    public void getCountAllStatsHeatMap(String token, String firstname, String lastname, String fixtureDate) {
+        Map<String, String> params = new HashMap<>();
+        params.put("firstname", firstname);
+        params.put("lastname", lastname);
+        params.put("fixtureDate", fixtureDate);
+
+        apiInterface.countAllStatsByPlayerFixtureDateHeatMap(token, params)
+                .enqueue(new Callback<List<StatsView>>() {
+                    @Override
+                    public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
+                        if (response.body() != null) {
+                            statResponseLiveData.postValue(response.body());
+                            singleFixtureLiveData.postValue(true);
+                            singleStatLiveData.postValue(false);
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<StatsView>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+
+                    }
+                });
+    }
+
+    public void getCountStatHeatMap(String token, String firstname, String lastname, String fixtureDate, String statName) {
+        Map<String, String> params = new HashMap<>();
+        params.put("firstname", firstname);
+        params.put("lastname", lastname);
+        params.put("fixtureDate", fixtureDate);
+        params.put("statName", statName);
+
+        apiInterface.countStatHeatMap(token, params)
+                .enqueue(new Callback<List<StatsView>>() {
+                    @Override
+                    public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
+                        if (response.body() != null) {
+                            statResponseLiveData.postValue(response.body());
+                            singleStatLiveData.postValue(true);
+                            singleFixtureLiveData.postValue(true);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<StatsView>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+
+                    }
+                });
+    }
+
+
     public void persistStat(String token, StatModel stat, String fixtureDate) {
         //TODO create put/post request for persisting stat
 

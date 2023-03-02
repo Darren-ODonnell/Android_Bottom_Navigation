@@ -203,14 +203,14 @@ public class StatsFragment extends Fragment {
     public void getStats(Player player, Fixture fixture, StatName statName,
                          boolean playerAll, boolean fixtureAll, boolean statAll) {
 
-        if (playerAll && fixtureAll && statAll) viewModel.getAllPlayerStatFixture();
-        else if (playerAll && fixtureAll) viewModel.getAllPlayerFixture(statName);
-        else if (playerAll && statAll) viewModel.getAllPlayerStat(fixture);
-        else if (statAll && fixtureAll) viewModel.getAllStatFixture(player);
-        else if (playerAll) viewModel.getAllPlayer(fixture, statName);
-        else if (fixtureAll) viewModel.getAllFixture(player, statName);
-        else if (statAll) viewModel.getAllStats(player, fixture);
-        else viewModel.getStat(player, fixture, statName);
+        if (playerAll && fixtureAll && statAll) viewModel.getAllPlayerStatFixtureHeatMap();
+        else if (playerAll && fixtureAll) viewModel.getAllPlayerFixtureHeatMap(statName);
+        else if (playerAll && statAll) viewModel.getAllPlayerStatHeatMap(fixture);
+        else if (statAll && fixtureAll) viewModel.getAllStatFixtureHeatMap(player);
+        else if (playerAll) viewModel.getAllPlayerHeatMap(fixture, statName);
+        else if (fixtureAll) viewModel.getAllFixtureHeatMap(player, statName);
+        else if (statAll) viewModel.getAllStatsHeatMap(player, fixture);
+        else viewModel.getStatHeatMap(player, fixture, statName);
 
 
     }
