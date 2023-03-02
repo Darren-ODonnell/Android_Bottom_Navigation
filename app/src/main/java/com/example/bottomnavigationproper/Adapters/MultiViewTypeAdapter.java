@@ -201,7 +201,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
 
     private void createBarChart(RecyclerView.ViewHolder holder, List<StatsView> statsForPlayer) {
         BarChart barChart = ((BarChartViewHolder) holder).barChart;
-        barChart.setBackgroundColor(barChart.getContext().getResources().getColor(R.color.green5));
+        barChart.setBackgroundColor(barChart.getContext().getResources().getColor(R.color.white));
         ArrayList<BarEntry> entries = new ArrayList<>();
         List<String> xValues = new ArrayList<>();
 

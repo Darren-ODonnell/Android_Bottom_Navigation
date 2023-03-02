@@ -80,6 +80,38 @@ public interface APIInterface {
     Call<List<StatsView>> countStat(@Header("Authorization") String accessToken,
                                     @QueryMap Map<String, String> params);
 
+
+
+    @GET("stats_view/countAllFixtureByPlayerStatNameHeatMap")
+    Call<List<StatsView>> countAllFixtureByPlayerStatNameHeatMap(@Header("Authorization") String accessToken,
+                                                          @QueryMap Map<String, String> params);
+
+    @GET("stats_view/countAllPlayerByFixtureStatNameHeatMap")
+    Call<List<StatsView>> countAllPlayerByFixtureStatNameHeatMap(@Header("Authorization") String accessToken,
+                                                          @QueryMap Map<String, String> params);
+
+    @GET("stats_view/countAllPlayerFixtureByStatNameHeatMap")
+    Call<List<StatsView>> countAllPlayerFixtureByStatNameHeatMap(@Header("Authorization") String accessToken,
+                                                          @QueryMap Map<String, String> params);
+
+    @GET("stats_view/countAllPlayerStatHeatMap")
+    Call<List<StatsView>> countAllPlayerStatHeatMap(@Header("Authorization") String accessToken);
+
+    @GET("stats_view/countAllPlayerStatNameByFixtureDateHeatMap")
+    Call<List<StatsView>> countAllPlayerStatNameByFixtureDateHeatMap(@Header("Authorization") String accessToken,
+                                                              @QueryMap Map<String, String> params);
+    @GET("stats_view/countAllStatNameFixtureByPlayerHeatMap")
+    Call<List<StatsView>> countAllStatNameFixtureByPlayerHeatMap(@Header("Authorization") String accessToken,
+                                                          @QueryMap Map<String, String> params);
+
+    @GET("stats_view/countAllStatsByPlayerFixtureDateHeatMap")
+    Call<List<StatsView>> countAllStatsByPlayerFixtureDateHeatMap(@Header("Authorization") String accessToken,
+                                                           @QueryMap Map<String, String> params);
+
+    @GET("stats_view/countStatHeatMap")
+    Call<List<StatsView>> countStatHeatMap(@Header("Authorization") String accessToken,
+                                    @QueryMap Map<String, String> params);
+
     @GET("teamsheet/findPlayersByFixtureId")
     Call<List<Player>> getPlayersForFixture(@Header("Authorization") String accessToken,
                                             @QueryMap Map<String, String> params);
@@ -93,8 +125,21 @@ public interface APIInterface {
     Call<List<StatsView>> addStat(@Header("Authorization") String token, @Body StatModel statModel );
 
     @GET("stats/scoreByFixtureDate")
-    Call<Result> getScoreByFixtureDate(@Header("Authorization") String token,
-                                       @QueryMap Map<String, String> params );
+    Call<Result> getScoreByFixtureDate(@Header("Authorization") String token, @QueryMap Map<String, String> params );
+
+    @GET("stats_view/getAvgStatsForWinsByOpponent")
+    Call<List<StatsView>> getAvgStatsForWinsByOpponent(@Header("Authorization") String accessToken,
+                                                                          @QueryMap Map<String, String> params);
+
+    @GET("stats_view/getAvgStatsForLossesByOpponent")
+    Call<List<StatsView>> getAvgStatsForLossesByOpponent(@Header("Authorization") String accessToken,
+                                                       @QueryMap Map<String, String> params);
+
+    @GET("stats_view/getStatsForLastFiveFixturesWon")
+    Call<List<StatsView>> getStatsForLastFiveFixturesWon(@Header("Authorization") String accessToken);
+
+    @GET("stats_view/getStatsForLastFiveFixturesLost")
+    Call<List<StatsView>> getStatsForLastFiveFixturesLost(@Header("Authorization") String accessToken);
 
 
 }

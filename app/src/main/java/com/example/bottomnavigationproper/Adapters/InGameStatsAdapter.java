@@ -17,6 +17,10 @@ import java.util.List;
 public class InGameStatsAdapter extends RecyclerView.Adapter<InGameStatsAdapter.InGameStatsHolder> {
     private List<String> results = new ArrayList<>();
     private List<String> percents = new ArrayList<>();
+    private int colour;
+    private List<String> averages = new ArrayList<>();
+    private boolean countAsPercent;
+    private int max;
 
     @NonNull
     @Override
@@ -30,22 +34,36 @@ public class InGameStatsAdapter extends RecyclerView.Adapter<InGameStatsAdapter.
     @Override
     public void onBindViewHolder(@NonNull InGameStatsHolder holder, int position) {
         String stat = results.get(position);
-        double percent = Double.parseDouble(percents.get(position));
-        int width = getPercentWidth(percent);
-        String percentStr = percent + "%";
+        double width;
+        String countText;
+        if (countAsPercent) {
+            double percent = Double.parseDouble(percents.get(position));
+            width = getPercentWidth(percent);
+            countText = percent + "%";
+        } else {
+            String num = averages.get(position);
+            width = getAverageWidth(Integer.parseInt(num));
+            countText = num;
+        }
         holder.statTV.setText(stat);
-        holder.countTV.setText(percentStr);
-
+        holder.countTV.setText(countText);
+        holder.countTV.setBackgroundColor(colour);
 
         ViewGroup.LayoutParams parms = holder.countTV.getLayoutParams();
-        parms.width = width;
+        parms.width = (int) Math.round(width);
 
     }
 
-    private int getPercentWidth(double percent){
+    private double getAverageWidth(int value) {
+        int maxPixels = 500;
+        return maxPixels * (double)value / max;
+    }
+
+
+    private double getPercentWidth(double percent){
         double maxPixels = 550.0;
 
-        return (int) Math.round(maxPixels * (percent / 100));
+        return Math.round(maxPixels * (percent / 100));
 
     }
 
@@ -61,7 +79,19 @@ public class InGameStatsAdapter extends RecyclerView.Adapter<InGameStatsAdapter.
 
     public void setPercents(List<String> percents) {
         this.percents = percents;
+        this.countAsPercent = true;
         notifyDataSetChanged();
+    }
+
+    public void setAverages(List<String> averages, int max){
+        this.averages = averages;
+        this.countAsPercent = false;
+        this.max = max;
+        notifyDataSetChanged();
+    }
+
+    public void setColour(int colour){
+        this.colour = colour;
     }
 
     class InGameStatsHolder extends RecyclerView.ViewHolder {

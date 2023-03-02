@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/green6"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Analysis Selection"
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/green2"
+        android:textSize="36sp"
+        />
+    <Button
+        android:id="@+id/current_opponent_stats"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:text="Current Opponent"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:drawableLeft="@drawable/ic_baseline_person_24"
+
+        android:backgroundTint="@color/pink4"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="5"
+        android:textColor="@color/green2"
+        />
+    <Button
+        android:id="@+id/recent_history_stats"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:text="Last 5 Games"
+        android:textSize="20sp"
+        android:drawableLeft="@drawable/ic_history"
+        android:layout_gravity="center"
+
+
+        android:backgroundTint="@color/pink4"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="5"
+        android:textColor="@color/green2"
+        />
+</LinearLayout>

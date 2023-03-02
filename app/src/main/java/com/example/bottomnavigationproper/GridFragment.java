@@ -1,6 +1,7 @@
 package com.example.bottomnavigationproper;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,11 @@ public class GridFragment extends Fragment {
         super.onCreate(savedInstanceState);
         assert this.getArguments() != null;
 
-        statsViewList = (List<StatsView>) this.getArguments().getSerializable("statList");
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(StrictMode.getVmPolicy())
+                .detectLeakedClosableObjects()
+                .build());
+
+        statsViewList = getArguments().getParcelableArrayList("statList");
 
 //        locations = new ArrayList<>();
 
@@ -95,15 +100,20 @@ public class GridFragment extends Fragment {
 
         int highest = getLargestCount(grid);
 
-        // Setting colourGrid
-        for(String key: colourGrid.keySet()){
-            int count;
-            if(grid.get(key) != null){
-                count = Objects.requireNonNull(grid.get(key)).size();
-            }else{
-                count = 0;
 
+
+        // Setting colourGrid
+        for(String key: grid.keySet()){
+            List<StatsView> location = grid.get(key);
+            assert location != null;
+            int count = Integer.parseInt(location.get(0).getCount());
+            if(location.size()>1)
+                count += Integer.parseInt(location.get(1).getCount());
+
+            if(count > highest){
+                highest = count;
             }
+
             colourGrid.put(key, getColour(count, highest));
         }
 
@@ -117,7 +127,11 @@ public class GridFragment extends Fragment {
         int highest = -1;
 
         for(String key: grid.keySet()){
-            int count = grid.get(key).size();
+            List<StatsView> location = grid.get(key);
+            int count = Integer.parseInt(location.get(0).getCount());
+            if(location.size()>1)
+                count += Integer.parseInt(location.get(1).getCount());
+
             if(count > highest){
                 highest = count;
             }
@@ -135,13 +149,18 @@ public class GridFragment extends Fragment {
 
              if (statMap.containsKey(key)){
                  List<StatsView> list = statMap.get(key);
-                 for(StatsView s : list) {
-                     if(s.getSuccess()){
-                         successCount++;
-                     }
-                 }
+                 assert list != null;
+                 int total = 0;
+                 int count1 = Integer.parseInt(list.get(0).getCount());
+                 int count2 = 1;//divide by 1 returns the same number
+                 if(list.size()>1)
+                     count2 = Integer.parseInt(list.get(1).getCount());
+                    total = count2;
+                 successCount = (list.get(0).getSuccess()) ? count1 : count2;
+                 total += count1;
+
                  if(!list.isEmpty()){
-                     grid.put(key, (successCount * 100) / list.size());
+                     grid.put(key, (successCount * 100) / total);
                  }else
                      grid.put(key, 0);
              }

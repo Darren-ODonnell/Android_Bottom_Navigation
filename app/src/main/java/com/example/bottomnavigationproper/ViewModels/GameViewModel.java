@@ -15,7 +15,6 @@ import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Services.FixtureRepository;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
-import com.example.bottomnavigationproper.Services.ScoreRepository;
 import com.example.bottomnavigationproper.Services.StatRepository;
 
 import java.util.List;
@@ -32,14 +31,8 @@ public class GameViewModel extends AndroidViewModel {
     private LiveData<Result> scoreLiveData;
 
     private LiveData<List<StatsView>> statsLiveData;
-
-
-    /**
-     * TODO
-     * Add repo for current teamsheet
-     * Add repo for current score
-     *
-     */
+    private LiveData<List<StatsView>> pregameAnalysisWinsLiveData;
+    private LiveData<List<StatsView>> pregameAnalysisLossesLiveData;
 
     public GameViewModel(@NonNull Application application) {
         super(application);
@@ -57,6 +50,9 @@ public class GameViewModel extends AndroidViewModel {
         statsLiveData = statRepository.getStatsResponseLiveData();
 
         scoreLiveData = statRepository.getScoreLiveData();
+
+        pregameAnalysisWinsLiveData = statRepository.getPregameWinAnalysisLiveData();
+        pregameAnalysisLossesLiveData = statRepository.getPregameLossAnalysisLiveData();
     }
 
     public void getFixtures() {
@@ -79,6 +75,28 @@ public class GameViewModel extends AndroidViewModel {
         statRepository.getScoreForFixture(TokenSingleton.getInstance().getBearerTokenString(), fixture.getFixtureDate());
     }
 
+    public void getStatsForLossesByOpponent(Fixture fixture){
+        String opposition = (fixture.getHomeTeam().getName().equals("St Judes"))
+                ? fixture.getAwayTeam().getName()
+                : fixture.getHomeTeam().getName();
+        statRepository.getAvgStatsForLossesByOpponent(TokenSingleton.getInstance().getBearerTokenString(), opposition);
+    }
+
+    public void getStatsForWinsByOpponent(Fixture fixture){
+        String opposition = (fixture.getHomeTeam().getName().equals("St Judes"))
+                ? fixture.getAwayTeam().getName()
+                : fixture.getHomeTeam().getName();
+        statRepository.getAvgStatsForWinsByOpponent(TokenSingleton.getInstance().getBearerTokenString(), opposition);
+    }
+    public void getAvgStatsForLastFiveFixturesLost(){
+        statRepository.getAvgStatsForLastFiveFixturesLost(TokenSingleton.getInstance().getBearerTokenString());
+    }
+
+    public void getAvgStatsForLastFiveFixturesWon(){
+        statRepository.getAvgStatsForLastFiveFixturesWon(TokenSingleton.getInstance().getBearerTokenString());
+    }
+
+
     public LiveData<Result> getScoreLiveData() {
         return scoreLiveData;
     }
@@ -91,6 +109,10 @@ public class GameViewModel extends AndroidViewModel {
     }
     public LiveData<List<StatName>> getStatNameLiveData(){ return statNameLiveData;}
     public LiveData<List<StatsView>> getStatsLiveData(){ return statsLiveData;}
+    public LiveData<List<StatsView>> getPregameAnalysisWins(){ return pregameAnalysisWinsLiveData;}
+    public LiveData<List<StatsView>> getPregameAnalysisLosses(){ return pregameAnalysisLossesLiveData;}
+
+
 
 
     public void persistStat(String bearerTokenString, StatModel stat, Fixture fixture) {

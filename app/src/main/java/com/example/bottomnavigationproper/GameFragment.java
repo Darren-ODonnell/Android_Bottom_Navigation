@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.StrictMode;
 import android.os.SystemClock;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -47,6 +48,9 @@ import com.example.bottomnavigationproper.Services.StatRepository;
 import com.example.bottomnavigationproper.ViewModels.GameViewModel;
 import com.example.bottomnavigationproper.Adapters.InGameStatsAdapter;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,6 +59,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class GameFragment extends Fragment {
 
@@ -94,6 +99,11 @@ public class GameFragment extends Fragment {
     List<String> successList = new ArrayList<>();
     List<Fixture> fixtures = new ArrayList<>();
 
+    List<StatsView> pregameAnalysisWins = new ArrayList<>();
+    boolean winsPopulated = false;
+    List<StatsView> pregameAnalysisLosses = new ArrayList<>();
+    boolean lossesPopulated = false;
+
     InGameStatsAdapter adapter = new InGameStatsAdapter();
 
 
@@ -108,7 +118,9 @@ public class GameFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(StrictMode.getVmPolicy())
+                .detectLeakedClosableObjects()
+                .build());
 
     }
     @Override
@@ -118,19 +130,8 @@ public class GameFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_game, container, false);
         homeScoreTV = view.findViewById(R.id.homeScoreTV);
         awayScoreTV = view.findViewById(R.id.awayScoreTV);
-
-
-
-//        spinnerSuccess = view.findViewById(R.id.gameSpinnerSuccess);
-//        spinnerPlayer = view.findViewById(R.id.gameSpinnerPlayer);
-//        spinnerStatName = view.findViewById(R.id.gameSpinnerStat);
-//        initSpinners();
         initStatsSelectionViewModel();
-
-
-
-        //TODO showFixtureSelection()
-
+        initPreGameAnalysisButton();
 
         return view;
     }
@@ -138,7 +139,6 @@ public class GameFragment extends Fragment {
     private void showFixtureSelection() {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
         View fView = getLayoutInflater().inflate(R.layout.fixture_selection_fragment, null);
-//        mBuilder.setTitle("Select Fixture");
         fixtureSpinner = (Spinner) fView.findViewById(R.id.spinnerFixtureSelection);
         setFixtureList();
 
@@ -159,8 +159,117 @@ public class GameFragment extends Fragment {
             initPlayersAndStats();
             initChronometer();
             dialog.dismiss();
+
+            initPregameAnalysis();
+            createPreGameAnalysisSelectionDialog();
+
+
+
         });
 
+    }
+
+    private void initPregameAnalysis() {
+        viewModel.getPregameAnalysisLosses().observe(this, new Observer<List<StatsView>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onChanged(List<StatsView> statsViews) {
+                pregameAnalysisLosses = statsViews;
+                winsPopulated = true;
+            }
+        });
+
+        viewModel.getPregameAnalysisWins().observe(this, new Observer<List<StatsView>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onChanged(List<StatsView> statsViews) {
+                pregameAnalysisWins = statsViews;
+                lossesPopulated = true;
+                //TODO method call functionally dependant on result of both observers, may need global booleans to handle checks
+                displayPreGameAnalysis(pregameAnalysisWins, pregameAnalysisLosses);
+            }
+        });
+
+
+
+    }
+
+    private void createPreGameAnalysisSelectionDialog(){
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+        View fView = getLayoutInflater().inflate(R.layout.pregame_analysis_selection, null);
+
+
+        mBuilder.setView(fView);
+        AlertDialog dialog = mBuilder.create();
+        dialog.show();
+        fView.findViewById(R.id.current_opponent_stats).setOnClickListener(v -> {
+            dialog.dismiss();
+            initOppositionGamesAnalysis();
+        });
+        fView.findViewById(R.id.recent_history_stats).setOnClickListener(v -> {
+            dialog.dismiss();
+            initRecentGamesAnalysis();
+        });
+    }
+    private void initPreGameAnalysisButton(){
+        view.findViewById(R.id.display_pregame_analysis).setOnClickListener(v -> {
+            createPreGameAnalysisSelectionDialog();
+        });
+    }
+
+    private void initOppositionGamesAnalysis(){
+        viewModel.getStatsForLossesByOpponent(currentFixture);
+        viewModel.getStatsForWinsByOpponent(currentFixture);
+    }
+
+    private void initRecentGamesAnalysis() {
+        viewModel.getAvgStatsForLastFiveFixturesLost();
+        viewModel.getAvgStatsForLastFiveFixturesWon();
+    }
+
+        @RequiresApi(api = Build.VERSION_CODES.N)
+        private void displayPreGameAnalysis(List<StatsView> set1, List<StatsView> set2){
+        if(winsPopulated || lossesPopulated){
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+            View fView = getLayoutInflater().inflate(R.layout.pregame_analysis, null);
+
+            populateRV(fView, R.id.analysis_rv_1, set1, R.color.green3);
+            populateRV(fView, R.id.analysis_rv_2, set2, R.color.red);
+
+            mBuilder.setView(fView);
+            AlertDialog dialog = mBuilder.create();
+            dialog.show();
+
+            fView.findViewById(R.id.pregame_button).setOnClickListener(v -> {
+
+                lossesPopulated = false;
+                winsPopulated = false;
+                dialog.dismiss();
+            });
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void populateRV(View fView, int rv, List<StatsView> set, int colour){
+        RecyclerView recyclerView = (RecyclerView) fView.findViewById(rv);
+        InGameStatsAdapter adapter = new InGameStatsAdapter();
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
+
+        List<String> names = set.stream()
+                .map(obj -> obj.getStatName())
+                .collect(Collectors.toList());
+
+        List<String> percents = set.stream()
+                .map(obj -> obj.getCount())
+                .collect(Collectors.toList());
+
+        adapter.setResults(names);
+        if(!percents.isEmpty())
+            adapter.setAverages(percents, Integer.parseInt(percents.get(0)));
+        adapter.setColour(getResources().getColor(colour));
+        adapter.notifyDataSetChanged();
     }
 
     private void initChronometer() {
@@ -216,15 +325,15 @@ public class GameFragment extends Fragment {
 
             statNames.add(s);
             List<StatsView> statsViews = groupedStats.get(s);
-            double success = 0;
-            double total = 0;
+            Integer success = 0;
+            Integer total = 0;
             for(int i = 0; i < Objects.requireNonNull(statsViews).size(); i++){
                 total += Integer.parseInt(statsViews.get(i).getCount());
                 if(statsViews.get(i).getSuccess()){
                     success += Integer.parseInt(statsViews.get(i).getCount());
                 }
             }
-            double percent = success/total * 100;
+            Double percent = (double)success /total * 100;
 
             DecimalFormat df = new DecimalFormat();
             df.setMaximumFractionDigits(2);
@@ -242,8 +351,11 @@ public class GameFragment extends Fragment {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         rv.setAdapter(adapter);
 
+
+
         adapter.setResults(statNames);
         adapter.setPercents(percents);
+        adapter.setColour(getResources().getColor(R.color.pink1));
         adapter.notifyDataSetChanged();
 
         mBuilder.setView(fView);
@@ -300,7 +412,8 @@ public class GameFragment extends Fragment {
             double success = 0;
             double total = 0;
             for(int i = 0; i < Objects.requireNonNull(statsViews).size(); i++){
-                total += Integer.parseInt(statsViews.get(i).getCount());
+                StatsView statsView = statsViews.get(i);
+                total += Integer.parseInt(statsView.getCount());
                 if(statsViews.get(i).getSuccess()){
                     success += Integer.parseInt(statsViews.get(i).getCount());
                 }
@@ -537,8 +650,13 @@ public class GameFragment extends Fragment {
             @Override
             public void onChanged(List<Player> playerList) {
                 if(playerList != null){
-                    //TODO setPlayerList contents to list of starting 15 (dependent on current fixture
                     players = playerList;
+                    Player player = new Player();
+                    player.setId(80L);
+                    player.setFirstname("");
+                    player.setLastname("Opposition");
+                    players.add(player);
+
                     initGridLayoutButtons(players);
                 }
             }
@@ -580,14 +698,7 @@ public class GameFragment extends Fragment {
     }
 
     public void setPlayerList(Spinner spinner){
-        Player player = new Player();
-        player.setId(80L);
-        player.setFirstname("");
-        player.setLastname("Opposition");
-        if(!players.contains(player)){
-            players.add(player);
 
-        }
         ArrayAdapter<Player> adapter =
                 new ArrayAdapter<Player>(getContext(),  R.layout.fixture_spinner_item, players);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
