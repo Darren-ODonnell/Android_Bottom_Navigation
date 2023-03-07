@@ -1,11 +1,13 @@
 package com.example.bottomnavigationproper.Adapters;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bottomnavigationproper.CustomXAxisRenderer;
@@ -91,25 +93,28 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
         this.playerStats = mapResultsToPlayer(results);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private HashMap<String, List<StatsView>> mapResultsToPlayer(List<StatsView> results) {
         HashMap<String, List<StatsView>> playerStats = new HashMap<>();
+        getItemCount();
         int i = 0;
-        for(StatsView s: results){
+        for(StatsView s: results) {
             String fullName = s.getFirstName() + " " + s.getLastName();
-            if(playerStats.get(fullName) == null){
-                List<StatsView> list = new ArrayList<>();
-                list.add(s);
-                playerStats.put(fullName, list);
-                intPlayerStats.put(i++,list);
-            }else{
-                List<StatsView> list = playerStats.get(fullName);
-                assert list != null;
-                list.add(s);
-                playerStats.put(fullName, list);
-                 list = intPlayerStats.get(i);
-                intPlayerStats.put(i,list);
-            }
-        }
+
+                    if (!playerStats.containsKey(fullName)) {
+                        List<StatsView> list = new ArrayList<>();
+                        list.add(s);
+                        playerStats.put(fullName, list);
+                        intPlayerStats.put(i++, list);
+                    } else {
+                        List<StatsView> list = playerStats.get(fullName);
+                        assert list != null;
+                        list.add(s);
+                        playerStats.replace(fullName, list);
+    //                    list = intPlayerStats.get(i);
+                        intPlayerStats.replace(i, list);
+                    }
+                }
         return playerStats;
     }
 
@@ -176,6 +181,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
                     ((BarChartViewHolder) holder).fixture.setText(fixtureDate);
                 else
                     ((BarChartViewHolder) holder).fixture.setText("All Fixtures");
+
                 createBarChart(holder, statsForPlayer);
 
                 if(singleStat)
@@ -281,7 +287,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
 
     @Override
     public int getItemCount() {
-        return results.size();
+        return intPlayerStats.size();
     }
 }
 
