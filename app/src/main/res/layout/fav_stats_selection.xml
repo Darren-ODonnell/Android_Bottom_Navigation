@@ -45,7 +45,7 @@
             android:layout_margin="8dp"
             android:padding="8dp"/>
         <androidx.recyclerview.widget.RecyclerView
-            android:background="@color/green1"
+            android:background="@color/green4"
             android:id="@+id/right_recycler_view"
             android:layout_width="0dp"
             android:layout_weight="1"
