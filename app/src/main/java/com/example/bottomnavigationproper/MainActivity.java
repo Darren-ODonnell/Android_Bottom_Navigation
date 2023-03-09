@@ -15,7 +15,7 @@ import com.example.bottomnavigationproper.Services.LoginRepository;
 public class MainActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "token_key";
     public static final String API_KEY = "jwt_token";
-    private static final boolean DEBUG_LOGIN_WITHOUT_JWT = false;
+    private static final boolean DEBUG_LOGIN_WITHOUT_JWT = true;
     SharedPreferences settings;
 
     @Override

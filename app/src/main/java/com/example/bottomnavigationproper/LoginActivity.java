@@ -2,6 +2,7 @@ package com.example.bottomnavigationproper;
 
 import static com.example.bottomnavigationproper.MainActivity.API_KEY;
 
+import android.app.UiAutomation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -67,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
             });
+
             String username = getTextFromEditText(R.id.name);
             String password = getTextFromEditText(R.id.password);
 
@@ -78,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginFromInput(){
         storeToken(getApplicationContext());
+
 
         startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
     }

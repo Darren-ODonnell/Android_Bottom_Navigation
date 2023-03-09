@@ -1,5 +1,7 @@
 package com.example.bottomnavigationproper;
 
+import com.example.bottomnavigationproper.Models.Fellowship;
+
 import java.util.List;
 
 public class User {
@@ -8,6 +10,7 @@ public class User {
     private String accessToken;
     private final String tokenType = "Bearer";
     private List<String> roles;
+    private Fellowship fellow;
 
 
     public User(){}
@@ -46,6 +49,14 @@ public class User {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public Fellowship getFellow() {
+        return fellow;
+    }
+
+    public void setFellow(Fellowship fellow) {
+        this.fellow = fellow;
     }
 }
 

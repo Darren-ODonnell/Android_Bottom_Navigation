@@ -24,10 +24,12 @@ public class PlayerRepository {
 
     private APIInterface apiInterface;
     private MutableLiveData<List<Player>> playerResponseLiveData;
+    private MutableLiveData<Player> singPlayerResponseLiveData;
 
 
     public PlayerRepository(){
         playerResponseLiveData = new MutableLiveData<>();
+        singPlayerResponseLiveData = new MutableLiveData<>();
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
     }
@@ -68,6 +70,26 @@ public class PlayerRepository {
                     @Override
                     public void onFailure(@NonNull Call<List<Player>> call, Throwable t) {
                         playerResponseLiveData.postValue(null);
+
+                    }
+                });
+    }
+
+    public void getPlayerByEmail(String email, String token) {
+        Map<String, String> params = new HashMap<>();
+        params.put("email", email);
+        apiInterface.getPlayerByEmail(token, params)
+                .enqueue(new Callback<Player>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Player> call, Response<Player> response) {
+                        if (response.body() != null) {
+                            singPlayerResponseLiveData.postValue(response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(@NonNull Call<Player> call, Throwable t) {
+                        singPlayerResponseLiveData.postValue(null);
 
                     }
                 });

@@ -9,6 +9,7 @@ import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Login;
 import com.example.bottomnavigationproper.Models.Register;
 import com.example.bottomnavigationproper.User;
+import com.example.bottomnavigationproper.UserSingleton;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,12 +19,14 @@ public class LoginRepository {
 
     private MutableLiveData<Boolean> validToken;
     private MutableLiveData<String> tokenLiveData;
+
     private APIInterface apiInterface;
 
     public LoginRepository(){
         apiInterface = APIClient.getClient().create(APIInterface.class);
         validToken = new MutableLiveData<>();
         tokenLiveData = new MutableLiveData<>();
+
     }
 
 
@@ -38,6 +41,7 @@ public class LoginRepository {
                     assert response.body() != null;
                     User user = response.body();
                     String token = user.getAccessToken();
+                    UserSingleton.getInstance().setUser(user);
                     tokenLiveData.postValue(token);
                     validToken.postValue(true);
                     TokenSingleton.getInstance().setTokenString(token);
@@ -67,6 +71,7 @@ public class LoginRepository {
                 if(response.isSuccessful()){
                     assert response.body() != null;
                     User user = response.body();
+                    UserSingleton.getInstance().setUser(user);
                     String token = user.getAccessToken();
                     tokenLiveData.postValue(token);
                     validToken.postValue(true);
@@ -108,4 +113,7 @@ public class LoginRepository {
     public MutableLiveData<Boolean> getTokenValidity(){
         return validToken;
     }
+
+
+
 }
