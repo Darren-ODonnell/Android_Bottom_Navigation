@@ -141,5 +141,6 @@ public interface APIInterface {
     @GET("stats_view/getStatsForLastFiveFixturesLost")
     Call<List<StatsView>> getStatsForLastFiveFixturesLost(@Header("Authorization") String accessToken);
 
-
+    @GET("player/findByEmail")
+    Call<Player> getPlayerByEmail(@Header("Authorization") String accessToken, Map<String, String> params);
 }

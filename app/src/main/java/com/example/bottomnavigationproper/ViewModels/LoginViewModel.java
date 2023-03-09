@@ -16,12 +16,14 @@ import com.example.bottomnavigationproper.Services.FixtureRepository;
 import com.example.bottomnavigationproper.Services.LoginRepository;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
 import com.example.bottomnavigationproper.Services.StatRepository;
+import com.example.bottomnavigationproper.User;
 
 import java.util.List;
 
 public class LoginViewModel extends AndroidViewModel {
     private LoginRepository loginRepository;
     private LiveData<Boolean> tokenValidityLiveData;
+
 
 
 
@@ -41,6 +43,7 @@ public class LoginViewModel extends AndroidViewModel {
         loginRepository = new LoginRepository();
         tokenValidityLiveData = loginRepository.getTokenValidity();
 
+
     }
 
     public void login(Login login) {
@@ -50,6 +53,7 @@ public class LoginViewModel extends AndroidViewModel {
     public LiveData<Boolean> getTokenValidityLiveData() {
         return tokenValidityLiveData;
     }
+
 
 
 
