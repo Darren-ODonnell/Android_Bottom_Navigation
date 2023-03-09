@@ -1,9 +1,13 @@
 package com.example.bottomnavigationproper;
+
+import java.util.List;
+
 public class User {
     private int id;
     private String email;
     private String accessToken;
     private final String tokenType = "Bearer";
+    private List<String> roles;
 
 
     public User(){}
@@ -34,6 +38,14 @@ public class User {
 
     public String getTokenType(){
         return this.tokenType;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }
 
