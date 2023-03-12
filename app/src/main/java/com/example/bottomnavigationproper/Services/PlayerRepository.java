@@ -51,9 +51,6 @@ public class PlayerRepository {
                 }
             });
     }
-    public LiveData<List<Player>> getPlayersResponseLiveData() {
-        return playerResponseLiveData;
-    }
 
     public void getPlayersForFixture(Fixture fixture, String token) {
         Map<String, String> params = new HashMap<>();
@@ -94,5 +91,15 @@ public class PlayerRepository {
                     }
                 });
     }
+
+    public LiveData<List<Player>> getPlayersResponseLiveData() {
+        return playerResponseLiveData;
+    }
+
+    public LiveData<Player> getSingPlayerResponseLiveData() {
+        return singPlayerResponseLiveData;
+    }
+
+
 }
 

@@ -100,22 +100,28 @@ public class StatsFragment extends Fragment {
     }
 
     public void setPlayerList(List<Player> players){
-        Player all = new Player();
-        all.setFirstname("All");
-        all.setLastname("Players");
-        players.add(0, all);
-        ArrayAdapter<Player> adapter =
-                new ArrayAdapter<Player>(getContext(),  android.R.layout.simple_spinner_dropdown_item, players);
-        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-        spinnerPlayer.setAdapter(adapter);
+        if(UserSingleton.getInstance().getRole().equals("USER")){
+            spinnerPlayer.setVisibility(View.INVISIBLE);
+            playerSelected = UserSingleton.getInstance().getPlayer();
+        }else {
+            Player all = new Player();
+            all.setFirstname("All");
+            all.setLastname("Players");
+            players.add(0, all);
+            ArrayAdapter<Player> adapter =
+                    new ArrayAdapter<Player>(getContext(), android.R.layout.simple_spinner_dropdown_item, players);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerPlayer.setAdapter(adapter);
 
-        spinnerPlayer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                playerSelected = (Player)parent.getItemAtPosition(pos);
-            }
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+            spinnerPlayer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                    playerSelected = (Player) parent.getItemAtPosition(pos);
+                }
+
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
+        }
     }
 
     public void setFixtureList(List<Fixture> fixtures){

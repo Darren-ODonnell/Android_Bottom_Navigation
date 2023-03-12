@@ -95,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
 
         editor.putString(API_KEY, TokenSingleton.getInstance().getTokenStr());
         // Commit the edits!
-        editor.commit();
+        editor.apply();
     }
 
     @Override

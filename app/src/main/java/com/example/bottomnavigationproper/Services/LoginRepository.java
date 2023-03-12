@@ -41,10 +41,10 @@ public class LoginRepository {
                     assert response.body() != null;
                     User user = response.body();
                     String token = user.getAccessToken();
-                    UserSingleton.getInstance().setUser(user);
                     tokenLiveData.postValue(token);
                     validToken.postValue(true);
                     TokenSingleton.getInstance().setTokenString(token);
+                    UserSingleton.getInstance().setUser(user);
                 }else{
 //                    Toast.makeText(getApplicationContext(), "Login not correct :(", Toast.LENGTH_SHORT).show();
                     validToken.postValue(false);
@@ -71,7 +71,6 @@ public class LoginRepository {
                 if(response.isSuccessful()){
                     assert response.body() != null;
                     User user = response.body();
-                    UserSingleton.getInstance().setUser(user);
                     String token = user.getAccessToken();
                     tokenLiveData.postValue(token);
                     validToken.postValue(true);
