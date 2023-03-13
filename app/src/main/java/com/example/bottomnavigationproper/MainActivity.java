@@ -2,20 +2,27 @@ package com.example.bottomnavigationproper;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Services.LoginRepository;
+import com.example.bottomnavigationproper.ViewModels.GameViewModel;
+import com.example.bottomnavigationproper.ViewModels.LoginViewModel;
 
 public class MainActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "token_key";
     public static final String API_KEY = "jwt_token";
     private static final boolean DEBUG_LOGIN_WITHOUT_JWT = true;
+
+
+    LoginViewModel viewModel;
     SharedPreferences settings;
 
     @Override
@@ -31,11 +38,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void validateJWT(){
+        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+
+        viewModel.init();
         String token = retrieveToken();
 
-        LoginRepository service = new LoginRepository();
-
-        service.getTokenValidity().observe(this, new Observer<Boolean>() {
+        viewModel.getTokenValidityLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if(aBoolean){
@@ -52,13 +60,14 @@ public class MainActivity extends AppCompatActivity {
             buildRegisterLoginScreen();
         }else{
             if(token != null){
-                service.validateJWT(token);
+                viewModel.validateJWT(token);
             }else{
                 buildRegisterLoginScreen();
             }
         }
 
     }
+
 
     private String retrieveToken() {
         Context context = getApplicationContext();
@@ -85,7 +94,14 @@ public class MainActivity extends AppCompatActivity {
 
         editor.putString(API_KEY, TokenSingleton.getInstance().getTokenStr());
         // Commit the edits!
-        editor.commit();
+        editor.apply();
     }
 
+    @Override
+    protected void onStop() {
+        viewModel.getSingPlayerResponseLiveData().removeObservers(this);
+        viewModel.getTokenValidityLiveData().removeObservers(this);
+        super.onStop();
+
+    }
 }

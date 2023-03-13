@@ -43,8 +43,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void loginFromInput(){
         LoginRepository service = new LoginRepository();
-        PlayerRepository playerRepository = new PlayerRepository();
-
 
         findViewById(R.id.btn_register).setOnClickListener(v -> {
             String email = getTextFromEditText(R.id.email_reg);
@@ -77,12 +75,13 @@ public class RegisterActivity extends AppCompatActivity {
 
         editor.putString(API_KEY, TokenSingleton.getInstance().getTokenStr());
         // Commit the edits!
-        editor.commit();
+        editor.apply();
     }
 
     @Override
     protected void onStop() {
-        super.onStop();
         storeToken(getApplicationContext());
+        super.onStop();
+
     }
 }

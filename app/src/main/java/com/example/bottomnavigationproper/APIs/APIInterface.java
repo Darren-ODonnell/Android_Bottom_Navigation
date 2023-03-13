@@ -141,6 +141,10 @@ public interface APIInterface {
     @GET("stats_view/getStatsForLastFiveFixturesLost")
     Call<List<StatsView>> getStatsForLastFiveFixturesLost(@Header("Authorization") String accessToken);
 
+    @GET("stats_view/countStatsPlayerAnalysis")
+    Call<List<StatsView>> countStatsPlayerAnalysis(@Header("Authorization") String accessToken,
+                                                   @QueryMap Map<String, String> params);
+
     @GET("player/findByEmail")
     Call<Player> getPlayerByEmail(@Header("Authorization") String accessToken,
                                   @QueryMap Map<String, String> params);

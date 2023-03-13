@@ -128,4 +128,15 @@ public class StatsDisplayFragment extends Fragment {
 
     }
 
+    @Override
+    public void onStop() {
+        viewModel.getStatNameLiveData().removeObservers(this);
+        viewModel.getStatResponseLiveData().removeObservers(this);
+        viewModel.getSingleStatLiveData().removeObservers(this);
+        viewModel.getSingleFixtureLiveData().removeObservers(this);
+        super.onStop();
+
+    }
+
+
 }

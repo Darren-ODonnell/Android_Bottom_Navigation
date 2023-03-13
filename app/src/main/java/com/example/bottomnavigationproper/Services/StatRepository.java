@@ -631,8 +631,24 @@ public class StatRepository {
     public LiveData<List<StatsView>> getPregameLossAnalysisLiveData() {return pregameLossAnalysisLiveData;}
 
 
+    public void countStatByPlayer(String firstname, String lastname, String bearerTokenString) {
+        Map<String, String> params = new HashMap<>();
+        params.put("firstname", firstname);
+        params.put("lastname", lastname);
+        apiInterface.countStatsPlayerAnalysis(bearerTokenString, params)
+                .enqueue(new Callback<List<StatsView>>() {
+                    @Override
+                    public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
+                        if (response.body() != null)
+                            statResponseLiveData.postValue(response.body());
+                    }
 
+                    @Override
+                    public void onFailure(Call<List<StatsView>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+                    }
 
-
+                });
+    }
 }
 

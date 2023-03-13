@@ -157,7 +157,7 @@ public class GridFragment extends Fragment {
                  assert list != null;
                  int total = 0;
                  int count1 = Integer.parseInt(list.get(0).getCount());
-                 int count2 = 1;//divide by 1 returns the same number
+                 int count2 = 0;//divide by 1 returns the same number
                  if(list.size()>1)
                      count2 = Integer.parseInt(list.get(1).getCount());
                     total = count2;

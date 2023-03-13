@@ -1,28 +1,25 @@
 package com.example.bottomnavigationproper.ViewModels;
 
 import android.app.Application;
+import android.media.session.MediaSession;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
-import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Login;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Models.StatsView;
-import com.example.bottomnavigationproper.Models.StatName;
-import com.example.bottomnavigationproper.Services.FixtureRepository;
 import com.example.bottomnavigationproper.Services.LoginRepository;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
-import com.example.bottomnavigationproper.Services.StatRepository;
 import com.example.bottomnavigationproper.User;
-
-import java.util.List;
 
 public class LoginViewModel extends AndroidViewModel {
     private LoginRepository loginRepository;
     private LiveData<Boolean> tokenValidityLiveData;
+
+    private PlayerRepository playerRepository;
+    private LiveData<Player> playerLiveData;
 
 
 
@@ -43,6 +40,9 @@ public class LoginViewModel extends AndroidViewModel {
         loginRepository = new LoginRepository();
         tokenValidityLiveData = loginRepository.getTokenValidity();
 
+        playerRepository= new PlayerRepository();
+        playerLiveData = playerRepository.getSingPlayerResponseLiveData();
+
 
     }
 
@@ -54,8 +54,15 @@ public class LoginViewModel extends AndroidViewModel {
         return tokenValidityLiveData;
     }
 
+    public LiveData<Player> getSingPlayerResponseLiveData(){
+        return playerLiveData;
+    }
 
+    public void getPlayerByEmail(User user){
+        playerRepository.getPlayerByEmail(user.getEmail(), TokenSingleton.getInstance().getBearerTokenString());
+    }
 
-
-
+    public void validateJWT(String token) {
+        loginRepository.validateJWT(token);
+    }
 }

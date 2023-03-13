@@ -13,10 +13,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Login;
+import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Services.LoginRepository;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
@@ -36,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
 
         StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(StrictMode.getVmPolicy())
                 .detectLeakedClosableObjects()
+                .penaltyLog()
                 .build());
 
         setContentView(R.layout.activity_login);
@@ -60,11 +63,13 @@ public class LoginActivity extends AppCompatActivity {
             viewModel.getTokenValidityLiveData().observe(this, new Observer<Boolean>() {
                 @Override
                 public void onChanged(Boolean valid) {
+
                     if (valid) {
                        loginFromInput();
                     }else{
                         Toast.makeText(getApplicationContext(), "User does not exist, please register", Toast.LENGTH_LONG).show();
                     }
+                    viewModel.getTokenValidityLiveData().removeObserver(this);
 
                 }
             });
@@ -75,14 +80,28 @@ public class LoginActivity extends AppCompatActivity {
             Login loginObj = new Login(username, password);
             viewModel.login(loginObj);
 
+            viewModel.getSingPlayerResponseLiveData().observe(this, new Observer<Player>() {
+                @Override
+                public void onChanged(Player player) {
+                    UserSingleton.getInstance().setPlayer(player);
+                    startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
+                }
+            });
+
+
         });
     }
 
     private void loginFromInput(){
         storeToken(getApplicationContext());
 
+        if(UserSingleton.getInstance().getUser().getFellow().getFellowType().equalsIgnoreCase("player")) {
+            viewModel.getPlayerByEmail(
+                    UserSingleton.getInstance().getUser()
+            );
+        }
 
-        startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
+
     }
 
     private String getTextFromEditText(int id){
@@ -100,7 +119,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        super.onStop();
+        viewModel.getSingPlayerResponseLiveData().removeObservers(this);
         storeToken(getApplicationContext());
+        super.onStop();
+
     }
 }

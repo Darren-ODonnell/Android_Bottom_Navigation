@@ -130,9 +130,8 @@ public class Dictionaries {
     }
 
     public List<Integer> getColours() {
-//        return Arrays.asList(Color.CYAN, Color.BLUE, Color.MAGENTA, Color.RED, Color.YELLOW, Color.GREEN);
         return Arrays.asList(
-                0xFFf5bc42, 0xFFc5f542, 0xFF42f557, 0xFF42bff5, 0xFF4287f5, 0xFF4245f5, 0xFF8a42f5, 0xFFd742f5, 0xFFf542cb, 0xFFf5428d, 0xFFf54248
+                0xFFCDEFAB, 0xFFABCDEF, 0xFFf23456, 0xFFf12345, 0xFFf5bc42, 0xFFc5f542, 0xFF42f557, 0xFF42bff5, 0xFF4287f5, 0xFF4245f5, 0xFF8a42f5, 0xFFd742f5, 0xFFf542cb, 0xFFf5428d, 0xFFf54248
         );
     }
 }

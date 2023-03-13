@@ -98,6 +98,9 @@ public class LoginRepository {
                 if(Boolean.TRUE.equals(response.body())){
                     validToken.postValue(true);
                     TokenSingleton.getInstance().setTokenString(token);
+                    UserSingleton.getInstance().getUser();
+
+
                 }else
                     validToken.postValue(false);
             }

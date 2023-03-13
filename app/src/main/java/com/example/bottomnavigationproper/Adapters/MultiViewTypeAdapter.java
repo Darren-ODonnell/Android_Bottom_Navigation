@@ -87,6 +87,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
 
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void setResults(List<StatsView>data) {
         this.results = data;
 
@@ -212,13 +213,13 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
         List<String> xValues = new ArrayList<>();
 
         int i = 0;
-        for(StatsView s: statsForPlayer){
+        for (StatsView s : statsForPlayer) {
             BarEntry barEntry = new BarEntry(i, Float.parseFloat(s.getCount()));
             entries.add(barEntry);
-            if(singleStat) {
+            if (singleStat) {
                 String temp = s.getHomeTeam() + "\n" + s.getFixtureDate();
                 xValues.add(temp);
-            }else
+            } else
                 xValues.add(s.getStatName());
 
             i++;
@@ -227,8 +228,14 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
         BarDataSet barDataSet = new BarDataSet(entries, "Stat Occurrence Frequency");
 
         List<Integer> colors = new ArrayList<>();
-        for (int j = 0; j < xValues.size(); j++) {
-            colors.add(getColorForName(xValues.get(j)));
+        if (singleStat){
+            for (int j = 0; j < xValues.size(); j++) {
+                colors.add(getColorForName(statsForPlayer.get(0).getStatName()));
+            }
+        }else{
+            for (int j = 0; j < xValues.size(); j++) {
+                colors.add(getColorForName(xValues.get(j)));
+            }
         }
 
         barDataSet.setColors(colors);
@@ -276,11 +283,7 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
         List<String> statnames = Dictionaries.getInstance().getStatNames();
         List<Integer> colours = Dictionaries.getInstance().getColours();
 
-        int index = statnames.indexOf(s);
-        int i = index;
-        while(i >= colours.size()){
-            i-= colours.size();
-        }
+        int i = statnames.indexOf(s);
         return (i == -1) ? Color.BLACK : colours.get(i);
     }
 

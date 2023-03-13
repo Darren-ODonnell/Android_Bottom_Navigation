@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.bottomnavigationproper.APIs.FavouriteStatsSingleton;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Adapters.DragDropAdapter;
 
@@ -50,6 +51,8 @@ public class BottomNavActivity extends AppCompatActivity {
     private RecyclerView targetRecyclerView;
     private ItemTouchHelper sourceItemTouchHelper;
     private ItemTouchHelper targetItemTouchHelper;
+
+    StatViewModel viewModel;
 
 
     @Override
@@ -126,6 +129,7 @@ public class BottomNavActivity extends AppCompatActivity {
             List<String> favourites = targetAdapter.getItems();
             favourites.size();
             saveToSharedPreferences(favourites);
+            FavouriteStatsSingleton.getInstance().setFavouriteStats(favourites);
             dialog.dismiss();
         });
     }
@@ -153,7 +157,7 @@ public class BottomNavActivity extends AppCompatActivity {
     }
 
     private void getStatNames() {
-        StatViewModel viewModel = new ViewModelProvider(this).get(StatViewModel.class);
+        viewModel = new ViewModelProvider(this).get(StatViewModel.class);
         viewModel.init();
         viewModel.getStatNameLiveData().observe(this, new Observer<List<StatName>>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -168,6 +172,7 @@ public class BottomNavActivity extends AppCompatActivity {
                             .filter(stat -> !favStats.contains(stat))
                                     .collect(Collectors.toList());
                 createFavouriteStatsDialog();
+                viewModel.getStatNameLiveData().removeObserver(this);
             }
         });
         viewModel.getStatNames();
@@ -258,6 +263,13 @@ public class BottomNavActivity extends AppCompatActivity {
         public boolean isItemViewSwipeEnabled() {
             return true;
         }
+    }
+
+    @Override
+    public void onStop() {
+        viewModel.getStatNameLiveData().removeObservers(this);
+        super.onStop();
+
     }
 
 }

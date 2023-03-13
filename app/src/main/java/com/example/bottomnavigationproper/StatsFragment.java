@@ -20,6 +20,7 @@ import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatName;
+import com.example.bottomnavigationproper.ViewModels.GameViewModel;
 import com.example.bottomnavigationproper.ViewModels.StatsSelectionViewModel;
 
 import java.io.Serializable;
@@ -230,6 +231,18 @@ public class StatsFragment extends Fragment {
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainerView2, toFragment, null)
                     .commit();
+    }
+
+    @Override
+    public void onStop() {
+        viewModel.getStatResponseLiveData().removeObservers(this);
+        viewModel.getStatNameLiveData().removeObservers(this);
+        viewModel.getSingleStatLiveData().removeObservers(this);
+        viewModel.getPlayerResponseLiveData().removeObservers(this);
+        viewModel.getSingleFixtureLiveData().removeObservers(this);
+        viewModel.getFixturesResponseLiveData().removeObservers(this);
+        super.onStop();
+
     }
 
 }

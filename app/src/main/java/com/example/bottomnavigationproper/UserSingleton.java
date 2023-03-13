@@ -27,19 +27,6 @@ public class UserSingleton {
     public void setUser(User user){
         this.user = user;
 
-        PlayerRepository repository = new PlayerRepository();
-
-        repository.getSingPlayerResponseLiveData().observeForever(new Observer<Player>() {
-            @Override
-            public void onChanged(Player player) {
-                associatedPlayer = player;
-            }
-        });
-
-        if(user.getFellow().getFellowType().equalsIgnoreCase("player")){
-            repository.getPlayerByEmail(user.getEmail(), TokenSingleton.getInstance().getBearerTokenString());
-        }
-
         System.out.println("this");
     }
 
@@ -57,5 +44,13 @@ public class UserSingleton {
 
     public Player getPlayer() {
         return associatedPlayer;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setPlayer(Player player) {
+        this.associatedPlayer = player;
     }
 }

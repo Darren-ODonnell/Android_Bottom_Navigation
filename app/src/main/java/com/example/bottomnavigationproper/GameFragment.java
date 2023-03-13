@@ -30,7 +30,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -48,9 +47,6 @@ import com.example.bottomnavigationproper.Services.StatRepository;
 import com.example.bottomnavigationproper.ViewModels.GameViewModel;
 import com.example.bottomnavigationproper.Adapters.InGameStatsAdapter;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -345,7 +341,7 @@ public class GameFragment extends Fragment {
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
         View fView = getLayoutInflater().inflate(R.layout.game_stat_display_dialog, null);
 
-        RecyclerView rv = (RecyclerView) fView.findViewById(R.id.gameStatRV);
+        RecyclerView rv = (RecyclerView) fView.findViewById(R.id.player_favStats_rv);
 
 
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -954,120 +950,15 @@ public class GameFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        if (requestCode == RecordAudioRequestCode && grantResults.length > 0 ){
-//            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-//                Toast.makeText(this,"Permission Granted",Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//    private ActivityResultLauncher<String[]> activityResultLauncher;
-//    public GameFragment() {
-//        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), new ActivityResultCallback<Map<String, Boolean>>() {
-//            @Override
-//            public void onActivityResult(Map<String, Boolean> result) {
-//                Log.e("activityResultLauncher", ""+result.toString());
-//                Boolean areAllGranted = true;
-//                for(Boolean b : result.values()) {
-//                    areAllGranted = areAllGranted && b;
-//                }
-//
-//                if(areAllGranted) {
-//                    capturePhoto();
-//                }
-//            }
-//        });
-//    }
 
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        view = inflater.inflate(R.layout.fragment_game, container, false);
-//        spinnerSuccess = view.findViewById(R.id.gameSpinnerSuccess);
-//        spinnerPlayer = view.findViewById(R.id.gameSpinnerPlayer);
-//        spinnerStatName = view.findViewById(R.id.gameSpinnerStat);
-////      TODO move to game_input fragment  initButton();
-//
-//        return view;
-//    }
-    /** TODO Here down should be in game input fragment
+    @Override
+    public void onStop() {
 
-    private void initButton() {
-        Button statButton = view.findViewById(R.id.inputStatButton);
-        statButton.setOnClickListener(v -> {
-            createStat(playerSelected, successSelected, statNameSelected);
-        });
-//        Button button = view.findViewById(R.id.statsDisplayButton);
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Bundle args = new Bundle();
-//                args.putSerializable("Player", playerSelected);
-//                args.putSerializable("Success", successSelected);
-//                args.putSerializable("StatName", statNameSelected);
-//                Fragment toFragment = new StatsDisplayFragment();
-//                toFragment.setArguments(args);
-//
-//                getActivity().getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.fragmentContainerView2, toFragment, null)
-//                        .commit();
-//            }
-//        });
+        viewModel.getFixturesResponseLiveData().removeObservers(this);
+        viewModel.getStatNameLiveData().removeObservers(this);
+        viewModel.getScoreLiveData().removeObservers(this);
+        viewModel.getPlayerResponseLiveData().removeObservers(this);
+        viewModel.getStatsLiveData().removeObservers(this);
+        super.onStop();
     }
-
-    public void createStat(Player player, Boolean success, StatName statName) {
-        // Fixture , Location, Time, Half
-        Stat stat = new Stat();
-        stat.setFirstName(player.getFirstname());
-        stat.setLastName(player.getLastname());
-        stat.setStatName(statName.getName());
-        stat.setSuccess(success);
-
-        //TODO handle currentFixture retrieval from repo
-        stat.setFixtureDate(currentFixture.getFixtureDate());
-        stat.setTimeOccurred(currentTime());
-//        stat.setLocation(TODO Fill with location live data);
-        stat.setHalf(half(currentTime()));
-
-        persistStat(stat);
-
-    }
-
-    private void persistStat(Stat stat) {
-        StatRepository repository = new StatRepository();
-        repository.persistStat(stat);
-    }
-
-    public int half(String time){
-        //TODO check if time is greater than halfway through the match
-     //TODO need livedata for half, reset to 0 for every game, when start button clicked -> set half 1,
-     //TODO if puased clicked set half 2
-        return 1;
-    }
-
-    //TODO Get Time since start of game
-    public String currentTime(){
-        return null;
-    }
-
-    // TODO Get Grid Location for button click and set location live data
-    public void gridLocation(){
-        GridLayout grid = (GridLayout) view.findViewById(R.id.pitchGridLocations);
-        int childCount = grid.getChildCount();
-
-        for (int i= 0; i < childCount; i++){
-            TextView container = (TextView) grid.getChildAt(i);
-            container.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View view){
-                    // your click code here
-                    //TODO Add an activity or fragment to take in player, stat and success
-                    String gridLocationText = container.getText().toString();
-                }
-            });
-        }
-    }
-     **/
-
 }
