@@ -101,7 +101,7 @@ public class StatsFragment extends Fragment {
     }
 
     public void setPlayerList(List<Player> players){
-        if(UserSingleton.getInstance().getRole().equals("USER")){
+        if(!UserSingleton.getInstance().isAdminOrCoach()){
             spinnerPlayer.setVisibility(View.INVISIBLE);
             playerSelected = UserSingleton.getInstance().getPlayer();
         }else {

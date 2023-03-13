@@ -30,17 +30,6 @@ public class UserSingleton {
         System.out.println("this");
     }
 
-    public String getRole(){
-        if(user.getRoles().contains("ROLE_ADMIN"))
-            return "ADMIN";
-        else if(user.getRoles().contains("ROLE_COACH"))
-            return "COACH";
-        else if(user.getRoles().contains("ROLE_PLAYER"))
-            return "USER";
-
-        return null;
-    }
-
 
     public Player getPlayer() {
         return associatedPlayer;
@@ -52,5 +41,10 @@ public class UserSingleton {
 
     public void setPlayer(Player player) {
         this.associatedPlayer = player;
+    }
+
+    public boolean isAdminOrCoach() {
+        return user.getRoles().contains("ROLE_ADMIN") ||
+                user.getRoles().contains("ROLE_COACH");
     }
 }

@@ -35,6 +35,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
@@ -274,36 +275,46 @@ public class GameFragment extends Fragment {
         ImageButton startStop = requireView().findViewById(R.id.startStop);
 
         startStop.setOnClickListener(view -> {
-            if(!matchStarted){
+            if(UserSingleton.getInstance().isAdminOrCoach()) {
 
-                chronometer.setBase(SystemClock.elapsedRealtime());
-                chronometer.start();
-                matchStarted = true;
-                matchInPlay = true;
-                startStop.setBackgroundResource(R.drawable.ic_baseline_stop);
+                if(!matchStarted){
 
+                    chronometer.setBase(SystemClock.elapsedRealtime());
+                    chronometer.start();
+                    matchStarted = true;
+                    matchInPlay = true;
+                    startStop.setBackgroundResource(R.drawable.ic_baseline_stop);
+
+                }else{
+                    chronometer.stop();
+                    showStats();
+                }
             }else{
-                chronometer.stop();
-                showStats();
+                Toast.makeText(getContext(), "This Functionality is limited to Admin and Coach Only", Toast.LENGTH_LONG).show();
             }
 
         });
 
-        ImageButton playPause = requireView().findViewById(R.id.playPlause);
-        playPause.setOnClickListener(view -> {
-            if(matchInPlay) {
-                chronometer.stop();
-                showStats();
-            }else
-                chronometer.start();
-            if(matchInPlay)
-                playPause.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
-            else
-                playPause.setBackgroundResource(R.drawable.ic_baseline_pause_24);
-            matchInPlay = !matchInPlay;
-            //Pause button changes half
-            half = (half == 1) ? 2 : 1;
-        });
+            ImageButton playPause = requireView().findViewById(R.id.playPlause);
+            playPause.setOnClickListener(view -> {
+                if(UserSingleton.getInstance().isAdminOrCoach()) {
+
+                    if (matchInPlay) {
+                        chronometer.stop();
+                        showStats();
+                    } else
+                        chronometer.start();
+                    if (matchInPlay)
+                        playPause.setBackgroundResource(R.drawable.ic_baseline_play_arrow_24);
+                    else
+                        playPause.setBackgroundResource(R.drawable.ic_baseline_pause_24);
+                    matchInPlay = !matchInPlay;
+                    //Pause button changes half
+                    half = (half == 1) ? 2 : 1;
+                }else
+                    Toast.makeText(getContext(), "This Functionality is limited to Admin and Coach Only", Toast.LENGTH_LONG).show();
+
+            });
 
     }
 
@@ -467,31 +478,31 @@ public class GameFragment extends Fragment {
             playerNo++;
 
             int finalI = i;
-            gridSection.setOnClickListener(new View.OnClickListener(){
-                public void onClick(View view){
-                    // your click code here
-                    mView = getLayoutInflater().inflate(R.layout.fragment_game_input, null);
-                    AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
-                    initVoiceRecognition();
 
-                    AlertDialog dialog = createInputDialog(mView);
+                gridSection.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View view) {
+                        if(UserSingleton.getInstance().isAdminOrCoach()) {
 
-                    mView.findViewById(R.id.inputStatButton).setOnClickListener(v -> {
-                        StatModel stat = createStat(finalI);
-//                        if(!playerSelected.getFirstname().equals("Opposition")) {
-//                            checkStatForScoreHome(stat);
-//                        }else{
-//                            checkStatForScoreOpposition(stat);
-//                        }
-                        speechRecognizer.destroy();
-                        dialog.dismiss();
-                    });
+                                // your click code here
+                            mView = getLayoutInflater().inflate(R.layout.fragment_game_input, null);
+                            AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+                            initVoiceRecognition();
+
+                            AlertDialog dialog = createInputDialog(mView);
+
+                            mView.findViewById(R.id.inputStatButton).setOnClickListener(v -> {
+                                StatModel stat = createStat(finalI);
+                                speechRecognizer.destroy();
+                                dialog.dismiss();
+                            });
+
+                        }else
+                            Toast.makeText(getContext(), "This Functionality is limited to Admin and Coach Only", Toast.LENGTH_LONG).show();
 
 
-
-                }
-            });
-        }
+                    }
+                });
+           }
     }
 
 //    private void checkStatForScoreOpposition(StatModel stat) {
