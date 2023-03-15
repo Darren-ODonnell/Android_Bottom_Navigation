@@ -145,6 +145,9 @@ public interface APIInterface {
     Call<List<StatsView>> countStatsPlayerAnalysis(@Header("Authorization") String accessToken,
                                                    @QueryMap Map<String, String> params);
 
+    @GET("stats_view/countStatsAllPlayerAnalysis")
+    Call<List<StatsView>> countStatsAllPlayerAnalysis(@Header("Authorization") String accessToken);
+
     @GET("player/findByEmail")
     Call<Player> getPlayerByEmail(@Header("Authorization") String accessToken,
                                   @QueryMap Map<String, String> params);

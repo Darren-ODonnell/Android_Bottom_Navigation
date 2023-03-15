@@ -650,5 +650,22 @@ public class StatRepository {
 
                 });
     }
+
+    public void countStatsAllPlayer(String bearerTokenString) {
+        apiInterface.countStatsAllPlayerAnalysis(bearerTokenString)
+                .enqueue(new Callback<List<StatsView>>() {
+                    @Override
+                    public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
+                        if (response.body() != null)
+                            statResponseLiveData.postValue(response.body());
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<StatsView>> call, Throwable t) {
+                        statResponseLiveData.postValue(null);
+                    }
+
+                });
+    }
 }
 

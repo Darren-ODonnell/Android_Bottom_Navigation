@@ -1,8 +1,8 @@
 package com.example.bottomnavigationproper;
 
 import static com.example.bottomnavigationproper.MainActivity.API_KEY;
+import static com.example.bottomnavigationproper.MainActivity.USER;
 
-import android.app.UiAutomation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,19 +13,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Login;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Models.StatsView;
-import com.example.bottomnavigationproper.Services.LoginRepository;
-import com.example.bottomnavigationproper.Services.PlayerRepository;
 import com.example.bottomnavigationproper.ViewModels.LoginViewModel;
-import com.example.bottomnavigationproper.ViewModels.StatViewModel;
-
-import java.util.List;
+import com.google.gson.Gson;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -69,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
                     }else{
                         Toast.makeText(getApplicationContext(), "User does not exist, please register", Toast.LENGTH_LONG).show();
                     }
-                    viewModel.getTokenValidityLiveData().removeObserver(this);
 
                 }
             });
@@ -93,12 +86,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginFromInput(){
-        storeToken(getApplicationContext());
-
-        if(UserSingleton.getInstance().getUser().getFellow().getFellowType().equalsIgnoreCase("player")) {
+        storeTokenAndUser(getApplicationContext());
+        if(!UserSingleton.getInstance().isAdminOrCoach()) {
             viewModel.getPlayerByEmail(
                     UserSingleton.getInstance().getUser()
             );
+        }else{
+            startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
         }
 
 
@@ -108,19 +102,26 @@ public class LoginActivity extends AppCompatActivity {
         return ((EditText)findViewById(id)).getText().toString();
     }
 
-    public void storeToken(Context context) {
+    public void storeTokenAndUser(Context context) {
         SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
         SharedPreferences.Editor editor = settings.edit();
 
         editor.putString(API_KEY, TokenSingleton.getInstance().getTokenStr());
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(UserSingleton.getInstance().getUser());
+        editor.putString(USER, jsonString);
         // Commit the edits!
         editor.apply();
     }
 
     @Override
     protected void onStop() {
-        viewModel.getSingPlayerResponseLiveData().removeObservers(this);
-        storeToken(getApplicationContext());
+        if(viewModel.getSingPlayerResponseLiveData() != null) {
+            viewModel.getSingPlayerResponseLiveData().removeObservers(this);
+        }
+        viewModel.getTokenValidityLiveData().removeObservers(this);
+        storeTokenAndUser(getApplicationContext());
         super.onStop();
 
     }

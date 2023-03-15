@@ -26,8 +26,6 @@ public class UserSingleton {
 
     public void setUser(User user){
         this.user = user;
-
-        System.out.println("this");
     }
 
 

@@ -39,8 +39,6 @@ public class HomeFragment extends Fragment {
 
     List<StatsView> stats = new ArrayList<>();
 
-    LinearLayout bestStat;
-    LinearLayout worstStat;
     RecyclerView favStatsRV;
 
     View view;
@@ -78,7 +76,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        viewModel.countStatByPlayer(UserSingleton.getInstance().getPlayer());
+        if(UserSingleton.getInstance().isAdminOrCoach())
+            viewModel.countStatAllPlayer();
+        else
+            viewModel.countStatByPlayer(UserSingleton.getInstance().getPlayer());
 
     }
 
@@ -94,8 +95,13 @@ public class HomeFragment extends Fragment {
 
     private void populatePlayerName() {
         TextView playerNameTV = view.findViewById(R.id.home_player);
-        String name = UserSingleton.getInstance().getPlayer().getFirstname() + " "
-                + UserSingleton.getInstance().getPlayer().getLastname();
+        String name;
+        if(UserSingleton.getInstance().isAdminOrCoach()) {
+            name = "All Players";
+        }else
+            name = UserSingleton.getInstance().getPlayer().getFirstname() + " "
+                    + UserSingleton.getInstance().getPlayer().getLastname();
+
         playerNameTV.setText(name);
     }
 

@@ -12,13 +12,17 @@ import android.os.StrictMode;
 import android.preference.PreferenceManager;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
+import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Services.LoginRepository;
 import com.example.bottomnavigationproper.ViewModels.GameViewModel;
 import com.example.bottomnavigationproper.ViewModels.LoginViewModel;
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity {
     public static final String PREFS_NAME = "token_key";
     public static final String API_KEY = "jwt_token";
+    public static final String USER = "logged_in_user";
+
     private static final boolean DEBUG_LOGIN_WITHOUT_JWT = true;
 
 
@@ -43,12 +47,25 @@ public class MainActivity extends AppCompatActivity {
         viewModel.init();
         String token = retrieveToken();
 
+        viewModel.getSingPlayerResponseLiveData().observe(this, new Observer<Player>() {
+            @Override
+            public void onChanged(Player player) {
+                UserSingleton.getInstance().setPlayer(player);
+                startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
+            }
+        });
+
         viewModel.getTokenValidityLiveData().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if(aBoolean){
-                    startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
                     TokenSingleton.getInstance().setTokenString(token);
+                    UserSingleton.getInstance().setUser(retrieveUser());
+                    if(!UserSingleton.getInstance().isAdminOrCoach()) {
+                        viewModel.getPlayerByEmail(
+                                UserSingleton.getInstance().getUser()
+                        );
+                    }
                     storeToken(getApplicationContext());
                 }else{
                     buildRegisterLoginScreen();
@@ -76,6 +93,13 @@ public class MainActivity extends AppCompatActivity {
         return settings.getString(API_KEY, null);
     }
 
+    private User retrieveUser(){
+        Context context = getApplicationContext();
+        settings = context.getSharedPreferences(PREFS_NAME, 0);
+        Gson gson = new Gson();
+        return gson.fromJson(settings.getString(USER, null), User.class);
+    }
+
     public void buildRegisterLoginScreen(){
         setContentView(R.layout.register_login_screen);
 
@@ -97,9 +121,14 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
+
+
     @Override
     protected void onStop() {
-        viewModel.getSingPlayerResponseLiveData().removeObservers(this);
+        if(viewModel.getSingPlayerResponseLiveData().hasObservers()){
+            viewModel.getSingPlayerResponseLiveData().removeObservers(this);
+        }
+
         viewModel.getTokenValidityLiveData().removeObservers(this);
         super.onStop();
 

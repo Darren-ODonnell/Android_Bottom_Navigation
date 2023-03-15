@@ -32,6 +32,10 @@ public class HomeViewModel extends AndroidViewModel {
         statRepository.countStatByPlayer(player.getFirstname(), player.getLastname(), TokenSingleton.getInstance().getBearerTokenString());
     }
 
+    public void countStatAllPlayer(){
+        statRepository.countStatsAllPlayer(TokenSingleton.getInstance().getBearerTokenString());
+    }
+
     public LiveData<List<StatsView>> getStatResponseLiveData(){
         return statResponseLiveData;
     }
