@@ -154,6 +154,7 @@ public class BottomNavActivity extends AppCompatActivity {
             favStats = new ArrayList<>(itemSet);
         }else
             favStats = new ArrayList<>();
+        FavouriteStatsSingleton.getInstance().setFavouriteStats(favStats);
     }
 
     private void getStatNames() {
