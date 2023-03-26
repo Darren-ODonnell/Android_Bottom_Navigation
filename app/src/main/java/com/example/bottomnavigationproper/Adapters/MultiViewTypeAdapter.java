@@ -217,9 +217,25 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
             BarEntry barEntry = new BarEntry(i, Float.parseFloat(s.getCount()));
             entries.add(barEntry);
             if (singleStat) {
-                String temp = s.getHomeTeam() + "\n" + s.getFixtureDate();
+                String temp;
+                String opp = s.getAwayTeam();
+                if (opp.equals("St Judes")) {
+                    if (s.getHomeTeam().contains("/")) {
+                        opp = s.getHomeTeam().split("/")[0];
+                    } else {
+                        opp = s.getHomeTeam();
+                    }
+                } else {
+                    if (s.getAwayTeam().contains("/")) {
+                        opp = s.getAwayTeam().split("/")[0];
+                    } else {
+                        opp = s.getAwayTeam();
+                    }
+
+                }
+                temp = opp + "\n" + s.getFixtureDate();
                 xValues.add(temp);
-            } else
+            }else
                 xValues.add(s.getStatName());
 
             i++;

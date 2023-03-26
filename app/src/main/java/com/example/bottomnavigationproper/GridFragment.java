@@ -1,16 +1,19 @@
 package com.example.bottomnavigationproper;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.StatsView;
 
 import java.io.Serializable;
@@ -24,6 +27,7 @@ public class GridFragment extends Fragment {
 
     private List<StatsView> statsViewList;
     private HashMap<String, Integer> locations;
+    View view;
 
 
     @Override
@@ -52,11 +56,28 @@ public class GridFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.grid_layout, container, false);
+        view = inflater.inflate(R.layout.grid_layout, container, false);
 
         heatMap(view);
+        initInfoButton();
 
         return view;
+    }
+
+    private void initInfoButton() {
+        view.findViewById(R.id.info_button).setOnClickListener(v ->{
+            AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
+            View fView = getLayoutInflater().inflate(R.layout.heatmap_info, null);
+
+            mBuilder.setView(fView);
+            AlertDialog dialog = mBuilder.create();
+            dialog.show();
+
+
+            fView.findViewById(R.id.close_heatmap_info_button).setOnClickListener(r -> {
+                dialog.dismiss();
+            });
+        });
     }
 
     private void setBackgroundColour(View tv, Integer colour, Integer percent){

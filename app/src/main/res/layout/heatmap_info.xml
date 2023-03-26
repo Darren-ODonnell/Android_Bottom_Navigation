@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/green2"
+    android:padding="12dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="%"
+        android:textSize="48sp"
+        android:gravity="center_horizontal"
+        android:textColor="@color/black"
+        />
+
+    <TextView
+        android:id="@+id/explanation2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="Success rate of Selected Stat"
+        android:textColor="@color/black"
+        android:layout_marginBottom="48dp"
+
+        />
+
+
+    <LinearLayout
+        android:layout_width="288dp"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#CCE93E3A" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#CCED683C" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#CCF3903F" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#CCFDC70C" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#CCFFF33B" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#CCD3D3D3" />
+
+
+
+    </LinearLayout>
+    <TextView
+        android:id="@+id/explanation1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textColor="@color/black"
+        android:layout_marginTop="12dp"
+
+        android:layout_weight="1"
+        android:text="Quantity of Stat Occurrence in grid" />
+
+
+
+    <Button
+        android:id="@+id/close_heatmap_info_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="12dp"
+        android:backgroundTint="@color/pink4"
+        android:fontFamily="@font/roboto_regular"
+        android:shadowColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="5"
+        android:shadowRadius="5"
+        android:text="Close"
+        android:textColor="@color/green2" />
+
+
+
+
+</LinearLayout>

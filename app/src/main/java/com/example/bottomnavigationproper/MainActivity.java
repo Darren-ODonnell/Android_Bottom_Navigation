@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String API_KEY = "jwt_token";
     public static final String USER = "logged_in_user";
 
-    private static final boolean DEBUG_LOGIN_WITHOUT_JWT = true;
+    private static final boolean DEBUG_LOGIN_WITHOUT_JWT = false;
 
 
     LoginViewModel viewModel;
@@ -65,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
                         viewModel.getPlayerByEmail(
                                 UserSingleton.getInstance().getUser()
                         );
-                    }
+                    }else
+                        startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
                     storeToken(getApplicationContext());
                 }else{
                     buildRegisterLoginScreen();
