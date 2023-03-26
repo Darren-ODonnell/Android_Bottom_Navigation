@@ -4,6 +4,8 @@ import static com.example.bottomnavigationproper.MainActivity.API_KEY;
 
 import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -84,6 +86,11 @@ public class BottomNavActivity extends AppCompatActivity {
             getStatNames();
             return true;
         } else if (id == R.id.action_log_out) {
+            SharedPreferences preferences = getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.remove(API_KEY); // replace "my_key" with the key you want to delete
+            editor.apply();
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
             return true;
         }
 
@@ -173,7 +180,6 @@ public class BottomNavActivity extends AppCompatActivity {
                             .filter(stat -> !favStats.contains(stat))
                                     .collect(Collectors.toList());
                 createFavouriteStatsDialog();
-                viewModel.getStatNameLiveData().removeObserver(this);
             }
         });
         viewModel.getStatNames();
@@ -268,7 +274,8 @@ public class BottomNavActivity extends AppCompatActivity {
 
     @Override
     public void onStop() {
-        viewModel.getStatNameLiveData().removeObservers(this);
+        if(viewModel.getStatNameLiveData() != null)
+            viewModel.getStatNameLiveData().removeObservers(this);
         super.onStop();
 
     }

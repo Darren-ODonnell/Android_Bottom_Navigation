@@ -3,13 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/stat_name_tv"
-        android:layout_width="wrap_content"
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="false">
 
-/>
+        <TextView
+            android:id="@+id/stat_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:gravity="center_horizontal"
+            android:text="TextView"
+            android:padding="6dp"
+
+            />
+
+    </androidx.cardview.widget.CardView>
+
+
 </LinearLayout>
