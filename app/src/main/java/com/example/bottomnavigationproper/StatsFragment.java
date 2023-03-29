@@ -209,7 +209,6 @@ public class StatsFragment extends Fragment {
 
     public void getStats(Player player, Fixture fixture, StatName statName,
                          boolean playerAll, boolean fixtureAll, boolean statAll) {
-
         if (playerAll && fixtureAll && statAll) viewModel.getAllPlayerStatFixtureHeatMap();
         else if (playerAll && fixtureAll) viewModel.getAllPlayerFixtureHeatMap(statName);
         else if (playerAll && statAll) viewModel.getAllPlayerStatHeatMap(fixture);
@@ -218,13 +217,14 @@ public class StatsFragment extends Fragment {
         else if (fixtureAll) viewModel.getAllFixtureHeatMap(player, statName);
         else if (statAll) viewModel.getAllStatsHeatMap(player, fixture);
         else viewModel.getStatHeatMap(player, fixture, statName);
-
-
     }
 
     private void navigateToHeatMap(List<StatsView> statsViewList){
             Bundle args = new Bundle();
             args.putSerializable("statList", (Serializable) statsViewList);
+            args.putSerializable("Player", playerSelected);
+            args.putSerializable("Fixture", fixtureSelected);
+            args.putSerializable("StatName", statNameSelected);
             Fragment toFragment = new GridFragment();
             toFragment.setArguments(args);
 

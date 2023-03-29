@@ -14,7 +14,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.bottomnavigationproper.Models.Fixture;
+import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Models.StatsView;
+
+import org.w3c.dom.Text;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,8 +30,12 @@ import java.util.Objects;
 public class GridFragment extends Fragment {
 
     private List<StatsView> statsViewList;
+
     private HashMap<String, Integer> locations;
     View view;
+    Player player;
+    StatName statName;
+    Fixture fixture;
 
 
     @Override
@@ -40,6 +48,14 @@ public class GridFragment extends Fragment {
                 .build());
 
         statsViewList = getArguments().getParcelableArrayList("statList");
+        player = (Player) getArguments().getSerializable("Player");
+        fixture = (Fixture) getArguments().getSerializable("Fixture");
+        statName = (StatName) getArguments().getSerializable("StatName");
+
+
+
+
+
 
 //        locations = new ArrayList<>();
 
@@ -60,8 +76,20 @@ public class GridFragment extends Fragment {
 
         heatMap(view);
         initInfoButton();
+        initLabels();
 
         return view;
+    }
+
+    private void initLabels() {
+        TextView fixtureTV =  view.findViewById(R.id.heatmap_fixture);
+        TextView playerTV =  view.findViewById(R.id.heatmap_player);
+        TextView statNameTV =  view.findViewById(R.id.heatmap_stat);
+
+        fixtureTV.setText(fixture.getFixtureDate());
+        String fullname = player.getFirstname() + " " + player.getLastname();
+        playerTV.setText(fullname);
+        statNameTV.setText(statName.getName());
     }
 
     private void initInfoButton() {
