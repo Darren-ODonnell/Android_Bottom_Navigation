@@ -40,11 +40,12 @@ import android.widget.Toast;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Models.Position;
 import com.example.bottomnavigationproper.Models.Result;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
-import com.example.bottomnavigationproper.Services.StatRepository;
+import com.example.bottomnavigationproper.Models.Teamsheet;
 import com.example.bottomnavigationproper.ViewModels.GameViewModel;
 import com.example.bottomnavigationproper.Adapters.InGameStatsAdapter;
 
@@ -64,7 +65,8 @@ public class GameFragment extends Fragment {
 
     //    private PlayerViewModel playerViewModel;
     private Spinner spinnerPlayer;
-    private Player playerSelected;
+    private Teamsheet playerSelected;
+    private Teamsheet playerSelected2;
 
     //    private FixtureViewModel fixtureViewModel;
     private Spinner spinnerSuccess;
@@ -92,7 +94,7 @@ public class GameFragment extends Fragment {
     View mView;
     List<StatsView> statsViews = new ArrayList<>();
     List<StatName> statNames = new ArrayList<>();
-    List<Player> players = new ArrayList<>();
+    List<Teamsheet> players = new ArrayList<>();
     List<String> successList = new ArrayList<>();
     List<Fixture> fixtures = new ArrayList<>();
 
@@ -456,7 +458,7 @@ public class GameFragment extends Fragment {
     }
 
 
-    private void initGridLayoutButtons(List<Player> players) {
+    private void initGridLayoutButtons() {
         GridLayout grid = (GridLayout) view.findViewById(R.id.pitchGridLocations);
 //        grid.setBackgroundResource(R.drawable.ic_gaelic_football_pitch_diagram);
 
@@ -491,7 +493,7 @@ public class GameFragment extends Fragment {
                             AlertDialog dialog = createInputDialog(mView);
 
                             mView.findViewById(R.id.inputStatButton).setOnClickListener(v -> {
-                                StatModel stat = createStat(finalI);
+                                createStat(finalI);
                                 speechRecognizer.destroy();
                                 dialog.dismiss();
                             });
@@ -555,31 +557,41 @@ public class GameFragment extends Fragment {
         TextView numTV = (TextView) gridSection.getChildAt(1);
         TextView nameTV = (TextView) gridSection.getChildAt(2);
 
-        Player player = players.get(playerNo);
+        Teamsheet teamsheet = players.get(playerNo);
 
-        String name = player.getAbbrevName();
+        String name = teamsheet.getPlayer().getAbbrevName();
         nameTV.setText(name);
-        String num = Integer.toString(players.indexOf(player)+1);
+        //TODO playerno on pitch doesn't update
+        String num = Long.toString(players.get(playerNo).getJerseyNumber());
         numTV.setText(num);
     }
 
-    private StatModel createStat(int gridIndex) {
+    private void createStat(int gridIndex) {
         List<String> gridLocations = new ArrayList<>(Arrays.asList("","A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3", "D1", "D2", "D3", "E1", "E2", "E3"));
 
-        StatModel stat = new StatModel();
-        stat.setLocationId(gridLocations.get(gridIndex));
-        stat.setPlayerId(playerSelected.getId());
-        stat.setStatNameId(statNameSelected.getId());
-        stat.setSuccess(successSelected);
-        stat.setHalf(half);
-        stat.setFixtureId(currentFixture.getId());
-        String time = parseTime();
-        stat.setTimeOccurred(time);
+        if(statNameSelected.getName().equals("Substitute")){
+            //TODO finish substitute stat
+            Position temp = playerSelected.getPosition();
+            playerSelected.setPosition(playerSelected2.getPosition());
+            playerSelected2.setPosition(temp);
+            List<Teamsheet> subsToChange = new ArrayList<>();
+            subsToChange.add(playerSelected);
+            subsToChange.add(playerSelected2);
 
-        StatRepository repo = new StatRepository();
-        viewModel.persistStat(TokenSingleton.getInstance().getBearerTokenString(), stat, currentFixture);
+            viewModel.updateTeamsheet(subsToChange);
+        }else {
+            StatModel stat = new StatModel();
+            stat.setLocationId(gridLocations.get(gridIndex));
+            stat.setPlayerId(playerSelected.getPlayer().getId());
+            stat.setStatNameId(statNameSelected.getId());
+            stat.setSuccess(successSelected);
+            stat.setHalf(half);
+            stat.setFixtureId(currentFixture.getId());
+            String time = parseTime();
+            stat.setTimeOccurred(time);
 
-        return stat;
+            viewModel.persistStat(TokenSingleton.getInstance().getBearerTokenString(), stat, currentFixture);
+        }
 
 
     }
@@ -653,18 +665,22 @@ public class GameFragment extends Fragment {
     }
 
     public void initPlayersAndStats(){
-        viewModel.getPlayerResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<Player>>() {
+        viewModel.getTeamsheetResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<Teamsheet>>() {
             @Override
-            public void onChanged(List<Player> playerList) {
+            public void onChanged(List<Teamsheet> playerList) {
                 if(playerList != null){
                     players = playerList;
+                    Teamsheet teamsheet = new Teamsheet();
                     Player player = new Player();
                     player.setId(80L);
                     player.setFirstname("");
                     player.setLastname("Opposition");
-                    players.add(player);
 
-                    initGridLayoutButtons(players);
+                    teamsheet.setPlayer(player);
+
+                    players.add(teamsheet);
+
+                    initGridLayoutButtons();
                 }
             }
         });
@@ -684,7 +700,7 @@ public class GameFragment extends Fragment {
             }
         });
 
-        viewModel.getPlayers(currentFixture);
+        viewModel.getTeamsheets(currentFixture);
 
     }
 
@@ -706,19 +722,37 @@ public class GameFragment extends Fragment {
 
     public void setPlayerList(Spinner spinner){
 
-        ArrayAdapter<Player> adapter =
-                new ArrayAdapter<Player>(getContext(),  R.layout.fixture_spinner_item, players);
+        ArrayAdapter<Teamsheet> adapter =
+                new ArrayAdapter<Teamsheet>(getContext(),  R.layout.fixture_spinner_item, players);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                playerSelected = (Player)parent.getItemAtPosition(pos);
+                playerSelected = (Teamsheet) parent.getItemAtPosition(pos);
             }
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
     }
+
+    public void set2ndPlayerList(Spinner spinner){
+
+        ArrayAdapter<Teamsheet> adapter =
+                new ArrayAdapter<Teamsheet>(getContext(),  R.layout.fixture_spinner_item, players);
+        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                playerSelected2 = (Teamsheet) parent.getItemAtPosition(pos);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+
 
     public void setSuccessList(Spinner spinner){
 //        List<Boolean> options = new ArrayList<>();
@@ -821,31 +855,19 @@ public class GameFragment extends Fragment {
 
                 String[] words = dataStr.split(" ");
 
-                HashMap<String, String> numMap = dict.getNumMap();
-                String playerNum;
-                try{
-                    playerNum = Integer.toString(Integer.parseInt(words[0]));
-                }catch (NumberFormatException e){
+               String player = getPlayerNLP(words[0]);
 
 
-                    playerNum = dict.getAllNums()
-                            .get(
-                                    validateInput(words[0], dict.getAllNums())
-                            );
+                Spinner playerSpinner = mView.findViewById(R.id.gameSpinnerPlayer);
 
-                }
+                String finalPlayer = player;
+                Teamsheet matchingTeamsheet = players.stream()
+                        .filter(t -> t.getJerseyNumber() == Integer.parseInt(finalPlayer))
+                        .findFirst()
+                        .orElse(null);
 
-                String player = numMap.get(playerNum);
+                playerSpinner.setSelection(players.indexOf(matchingTeamsheet));
 
-                // User speech refers to player number, this subtracts 1 from input to give index of player in list
-                player = Integer.toString(Integer.parseInt(player) -1);
-
-//                String player = dict.getNumMap()
-//                        .get(
-//                                Integer.toString(
-//                                        validateInput()
-//                                )
-//                        );
                 String word = words[1];
                 if (words.length > 3){
                     word += words[2];
@@ -857,13 +879,35 @@ public class GameFragment extends Fragment {
                         .get(
                                 validateInput(word, dict.getStatNames())
                         );
-                String success = dict.getSuccess()
-                        .get(
-                                validateInput(words[words.length-1], dict.getSuccess())
-                        );
 
-                Spinner playerSpinner = mView.findViewById(R.id.gameSpinnerPlayer);
-                playerSpinner.setSelection(Integer.parseInt(player));
+                if(stat.equals("Substitute")){
+                    String player2 = getPlayerNLP(words[words.length - 1]);
+
+
+                    // Replace the success spinner with a second spinner
+                    Spinner substituteSpinner = mView.findViewById(R.id.gameSpinnerSuccess);
+                    set2ndPlayerList(substituteSpinner);
+
+                    String finalPlayer2 = player2;
+                    Teamsheet matchingTeamsheet2 = players.stream()
+                            .filter(t -> t.getJerseyNumber() == Integer.parseInt(finalPlayer2))
+                            .findFirst()
+                            .orElse(null);
+
+                    playerSpinner.setSelection(players.indexOf(matchingTeamsheet));
+                    substituteSpinner.setSelection(players.indexOf(matchingTeamsheet2));
+
+
+                }else {
+                    String success = dict.getSuccess()
+                            .get(
+                                    validateInput(words[words.length - 1], dict.getSuccess())
+                            );
+                    Spinner successSpinner = mView.findViewById(R.id.gameSpinnerSuccess);
+                    successSpinner.setSelection(successList.indexOf(success));
+                }
+
+
 
                 Spinner statSpinner = mView.findViewById(R.id.gameSpinnerStat);
 
@@ -874,8 +918,7 @@ public class GameFragment extends Fragment {
 
                 statSpinner.setSelection(statNameStrings.indexOf(stat));
 
-                Spinner successSpinner = mView.findViewById(R.id.gameSpinnerSuccess);
-                successSpinner.setSelection(successList.indexOf(success));
+
 
 
 
@@ -920,6 +963,26 @@ public class GameFragment extends Fragment {
         });
 
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private String getPlayerNLP(String word) {
+        Dictionaries dict = Dictionaries.getInstance();
+        HashMap<String, String> numMap = dict.getNumMap();
+        String playerNum;
+        try{
+            playerNum = Integer.toString(Integer.parseInt(word));
+        }catch (NumberFormatException e){
+
+
+            playerNum = dict.getAllNums()
+                    .get(
+                            validateInput(word, dict.getAllNums())
+                    );
+
+        }
+
+        return numMap.get(playerNum);
     }
 
 //    @RequiresApi(api = Build.VERSION_CODES.N)
@@ -968,7 +1031,7 @@ public class GameFragment extends Fragment {
         viewModel.getFixturesResponseLiveData().removeObservers(this);
         viewModel.getStatNameLiveData().removeObservers(this);
         viewModel.getScoreLiveData().removeObservers(this);
-        viewModel.getPlayerResponseLiveData().removeObservers(this);
+        viewModel.getTeamsheetResponseLiveData().removeObservers(this);
         viewModel.getStatsLiveData().removeObservers(this);
         super.onStop();
     }

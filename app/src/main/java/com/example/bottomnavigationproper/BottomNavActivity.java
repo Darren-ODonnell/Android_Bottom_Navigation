@@ -68,6 +68,9 @@ public class BottomNavActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         readFromSharedPreferences();
 
+        viewModel = new ViewModelProvider(this).get(StatViewModel.class);
+        viewModel.init();
+
 
         onLogin();
 
@@ -165,8 +168,7 @@ public class BottomNavActivity extends AppCompatActivity {
     }
 
     private void getStatNames() {
-        viewModel = new ViewModelProvider(this).get(StatViewModel.class);
-        viewModel.init();
+
         viewModel.getStatNameLiveData().observe(this, new Observer<List<StatName>>() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override

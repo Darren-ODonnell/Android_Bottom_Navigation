@@ -10,6 +10,7 @@ import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Models.Teamsheet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,6 +73,8 @@ public class PlayerRepository {
                 });
     }
 
+
+
     public void getPlayerByEmail(String email, String token) {
         Map<String, String> params = new HashMap<>();
         params.put("email", email);
@@ -95,6 +98,7 @@ public class PlayerRepository {
     public LiveData<List<Player>> getPlayersResponseLiveData() {
         return playerResponseLiveData;
     }
+
 
     public LiveData<Player> getSingPlayerResponseLiveData() {
         return singPlayerResponseLiveData;

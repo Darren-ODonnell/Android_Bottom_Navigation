@@ -10,6 +10,7 @@ import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Models.Register;
+import com.example.bottomnavigationproper.Models.Teamsheet;
 import com.example.bottomnavigationproper.User;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -151,4 +154,12 @@ public interface APIInterface {
     @GET("player/findByEmail")
     Call<Player> getPlayerByEmail(@Header("Authorization") String accessToken,
                                   @QueryMap Map<String, String> params);
+
+    @GET("teamsheets/findByFixtureId")
+    Call<List<Teamsheet>> getTeamsheetsForFixture(@Header("Authorization") String accessToken,
+                                                  @QueryMap Map<String, String> params);
+
+    @POST("teamsheets/updateAll")
+    Call<List<Teamsheet>> updateTeamsheets(@Header("Authorization") String accessToken,
+                                           @Body List<Teamsheet> teamsheets);
 }

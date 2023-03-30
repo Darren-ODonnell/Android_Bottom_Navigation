@@ -13,9 +13,11 @@ import com.example.bottomnavigationproper.Models.Result;
 import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatName;
+import com.example.bottomnavigationproper.Models.Teamsheet;
 import com.example.bottomnavigationproper.Services.FixtureRepository;
 import com.example.bottomnavigationproper.Services.PlayerRepository;
 import com.example.bottomnavigationproper.Services.StatRepository;
+import com.example.bottomnavigationproper.Services.TeamsheetRepository;
 
 import java.util.List;
 
@@ -23,8 +25,8 @@ public class GameViewModel extends AndroidViewModel {
     private FixtureRepository fixtureRepository;
     private LiveData<List<Fixture>> fixtureResponseLiveData;
 
-    private PlayerRepository playerRepository;
-    private LiveData<List<Player>> playerResponseLiveData;
+    private TeamsheetRepository teamsheetRepository;
+    private LiveData<List<Teamsheet>> teamsheetResponseLiveData;
 
     private StatRepository statRepository;
     private LiveData<List<StatName>> statNameLiveData;
@@ -42,8 +44,8 @@ public class GameViewModel extends AndroidViewModel {
         fixtureRepository = new FixtureRepository();
         fixtureResponseLiveData = fixtureRepository.getFixturesResponseLiveData();
 
-        playerRepository = new PlayerRepository();
-        playerResponseLiveData = playerRepository.getPlayersResponseLiveData();
+        teamsheetRepository = new TeamsheetRepository();
+        teamsheetResponseLiveData = teamsheetRepository.getTeamsheetsResponseLiveData();
 
         statRepository = new StatRepository();
         statNameLiveData = statRepository.getStatNameLiveData();
@@ -59,8 +61,8 @@ public class GameViewModel extends AndroidViewModel {
         fixtureRepository.getFixtures(TokenSingleton.getInstance().getBearerTokenString());
     }
 
-    public void getPlayers(Fixture fixture) {
-        playerRepository.getPlayersForFixture(fixture, TokenSingleton.getInstance().getBearerTokenString());
+    public void getTeamsheets(Fixture fixture) {
+        teamsheetRepository.getTeamsheetsForFixture(fixture, TokenSingleton.getInstance().getBearerTokenString());
     }
 
     public void getStatNames(){
@@ -104,8 +106,8 @@ public class GameViewModel extends AndroidViewModel {
     public LiveData<List<Fixture>> getFixturesResponseLiveData() {
         return fixtureResponseLiveData;
     }
-    public LiveData<List<Player>> getPlayerResponseLiveData() {
-        return playerResponseLiveData;
+    public LiveData<List<Teamsheet>> getTeamsheetResponseLiveData() {
+        return teamsheetResponseLiveData;
     }
     public LiveData<List<StatName>> getStatNameLiveData(){ return statNameLiveData;}
     public LiveData<List<StatsView>> getStatsLiveData(){ return statsLiveData;}
@@ -118,5 +120,9 @@ public class GameViewModel extends AndroidViewModel {
     public void persistStat(String bearerTokenString, StatModel stat, Fixture fixture) {
         statRepository.persistStat(bearerTokenString, stat, fixture.getFixtureDate());
         getStats(fixture);
+    }
+
+    public void updateTeamsheet(List<Teamsheet> subsToChange){
+        teamsheetRepository.update(TokenSingleton.getInstance().getBearerTokenString(), subsToChange);
     }
 }
