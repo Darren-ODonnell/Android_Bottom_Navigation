@@ -248,11 +248,11 @@ public class GridFragment extends Fragment {
 
     private Map<String, Integer> initGrid() {
         Map<String, Integer> grid= new HashMap<>();
-        grid.put("A1", 0);grid.put("A2", 0);grid.put("A3", 0);
-        grid.put("B1", 0);grid.put("B2", 0);grid.put("B3", 0);
-        grid.put("C1", 0);grid.put("C2", 0);grid.put("C3", 0);
-        grid.put("D1", 0);grid.put("D2", 0);grid.put("D3", 0);
         grid.put("E1", 0);grid.put("E2", 0);grid.put("E3", 0);
+        grid.put("D1", 0);grid.put("D2", 0);grid.put("D3", 0);
+        grid.put("C1", 0);grid.put("C2", 0);grid.put("C3", 0);
+        grid.put("B1", 0);grid.put("B2", 0);grid.put("B3", 0);
+        grid.put("A1", 0);grid.put("A2", 0);grid.put("A3", 0);
         return grid;
     }
 

@@ -80,7 +80,7 @@
             android:textColor="@color/black"
             app:layout_column="0"
             app:layout_columnWeight="3"
-            app:layout_row="0"
+            app:layout_row="4"
             app:layout_rowWeight="5" />
 
         <TextView
@@ -92,7 +92,7 @@
             android:textColor="@color/black"
             app:layout_column="1"
             app:layout_columnWeight="3"
-            app:layout_row="0"
+            app:layout_row="4"
             app:layout_rowWeight="5" />
 
         <TextView
@@ -104,7 +104,7 @@
             android:textColor="@color/black"
             app:layout_column="2"
             app:layout_columnWeight="3"
-            app:layout_row="0"
+            app:layout_row="4"
             app:layout_rowWeight="5" />
 
         <TextView
@@ -116,7 +116,7 @@
             android:textColor="@color/black"
             app:layout_column="0"
             app:layout_columnWeight="3"
-            app:layout_row="1"
+            app:layout_row="3"
             app:layout_rowWeight="5" />
 
         <TextView
@@ -128,7 +128,7 @@
             android:textColor="@color/black"
             app:layout_column="1"
             app:layout_columnWeight="3"
-            app:layout_row="1"
+            app:layout_row="3"
             app:layout_rowWeight="5" />
 
         <TextView
@@ -140,7 +140,7 @@
             android:textColor="@color/black"
             app:layout_column="2"
             app:layout_columnWeight="3"
-            app:layout_row="1"
+            app:layout_row="3"
             app:layout_rowWeight="5" />
 
         <TextView
@@ -188,7 +188,7 @@
             android:textColor="@color/black"
             app:layout_column="0"
             app:layout_columnWeight="3"
-            app:layout_row="3"
+            app:layout_row="1"
             app:layout_rowWeight="5" />
 
         <TextView
@@ -200,7 +200,7 @@
             android:textColor="@color/black"
             app:layout_column="1"
             app:layout_columnWeight="3"
-            app:layout_row="3"
+            app:layout_row="1"
             app:layout_rowWeight="5" />
 
         <TextView
@@ -212,7 +212,7 @@
             android:textColor="@color/black"
             app:layout_column="2"
             app:layout_columnWeight="3"
-            app:layout_row="3"
+            app:layout_row="1"
             app:layout_rowWeight="5" />
 
         <TextView
@@ -224,7 +224,7 @@
             android:textColor="@color/black"
             app:layout_column="0"
             app:layout_columnWeight="3"
-            app:layout_row="4"
+            app:layout_row="0"
             app:layout_rowWeight="5" />
 
         <TextView
@@ -236,7 +236,7 @@
             android:textColor="@color/black"
             app:layout_column="1"
             app:layout_columnWeight="3"
-            app:layout_row="4"
+            app:layout_row="0"
             app:layout_rowWeight="5" />
 
         <TextView
@@ -248,7 +248,7 @@
             android:textColor="@color/black"
             app:layout_column="2"
             app:layout_columnWeight="3"
-            app:layout_row="4"
+            app:layout_row="0"
             app:layout_rowWeight="5" />
     </androidx.gridlayout.widget.GridLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

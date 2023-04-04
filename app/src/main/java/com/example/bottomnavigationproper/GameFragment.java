@@ -469,19 +469,19 @@ public class GameFragment extends Fragment {
 
             RelativeLayout gridSection;
 
-            if(i == 8) {
-                ++i;
-            }
+
 
             gridSection = (RelativeLayout) grid.getChildAt(childCount-1-i);
 
-            populateContents(gridSection, playerNo);
 
-            playerNo++;
+            if(i != 8){
+                populateContents(gridSection, playerNo);
+
+                playerNo++;
+            }
 
             int finalI = i;
-
-                gridSection.setOnClickListener(new View.OnClickListener() {
+            gridSection.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View view) {
                         if(UserSingleton.getInstance().isAdminOrCoach()) {
 
@@ -899,11 +899,12 @@ public class GameFragment extends Fragment {
 
 
                 }else {
+                    Spinner successSpinner = mView.findViewById(R.id.gameSpinnerSuccess);
+                    setSuccessList(successSpinner);
                     String success = dict.getSuccess()
                             .get(
                                     validateInput(words[words.length - 1], dict.getSuccess())
                             );
-                    Spinner successSpinner = mView.findViewById(R.id.gameSpinnerSuccess);
                     successSpinner.setSelection(successList.indexOf(success));
                 }
 

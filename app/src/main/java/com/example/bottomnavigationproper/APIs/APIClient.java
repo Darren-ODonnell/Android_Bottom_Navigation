@@ -13,15 +13,15 @@ public class APIClient {
     // private static String url = "http://147.252.81.67:8080/";
 
     //Desktop IP
-    private static String url = "http://192.168.100.151:8080/";
+//    private static String url = "http://192.168.100.151:8080/";
 
     //Localhost equivalent - Localhost cannot be used explicitly as
     // android picks up localhost as a reference to the emulator itself rather than the Computer
 
 //my laptop
-//    private static String url = "http://192.168.100.56:8080/";
+    private static String url = "http://192.168.100.56:8080/";
 
-//    private static String url = "http://192.168.181.53:8080/";
+//    private static String url = "http://192.168.112.53:8080/";
 
 
 
