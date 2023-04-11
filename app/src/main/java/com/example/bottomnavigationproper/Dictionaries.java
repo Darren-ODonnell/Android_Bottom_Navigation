@@ -39,19 +39,19 @@ public class Dictionaries {
     public void loadDictionaries() {
         // player numbers
         playerNumbers = new ArrayList<>();
-        for(int i = 1; i <= 30; i++){
+        for(int i = 0; i <= 30; i++){
             playerNumbers.add(Integer.toString(i));
         }
-        playerNumbersStrings = Arrays.asList("one", "two", "three", "four", "five", "six", "seven", "eight", "nine","ten",
+        playerNumbersStrings = Arrays.asList("zero","one", "two", "three", "four", "five", "six", "seven", "eight", "nine","ten",
                 "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen","twenty",
                 "twentyone", "twentytwo", "twentythree","twentyfour", "twentyfive", "twentysix", "twentyseven", "twentyeight", "twentynine", "thirty", "Opposition");
 
         allNums.addAll(playerNumbers);
         allNums.addAll(playerNumbersStrings);
 
-        for(int i = 1; i <= playerNumbers.size(); i++){
-            numMap.put(playerNumbers.get(i-1), Integer.toString(i));
-            numMap.put(playerNumbersStrings.get(i-1), Integer.toString(i));
+        for(int i = 0; i < playerNumbers.size(); i++){
+            numMap.put(playerNumbers.get(i), Integer.toString(i));
+            numMap.put(playerNumbersStrings.get(i), Integer.toString(i));
         }
         numMap.put(playerNumbersStrings.get(playerNumbers.size()), "30");
         // stat names

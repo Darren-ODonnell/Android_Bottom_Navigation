@@ -1,7 +1,6 @@
 package com.example.bottomnavigationproper.ViewModels;
 
 import android.app.Application;
-import android.media.session.MediaSession;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,8 +9,8 @@ import androidx.lifecycle.LiveData;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Login;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Services.LoginRepository;
-import com.example.bottomnavigationproper.Services.PlayerRepository;
+import com.example.bottomnavigationproper.Repositories.LoginRepository;
+import com.example.bottomnavigationproper.Repositories.PlayerRepository;
 import com.example.bottomnavigationproper.User;
 
 public class LoginViewModel extends AndroidViewModel {

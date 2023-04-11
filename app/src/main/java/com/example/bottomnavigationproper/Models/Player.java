@@ -151,7 +151,10 @@ public class Player implements Serializable {
     }
 
     public String getAbbrevName(){
-        return firstname.charAt(0) + ". " + lastname;
+        if(firstname.isEmpty())
+            return lastname;
+        else
+            return firstname.charAt(0) + ". " + lastname;
     }
 
     @Override

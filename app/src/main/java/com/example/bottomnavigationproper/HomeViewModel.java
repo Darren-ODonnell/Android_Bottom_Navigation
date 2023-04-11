@@ -8,9 +8,8 @@ import androidx.lifecycle.LiveData;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Models.StatName;
 import com.example.bottomnavigationproper.Models.StatsView;
-import com.example.bottomnavigationproper.Services.StatRepository;
+import com.example.bottomnavigationproper.Repositories.StatRepository;
 
 import java.util.List;
 

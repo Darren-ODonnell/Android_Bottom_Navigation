@@ -1,4 +1,4 @@
-package com.example.bottomnavigationproper.Services;
+package com.example.bottomnavigationproper.Repositories;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

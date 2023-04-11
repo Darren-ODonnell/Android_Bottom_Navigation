@@ -463,7 +463,7 @@ public class GameFragment extends Fragment {
 //        grid.setBackgroundResource(R.drawable.ic_gaelic_football_pitch_diagram);
 
         int childCount = grid.getChildCount();
-        int playerNo = 0;
+        int playerNo = 1;
 
         for (int i=0; i < childCount; i++){
 
@@ -678,7 +678,7 @@ public class GameFragment extends Fragment {
 
                     teamsheet.setPlayer(player);
 
-                    players.add(teamsheet);
+                    players.add(0, teamsheet);
 
                     initGridLayoutButtons();
                 }
@@ -861,12 +861,23 @@ public class GameFragment extends Fragment {
                 Spinner playerSpinner = mView.findViewById(R.id.gameSpinnerPlayer);
 
                 String finalPlayer = player;
-                Teamsheet matchingTeamsheet = players.stream()
-                        .filter(t -> t.getJerseyNumber() == Integer.parseInt(finalPlayer))
-                        .findFirst()
-                        .orElse(null);
 
-                playerSpinner.setSelection(players.indexOf(matchingTeamsheet));
+                int playerSelection;
+                if(finalPlayer.equals("0")){
+                    playerSelection = 0;
+                }else {
+                    Teamsheet matchingTeamsheet = players.stream()
+                            .filter(t -> t.getJerseyNumber() == Integer.parseInt(finalPlayer))
+                            .findFirst()
+                            .orElse(null);
+
+                    playerSelection =players.indexOf(matchingTeamsheet);
+
+                }
+                playerSpinner.setSelection(playerSelection);
+
+
+
 
                 String word = words[1];
                 if (words.length > 3){
@@ -894,7 +905,7 @@ public class GameFragment extends Fragment {
                             .findFirst()
                             .orElse(null);
 
-                    playerSpinner.setSelection(players.indexOf(matchingTeamsheet));
+                    playerSpinner.setSelection(playerSelection);
                     substituteSpinner.setSelection(players.indexOf(matchingTeamsheet2));
 
 

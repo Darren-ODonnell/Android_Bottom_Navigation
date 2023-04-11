@@ -13,8 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Register;
-import com.example.bottomnavigationproper.Services.LoginRepository;
-import com.example.bottomnavigationproper.Services.PlayerRepository;
+import com.example.bottomnavigationproper.Repositories.LoginRepository;
 
 
 public class RegisterActivity extends AppCompatActivity {

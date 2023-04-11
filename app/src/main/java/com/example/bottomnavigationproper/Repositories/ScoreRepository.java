@@ -1,4 +1,4 @@
-package com.example.bottomnavigationproper.Services;
+package com.example.bottomnavigationproper.Repositories;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -6,13 +6,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
 import com.example.bottomnavigationproper.Models.Result;
-import com.example.bottomnavigationproper.Models.StatName;
-import com.example.bottomnavigationproper.Models.StatsView;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;

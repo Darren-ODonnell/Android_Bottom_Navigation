@@ -1,13 +1,6 @@
 package com.example.bottomnavigationproper;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleOwner;
-import androidx.lifecycle.Observer;
-
-import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Services.PlayerRepository;
 
 public class UserSingleton {
 

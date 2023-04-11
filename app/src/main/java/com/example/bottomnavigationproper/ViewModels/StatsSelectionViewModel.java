@@ -11,9 +11,9 @@ import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatName;
-import com.example.bottomnavigationproper.Services.FixtureRepository;
-import com.example.bottomnavigationproper.Services.PlayerRepository;
-import com.example.bottomnavigationproper.Services.StatRepository;
+import com.example.bottomnavigationproper.Repositories.FixtureRepository;
+import com.example.bottomnavigationproper.Repositories.PlayerRepository;
+import com.example.bottomnavigationproper.Repositories.StatRepository;
 
 import java.util.List;
 
