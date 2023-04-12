@@ -29,7 +29,7 @@ public class Fellowship {
     @Expose()
     private String grade;
     @Expose()
-    private Integer registered;
+    private boolean registered;
     @Expose()
     private Byte panelMember;
     @Expose()
@@ -132,11 +132,11 @@ public class Fellowship {
         this.grade = grade;
     }
 
-    public Integer getRegistered() {
+    public boolean getRegistered() {
         return registered;
     }
 
-    public void setRegistered(Integer registered) {
+    public void setRegistered(boolean registered) {
         this.registered = registered;
     }
 

@@ -1,5 +1,7 @@
 package com.example.bottomnavigationproper.Repositories;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
@@ -55,6 +57,7 @@ public class LoginRepository {
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 validToken.postValue(false);
                 call.cancel();
+                Log.e("Retrofit Error", t.getMessage());
 //                Toast.makeText(getApplicationContext(), "error :(", Toast.LENGTH_SHORT).show();
             }
         });

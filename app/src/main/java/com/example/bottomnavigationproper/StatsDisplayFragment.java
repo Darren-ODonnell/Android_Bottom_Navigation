@@ -1,9 +1,11 @@
 package com.example.bottomnavigationproper;
 
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -61,6 +63,7 @@ public class StatsDisplayFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(StatViewModel.class);
         viewModel.init();
         viewModel.getStatResponseLiveData().observe(this, new Observer<List<StatsView>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChanged(List<StatsView> statsViewList) {
                 if (statsViewList != null) {

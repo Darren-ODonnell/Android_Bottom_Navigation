@@ -117,11 +117,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        if(viewModel.getSingPlayerResponseLiveData() != null) {
+        if(viewModel.getSingPlayerResponseLiveData() != null)
             viewModel.getSingPlayerResponseLiveData().removeObservers(this);
-        }
-        viewModel.getTokenValidityLiveData().removeObservers(this);
-        storeTokenAndUser(getApplicationContext());
+
+        if(viewModel.getTokenValidityLiveData() != null)
+            viewModel.getTokenValidityLiveData().removeObservers(this);
+
+            storeTokenAndUser(getApplicationContext());
         super.onStop();
 
     }
