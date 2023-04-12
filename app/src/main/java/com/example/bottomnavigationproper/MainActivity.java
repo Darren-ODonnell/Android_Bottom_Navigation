@@ -123,11 +123,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        if(viewModel.getSingPlayerResponseLiveData().hasObservers()){
+        if(viewModel.getSingPlayerResponseLiveData() != null){
             viewModel.getSingPlayerResponseLiveData().removeObservers(this);
         }
 
-        viewModel.getTokenValidityLiveData().removeObservers(this);
+        if(viewModel.getTokenValidityLiveData() != null) {
+            viewModel.getTokenValidityLiveData().removeObservers(this);
+        }
         super.onStop();
 
     }
