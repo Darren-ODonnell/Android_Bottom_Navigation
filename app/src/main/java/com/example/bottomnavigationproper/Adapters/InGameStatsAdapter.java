@@ -51,6 +51,7 @@ public class InGameStatsAdapter extends RecyclerView.Adapter<InGameStatsAdapter.
 
         ViewGroup.LayoutParams parms = holder.countTV.getLayoutParams();
         parms.width = (int) Math.round(width);
+        holder.countTV.setLayoutParams(parms);
 
     }
 
@@ -63,7 +64,7 @@ public class InGameStatsAdapter extends RecyclerView.Adapter<InGameStatsAdapter.
     private double getPercentWidth(double percent){
         double maxPixels = 550.0;
 
-        return Math.round(maxPixels * (percent / 100));
+        return maxPixels * percent / 100;
 
     }
 
