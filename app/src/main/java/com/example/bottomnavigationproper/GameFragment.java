@@ -175,6 +175,8 @@ public class GameFragment extends Fragment {
             public void onChanged(List<StatsView> statsViews) {
                 pregameAnalysisLosses = statsViews;
                 winsPopulated = true;
+                displayPreGameAnalysis(pregameAnalysisWins, pregameAnalysisLosses);
+
             }
         });
 
@@ -185,6 +187,28 @@ public class GameFragment extends Fragment {
                 pregameAnalysisWins = statsViews;
                 lossesPopulated = true;
                 //TODO method call functionally dependant on result of both observers, may need global booleans to handle checks
+                displayPreGameAnalysis(pregameAnalysisWins, pregameAnalysisLosses);
+            }
+        });
+
+        viewModel.getPregameLast5AnalysisLosses().observe(this, new Observer<List<StatsView>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onChanged(List<StatsView> statsViews) {
+                pregameAnalysisLosses = statsViews;
+                lossesPopulated = true;
+                displayPreGameAnalysis(pregameAnalysisWins, pregameAnalysisLosses);
+
+
+            }
+        });
+
+        viewModel.getPregameLast5AnalysisWins().observe(this, new Observer<List<StatsView>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onChanged(List<StatsView> statsViews) {
+                pregameAnalysisWins = statsViews;
+                winsPopulated = true;
                 displayPreGameAnalysis(pregameAnalysisWins, pregameAnalysisLosses);
             }
         });
@@ -228,7 +252,7 @@ public class GameFragment extends Fragment {
 
         @RequiresApi(api = Build.VERSION_CODES.N)
         private void displayPreGameAnalysis(List<StatsView> set1, List<StatsView> set2){
-        if(winsPopulated || lossesPopulated){
+        if(winsPopulated && lossesPopulated){
             AlertDialog.Builder mBuilder = new AlertDialog.Builder(getActivity());
             View fView = getLayoutInflater().inflate(R.layout.pregame_analysis, null);
 
@@ -241,6 +265,8 @@ public class GameFragment extends Fragment {
 
             fView.findViewById(R.id.pregame_button).setOnClickListener(v -> {
 
+                pregameAnalysisWins.clear();
+                pregameAnalysisLosses.clear();
                 lossesPopulated = false;
                 winsPopulated = false;
                 dialog.dismiss();

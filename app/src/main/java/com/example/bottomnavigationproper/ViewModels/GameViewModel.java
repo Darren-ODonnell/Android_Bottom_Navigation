@@ -33,6 +33,8 @@ public class GameViewModel extends AndroidViewModel {
     private LiveData<List<StatsView>> statsLiveData;
     private LiveData<List<StatsView>> pregameAnalysisWinsLiveData;
     private LiveData<List<StatsView>> pregameAnalysisLossesLiveData;
+    private LiveData<List<StatsView>> pregameLast5AnalysisWinsLiveData;
+    private LiveData<List<StatsView>> pregameLast5AnalysisLossesLiveData;
 
     public GameViewModel(@NonNull Application application) {
         super(application);
@@ -53,6 +55,9 @@ public class GameViewModel extends AndroidViewModel {
 
         pregameAnalysisWinsLiveData = statRepository.getPregameWinAnalysisLiveData();
         pregameAnalysisLossesLiveData = statRepository.getPregameLossAnalysisLiveData();
+
+        pregameLast5AnalysisWinsLiveData = statRepository.getPregameLast5WinAnalysisLiveData();
+        pregameLast5AnalysisLossesLiveData = statRepository.getPregameLast5LossAnalysisLiveData();
     }
 
     public void getFixtures() {
@@ -111,6 +116,9 @@ public class GameViewModel extends AndroidViewModel {
     public LiveData<List<StatsView>> getStatsLiveData(){ return statsLiveData;}
     public LiveData<List<StatsView>> getPregameAnalysisWins(){ return pregameAnalysisWinsLiveData;}
     public LiveData<List<StatsView>> getPregameAnalysisLosses(){ return pregameAnalysisLossesLiveData;}
+
+    public LiveData<List<StatsView>> getPregameLast5AnalysisWins(){ return pregameLast5AnalysisWinsLiveData;}
+    public LiveData<List<StatsView>> getPregameLast5AnalysisLosses(){ return pregameLast5AnalysisLossesLiveData;}
 
 
 

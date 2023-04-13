@@ -10,6 +10,7 @@ import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatModel;
 import com.example.bottomnavigationproper.Models.StatName;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ public class StatRepository {
     private MutableLiveData<Result> scoreResponseLiveData;
     private MutableLiveData<List<StatsView>> pregameWinAnalysisLiveData;
     private MutableLiveData<List<StatsView>> pregameLossAnalysisLiveData;
+    private MutableLiveData<List<StatsView>> pregameLast5WinAnalysisLiveData;
+    private MutableLiveData<List<StatsView>> pregameLast5LossAnalysisLiveData;
 
 
 
@@ -39,6 +42,9 @@ public class StatRepository {
         scoreResponseLiveData = new MutableLiveData<>();
         pregameWinAnalysisLiveData = new MutableLiveData<>();
         pregameLossAnalysisLiveData = new MutableLiveData<>();
+        pregameLast5WinAnalysisLiveData = new MutableLiveData<>();
+        pregameLast5LossAnalysisLiveData = new MutableLiveData<>();
+
 
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
@@ -582,6 +588,10 @@ public class StatRepository {
                     @Override
                     public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
                         if (response.body() != null)
+                            if(response.body().isEmpty()){
+                                pregameLossAnalysisLiveData.postValue(new ArrayList<>());
+
+                            }
                             pregameLossAnalysisLiveData.postValue(response.body());
                     }
 
@@ -599,12 +609,16 @@ public class StatRepository {
                     @Override
                     public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
                         if (response.body() != null)
-                            pregameWinAnalysisLiveData.postValue(response.body());
+                            if(response.body().isEmpty()){
+                                pregameLast5WinAnalysisLiveData.postValue(new ArrayList<>());
+
+                            }
+                            pregameLast5WinAnalysisLiveData.postValue(response.body());
                     }
 
                     @Override
                     public void onFailure(Call<List<StatsView>> call, Throwable t) {
-                        pregameWinAnalysisLiveData.postValue(null);
+                        pregameLast5WinAnalysisLiveData.postValue(null);
                     }
 
                 });
@@ -617,18 +631,25 @@ public class StatRepository {
                     @Override
                     public void onResponse(Call<List<StatsView>> call, Response<List<StatsView>> response) {
                         if (response.body() != null)
-                            pregameLossAnalysisLiveData.postValue(response.body());
+                            if(response.body().isEmpty()){
+                                pregameLast5LossAnalysisLiveData.postValue(new ArrayList<>());
+
+                            }
+                            pregameLast5LossAnalysisLiveData.postValue(response.body());
                     }
 
                     @Override
                     public void onFailure(Call<List<StatsView>> call, Throwable t) {
-                        pregameLossAnalysisLiveData.postValue(null);
+                        pregameLast5LossAnalysisLiveData.postValue(null);
                     }
 
                 });
     }
     public LiveData<List<StatsView>> getPregameWinAnalysisLiveData() {return pregameWinAnalysisLiveData;}
     public LiveData<List<StatsView>> getPregameLossAnalysisLiveData() {return pregameLossAnalysisLiveData;}
+
+    public LiveData<List<StatsView>> getPregameLast5WinAnalysisLiveData() {return pregameLast5WinAnalysisLiveData;}
+    public LiveData<List<StatsView>> getPregameLast5LossAnalysisLiveData() {return pregameLast5LossAnalysisLiveData;}
 
 
     public void countStatByPlayer(String firstname, String lastname, String bearerTokenString) {
