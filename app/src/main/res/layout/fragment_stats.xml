@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="25dp"
                 android:fontFamily="@font/roboto_regular"
-                android:text="Analytics"
+                android:text="Stats"
                 android:textAlignment="center"
                 android:textColor="@color/green2"
                 android:textSize="36sp"
