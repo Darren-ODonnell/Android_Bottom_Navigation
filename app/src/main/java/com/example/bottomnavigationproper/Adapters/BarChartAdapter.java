@@ -31,42 +31,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MultiViewTypeAdapter extends RecyclerView.Adapter{
+public class BarChartAdapter extends RecyclerView.Adapter{
     private List<StatsView> results = new ArrayList<>();
     private HashMap<String, List<StatsView>> playerStats = new HashMap<>();
     private HashMap<Integer, List<StatsView>> intPlayerStats = new HashMap<>();
     private Boolean singleStat;
     private Boolean singleFixture;
-//    private ChartType chartType;
-
-    /**
-    public static class BasicViewHolder extends RecyclerView.ViewHolder {
-
-        TextView statName;
-        TextView responseVal;
-
-        public BasicViewHolder(View itemView) {
-            super(itemView);
-
-            this.statName = (TextView) itemView.findViewById(R.id.type);
-            this.responseVal = (TextView) itemView.findViewById(R.id.card_view);
-        }
-    }
-
-     public static class LineChartViewHolder extends RecyclerView.ViewHolder {
-
-     TextView statName;
-     LineChart lineChart;
-
-     public LineChartViewHolder(View itemView) {
-     super(itemView);
-
-     this.statName = (TextView) itemView.findViewById(R.id.type);
-     this.lineChart = (LineChart) itemView.findViewById(R.id.background);
-
-     }
-     }
-     */
 
     public static class BarChartViewHolder extends RecyclerView.ViewHolder {
 
@@ -131,39 +101,11 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view;
-        /**
-        if(singleFixture && singleStat){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.text_type, parent, false);
-            return new BasicViewHolder(view);
-        }
 
-        else if (singleStat){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_type, parent, false);
-            return new LineChartViewHolder(view);
-        }else {
-         */
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bar_type, parent, false);
             return new BarChartViewHolder(view);
-//        }
-      /**
-        return null;
-       */
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//
-//        switch (dataSet.get(position).type) {
-//            case 0:
-//                return Model.TEXT_TYPE;
-//            case 1:
-//                return Model.IMAGE_TYPE;
-//            case 2:
-//                return Model.AUDIO_TYPE;
-//            default:
-//                return -1;
-//        }
-//    }
 
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int listPosition) {
@@ -171,9 +113,6 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
         List<StatsView> statsForPlayer = intPlayerStats.get(listPosition);
 
         if (statsForPlayer != null) {
-
-//            if(singleFixture && singleStat){
-//                ((BarChartViewHolder) holder).statName.setText(stat.getStatName());
             String fullName = statsForPlayer.get(0).getFirstName() + " " + statsForPlayer.get(0).getLastName();
             String fixtureDate = statsForPlayer.get(0).getFixtureDate();
             String statName = statsForPlayer.get(0).getStatName();
@@ -190,19 +129,6 @@ public class MultiViewTypeAdapter extends RecyclerView.Adapter{
                 else
                     ((BarChartViewHolder) holder).statName.setText("All Stats");
 
-
-
-
-//            }
-            /**else if (singleStat){
-                ((LineChartViewHolder) holder).statName.setText(stat.getStatName());
-//                ((LineChartViewHolder) holder).lineChart.setLine(stat.data);
-            }else {
-                ((BasicViewHolder) holder).statName.setText(stat.getStatName());
-                ((BasicViewHolder) holder).responseVal.setText(stat.);
-
-            }
-*/
             }
         }
 

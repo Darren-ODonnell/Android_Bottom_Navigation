@@ -17,7 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.bottomnavigationproper.Adapters.MultiViewTypeAdapter;
+import com.example.bottomnavigationproper.Adapters.BarChartAdapter;
 import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.StatsView;
@@ -32,7 +32,7 @@ import java.util.List;
 public class StatsDisplayFragment extends Fragment {
 
     private StatViewModel viewModel;
-    private MultiViewTypeAdapter adapter;
+    private BarChartAdapter adapter;
     private Player player;
     private Fixture fixture;
     private StatName statName;
@@ -51,7 +51,7 @@ public class StatsDisplayFragment extends Fragment {
         fixture = (Fixture) this.getArguments().getSerializable("Fixture");
         statName = (StatName) this.getArguments().getSerializable("StatName");
 
-        adapter = new MultiViewTypeAdapter();
+        adapter = new BarChartAdapter();
 
         locations = new ArrayList<>();
 
