@@ -110,8 +110,9 @@ public class StatsFragment extends Fragment {
             all.setLastname("Players");
             players.add(0, all);
             ArrayAdapter<Player> adapter =
-                    new ArrayAdapter<Player>(getContext(), android.R.layout.simple_spinner_dropdown_item, players);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    new ArrayAdapter<Player>(getContext(), R.layout.fixture_spinner_item, players);
+            adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+
             spinnerPlayer.setAdapter(adapter);
 
             spinnerPlayer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -130,8 +131,9 @@ public class StatsFragment extends Fragment {
         all.setFixtureDate("All Fixtures");
         fixtures.add(0, all);
         ArrayAdapter<Fixture> adapter =
-                new ArrayAdapter<Fixture>(getContext(),  android.R.layout.simple_spinner_dropdown_item, fixtures);
+                new ArrayAdapter<Fixture>(getContext(),  R.layout.fixture_spinner_item, fixtures);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+
         spinnerFixture.setAdapter(adapter);
 
         spinnerFixture.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -148,7 +150,7 @@ public class StatsFragment extends Fragment {
         all.setName("All Stats");
         statNames.add(0, all);
         ArrayAdapter<StatName> adapter =
-                new ArrayAdapter<StatName>(getContext(),  android.R.layout.simple_spinner_dropdown_item, statNames);
+                new ArrayAdapter<StatName>(getContext(),  R.layout.fixture_spinner_item, statNames);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinnerStatName.setAdapter(adapter);
 
