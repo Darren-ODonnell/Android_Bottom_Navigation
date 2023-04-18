@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class GridFragment extends Fragment {
+public class HeatMapFragment extends Fragment {
 
     private List<StatsView> statsViewList;
 
@@ -52,20 +52,6 @@ public class GridFragment extends Fragment {
         fixture = (Fixture) getArguments().getSerializable("Fixture");
         statName = (StatName) getArguments().getSerializable("StatName");
 
-
-
-
-
-
-//        locations = new ArrayList<>();
-
-//        for(Stat s: statList){
-//            locations.put(s.getLocation(),
-//                            locations.get(s.getLocation()) + 1
-//            );
-//
-//
-//        }
 
     }
 

@@ -1,4 +1,4 @@
-package com.example.bottomnavigationproper.APIs;
+package com.example.bottomnavigationproper;
 
 import android.os.Build;
 

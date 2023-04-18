@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 
@@ -20,7 +19,6 @@ import com.example.bottomnavigationproper.Models.Fixture;
 import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.StatsView;
 import com.example.bottomnavigationproper.Models.StatName;
-import com.example.bottomnavigationproper.ViewModels.GameViewModel;
 import com.example.bottomnavigationproper.ViewModels.StatsSelectionViewModel;
 
 import java.io.Serializable;
@@ -227,7 +225,7 @@ public class StatsFragment extends Fragment {
             args.putSerializable("Player", playerSelected);
             args.putSerializable("Fixture", fixtureSelected);
             args.putSerializable("StatName", statNameSelected);
-            Fragment toFragment = new GridFragment();
+            Fragment toFragment = new HeatMapFragment();
             toFragment.setArguments(args);
 
             getActivity().getSupportFragmentManager().beginTransaction()

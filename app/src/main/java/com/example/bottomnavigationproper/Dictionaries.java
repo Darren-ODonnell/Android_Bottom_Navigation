@@ -60,9 +60,9 @@ public class Dictionaries {
                 "Solo","Substitute");
 
         // success
-        success = Arrays.asList("true","false","win","loss","On", "Off", "Won", "Lost", "Goal", "Point");
-        successTrue = Arrays.asList("true","win","On", "Won", "Goal");
-        successFalse = Arrays.asList("false", "loss", "Off", "Lost", "Point");
+        success = Arrays.asList("true","false","win","loss","On", "Off", "Won", "Lost", "Goal", "Point", "Scored", "Missed");
+        successTrue = Arrays.asList("true","win","On", "Won", "Goal", "Scored");
+        successFalse = Arrays.asList("false", "loss", "Off", "Lost", "Point", "Missed");
 
         // combining first and second words
         for (String number : playerNumbers)

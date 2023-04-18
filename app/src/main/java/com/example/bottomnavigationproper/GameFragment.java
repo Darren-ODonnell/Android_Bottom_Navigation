@@ -129,7 +129,7 @@ public class GameFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_game, container, false);
         homeScoreTV = view.findViewById(R.id.homeScoreTV);
         awayScoreTV = view.findViewById(R.id.awayScoreTV);
-        initStatsSelectionViewModel();
+        initGameViewModel();
         initPreGameAnalysisButton();
 
         return view;
@@ -427,17 +427,6 @@ public class GameFragment extends Fragment {
         return totalSeconds / 60;
     }
 
-    private List<String> getUniqueStats(List<StatsView> statsViews) {
-        List<String> uniq = new ArrayList<>();
-
-        for(StatsView statsView : statsViews){
-            if(!uniq.contains(statsView.getStatName()))
-                uniq.add(statsView.getStatName());
-
-        }
-        return uniq;
-    }
-
     private List<String> getPercents(HashMap<String, List<StatsView>> groupedStats) {
         List<String> percents = new ArrayList<>();
 
@@ -486,7 +475,6 @@ public class GameFragment extends Fragment {
 
     private void initGridLayoutButtons() {
         GridLayout grid = (GridLayout) view.findViewById(R.id.pitchGridLocations);
-//        grid.setBackgroundResource(R.drawable.ic_gaelic_football_pitch_diagram);
 
         int childCount = grid.getChildCount();
         int playerNo = 1;
@@ -533,51 +521,6 @@ public class GameFragment extends Fragment {
            }
     }
 
-//    private void checkStatForScoreOpposition(StatModel stat) {
-//        switch (stat.getStatNameId().toLowerCase(Locale.ROOT)){
-//            case "scg":
-//                awayGoals++;
-//                break;
-//            case "scpo":
-//                awayPoints++;
-//            case "fs":
-//                if(stat.getSuccess())
-//                    awayGoals++;
-//                else
-//                    awayPoints++;
-//        }
-//        updateScore();
-//
-//    }
-
-    private void updateScore(){
-//        String homeScore = homeGoals+ ":" +homePoints;
-//        String awayScore = awayGoals+ ":" +awayPoints;
-
-        TextView homeScoreTV = requireView().findViewById(R.id.homeScoreTV);
-        TextView awayScoreTV = requireView().findViewById(R.id.awayScoreTV);
-
-        homeScoreTV.setText(homeScore);
-        awayScoreTV.setText(awayScore);
-
-    }
-
-//    private void checkStatForScoreHome(StatModel stat) {
-//        switch (stat.getStatNameId().toLowerCase(Locale.ROOT)){
-//            case "scg":
-//                homeGoals++;
-//                break;
-//            case "scpo":
-//                homePoints++;
-//            case "fs":
-//                if(stat.getSuccess())
-//                    homeGoals++;
-//                else
-//                    homePoints++;
-//        }
-//        updateScore();
-//
-//    }
 
     private void populateContents(RelativeLayout gridSection, int playerNo) {
         TextView numTV = (TextView) gridSection.getChildAt(1);
@@ -647,7 +590,7 @@ public class GameFragment extends Fragment {
 
     }
 
-    private void initStatsSelectionViewModel(){
+    private void initGameViewModel(){
         viewModel = new ViewModelProvider(this).get(GameViewModel.class);
         viewModel.init();
         viewModel.getFixturesResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<Fixture>>(){
@@ -781,9 +724,6 @@ public class GameFragment extends Fragment {
 
 
     public void setSuccessList(Spinner spinner){
-//        List<Boolean> options = new ArrayList<>();
-//        options.add(0, Boolean.TRUE);
-//        options.add(0, Boolean.FALSE);
         successList = Dictionaries.getInstance().getSuccess();
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(getContext(),  R.layout.fixture_spinner_item, successList);
@@ -829,7 +769,6 @@ public class GameFragment extends Fragment {
 
 
         micButton = mView.findViewById(R.id.button);
-//        editText = mView.findViewById(R.id.text);
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getActivity());
 
         final Intent speechRecognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -844,8 +783,7 @@ public class GameFragment extends Fragment {
 
             @Override
             public void onBeginningOfSpeech() {
-//                editText.setText("");
-//                editText.setHint("Listening...");
+
             }
 
             @Override
@@ -876,10 +814,19 @@ public class GameFragment extends Fragment {
                 ArrayList<String> data = bundle.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
                 String dataStr = data.get(0);
                 Log.d("speechResult", dataStr);
-//                int num = validateInput(dataStr);
-//                Log.d("speechResult", Integer.toString(num));
 
-                String[] words = dataStr.split(" ");
+                String words[];
+                if (dataStr.contains(".")) {
+                    words = new String[3];
+                    words[0] = dataStr.split("\\.")[0];
+                    words[1] = "Point";
+                    words[2] = "True";
+                }else{
+                    words = dataStr.split(" ");
+                }
+
+
+
 
                String player = getPlayerNLP(words[0]);
 
@@ -901,9 +848,6 @@ public class GameFragment extends Fragment {
 
                 }
                 playerSpinner.setSelection(playerSelection);
-
-
-
 
                 String word = words[1];
                 if (words.length > 3){
@@ -945,33 +889,13 @@ public class GameFragment extends Fragment {
                     successSpinner.setSelection(successList.indexOf(success));
                 }
 
-
-
                 Spinner statSpinner = mView.findViewById(R.id.gameSpinnerStat);
 
                 List<String> statNameStrings = new ArrayList<>();
                 for(StatName statName: statNames){
                     statNameStrings.add(statName.toString());
                 }
-
                 statSpinner.setSelection(statNameStrings.indexOf(stat));
-
-
-
-
-
-                // getSoundexMatch returns the highest difference value
-
-                // getWord returns the most accurate match
-
-//                if(soundex == 0){
-//                    getSoundexMatch(words[0] + words[1]);
-//                }else{
-//                    getWord(statNames, words[0]);
-//                }
-//                if(num != -1){
-//                    onSpeechInput(num);
-//                }
             }
 
             @Override
@@ -1023,24 +947,6 @@ public class GameFragment extends Fragment {
         return numMap.get(playerNum);
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    private void getWords(){
-//        Dictionaries dict = Dictionaries.getInstance();
-//        int successIndex = validateInput(successSelected, dict.getSuccess());
-//        int playerIndex = validateInput(playerSelected, dict.getPlayerNumbers());
-//        int statIndex = validateInput(statSelected, dict.getStatNames());
-//
-//        String success = dict.getSuccess().get(successIndex);
-//        String player = dict.getPlayerNumbers().get(playerIndex);
-//
-//        //TODO Get player as index from teamsheet or playerlist
-//        String stat = dict.getStatNames().get(statIndex);
-//        createStatFromInput(playerIndex, statIndex, successIndex);
-//    }
-//
-//    private void createStatFromInput(int playerIndex, int statIndex, int successIndex) {
-//
-//    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private int validateInput(String dataStr, List<String> dataset) {

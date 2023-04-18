@@ -15,23 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.bottomnavigationproper.APIs.FavouriteStatsSingleton;
 import com.example.bottomnavigationproper.Adapters.InGameStatsAdapter;
-import com.example.bottomnavigationproper.Models.Fixture;
-import com.example.bottomnavigationproper.Models.Player;
 import com.example.bottomnavigationproper.Models.StatsView;
-import com.example.bottomnavigationproper.Models.StatName;
-import com.example.bottomnavigationproper.ViewModels.StatViewModel;
-import com.example.bottomnavigationproper.ViewModels.StatsSelectionViewModel;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class HomeFragment extends Fragment {
 

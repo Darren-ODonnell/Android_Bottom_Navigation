@@ -37,7 +37,7 @@
         </fragment>
         <fragment
             android:id="@+id/gridLayout"
-            android:name="com.example.bottomnavigationproper.GridFragment"
+            android:name="com.example.bottomnavigationproper.HeatMapFragment"
             android:label="GridLayout" />
     </navigation>
 </navigation>

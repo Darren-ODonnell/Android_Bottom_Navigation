@@ -45,30 +45,8 @@ public class StatRepository {
         pregameLast5WinAnalysisLiveData = new MutableLiveData<>();
         pregameLast5LossAnalysisLiveData = new MutableLiveData<>();
 
-
-
         apiInterface = APIClient.getClient().create(APIInterface.class);
     }
-
-//    public void getStats(String token){
-//        apiInterface.getStats(token)
-//            .enqueue(new Callback<List<Stat>>() {
-//                @Override
-//                public void onResponse(Call<List<Stat>> call, Response<List<Stat>> response) {
-//                    if (response.body() != null) {
-//                        statResponseLiveData.postValue(response.body());
-//                    }
-//                }
-//
-//                @Override
-//                public void onFailure(Call<List<Stat>> call, Throwable t) {
-//                    statResponseLiveData.postValue(null);
-//
-//                }
-//            });
-//    }
-
-
 
     public void getStatNames(String token){
         apiInterface.getStatNames(token)

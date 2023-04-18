@@ -3,7 +3,6 @@ package com.example.bottomnavigationproper;
 import static com.example.bottomnavigationproper.MainActivity.API_KEY;
 
 import android.app.AlertDialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,19 +15,15 @@ import android.view.View;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.ActionMode;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.bottomnavigationproper.APIs.FavouriteStatsSingleton;
-import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Adapters.DragDropAdapter;
 
 import com.example.bottomnavigationproper.Adapters.ItemTouchHelperAdapter;
@@ -91,7 +86,7 @@ public class BottomNavActivity extends AppCompatActivity {
         } else if (id == R.id.action_log_out) {
             SharedPreferences preferences = getSharedPreferences(MainActivity.PREFS_NAME, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
-            editor.remove(API_KEY); // replace "my_key" with the key you want to delete
+            editor.remove(API_KEY);
             editor.apply();
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             return true;
@@ -100,19 +95,7 @@ public class BottomNavActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.N)
-//    private void filterStats(){
-//        allStats = allStats.stream()
-//                .filter(stat -> !favStats.contains(stat))
-//                .collect(Collectors.toList());
-//    }
-
     private void createFavouriteStatsDialog() {
-        //Pop up dialog
-        //Recycler view: all stats
-        //Select multiple
-
-
 
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
         View fView = getLayoutInflater().inflate(R.layout.fav_stats_selection, null);
@@ -255,9 +238,7 @@ public class BottomNavActivity extends AppCompatActivity {
 
             //Add to favourites
             List<String> items = adapter2.getItems();
-//            if(items.contains(item)){
-//                items.add(item);
-//            }
+
             items.add(item);
             adapter2.setItems(items);
 
