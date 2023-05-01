@@ -21,7 +21,7 @@ public class APIClient {
 //my laptop
     private static String url = "http://192.168.100.56:8080/";
 
-//    private static String url = "http://192.168.112.53:8080/";
+//    private static String url = "http://192.168.94.53:8080/";
 
 
 

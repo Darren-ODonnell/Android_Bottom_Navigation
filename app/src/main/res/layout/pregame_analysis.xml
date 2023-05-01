@@ -2,12 +2,34 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Games Won"
+        android:textAlignment="center"
+        android:textColor="@color/green2"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/analysis_rv_1"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_margin="8dp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Games Lost"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:textSize="20sp"
+        android:gravity="center"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/analysis_rv_2"
         android:layout_width="match_parent"
